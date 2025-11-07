@@ -1,0 +1,27 @@
+.headerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.titleContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0
+}
+
+.headerContainer :global(button) {
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .headerContainer {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}

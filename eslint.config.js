@@ -21,3 +21,23 @@ export default defineConfig([
     },
   },
 ])
+module.exports = {
+  root: true,
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint','react','react-hooks','import'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'prettier'
+  ],
+  settings: { react: { version: 'detect' }, 'import/resolver': { typescript: true } },
+  rules: {
+    'import/order': ['warn', { 'newlines-between': 'always', alphabetize: { order: 'asc' } }],
+    '@typescript-eslint/consistent-type-imports': 'warn',
+    'react/react-in-jsx-scope': 'off'
+  }
+};
