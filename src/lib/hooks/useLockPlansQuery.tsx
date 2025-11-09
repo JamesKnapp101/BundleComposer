@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../features/bundleComposer/store/store';
-import { createDataService } from '../api/dataService';
+import { createDataService } from '../../ui/api/dataService';
 
 const api = createDataService({ baseUrl: 'http://localhost:5175', timeoutMs: 8000 });
 
 type LockPlan = { id: string; name: string; [key: string]: any };
 
-export function useLockPlansQuery(ids: string[], user: string) {
+export const useLockPlansQuery = (ids: string[], user: string) => {
   const { data: plans = [] } = useQuery<LockPlan[]>({
     queryKey: ['lockplansByIds', [...ids].sort()],
     queryFn: async () => {
@@ -21,9 +21,8 @@ export function useLockPlansQuery(ids: string[], user: string) {
   });
 
   const planPatches = useSelector((s: RootState) => s.drafts.plan);
-
   const merged = plans.map((p) => ({ ...p, ...(planPatches[p.id] ?? {}) }));
   const isDirty = (id: string) => Boolean(planPatches[id]);
 
   return { plans: merged, isDirty };
-}
+};

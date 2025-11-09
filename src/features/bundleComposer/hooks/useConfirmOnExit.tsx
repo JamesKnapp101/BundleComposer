@@ -1,15 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { useBlocker, type Location, type NavigateFunction } from 'react-router-dom';
+import type { Location as RouterLocation } from 'react-router-dom';
+import { createPath, useBlocker, useLocation, type NavigateFunction } from 'react-router-dom';
 
-export type ConfirmOnExitHandler = (
-  nextLocation: Location,
-  continueNavigation: () => void,
-  cancelNavigation: () => void,
-) => void;
+type ConfirmOnExitHandler = (
+  to: RouterLocation,
+  onConfirm: () => void,
+  onCancel: () => void,
+) => void | Promise<void>;
 
-/**
- * Blocks in-app navigation and asks the caller to confirm.
- */
 export function useConfirmOnExit(
   navigate: NavigateFunction,
   confirmHandler: ConfirmOnExitHandler,
@@ -17,44 +15,72 @@ export function useConfirmOnExit(
   bypassConfirmation?: { current: boolean },
 ) {
   const didConfirmRef = useRef(false);
+  const inFlightRef = useRef(false);
+  const targetHrefRef = useRef<string | null>(null);
+  const navKeyRef = useRef<string | null>(null);
+  const location = useLocation();
 
-  // Only block when we haven't just confirmed and we're not bypassing.
+  // When the location key changes, consider the navigation "committed".
+  useEffect(() => {
+    if (navKeyRef.current && navKeyRef.current !== location.key) {
+      // nav finished: disarm the blocker
+      didConfirmRef.current = false;
+      inFlightRef.current = false;
+      targetHrefRef.current = null;
+      navKeyRef.current = null;
+    }
+  }, [location.key]);
+
   const shouldBlock = !didConfirmRef.current && !(bypassConfirmation?.current ?? false);
-
   const blocker = useBlocker(shouldBlock);
 
   useEffect(() => {
     if (blocker.state !== 'blocked') return;
+    if (inFlightRef.current) return; // avoid re-entrant prompts while a dialog is open
+
+    inFlightRef.current = true;
+    targetHrefRef.current = createPath(blocker.location);
 
     const continueNavigation = () => {
-      // prevent a second prompt on the immediate follow-up render
       didConfirmRef.current = true;
-      if (bypassConfirmation) bypassConfirmation.current = false;
+      if (bypassConfirmation) bypassConfirmation.current = true;
 
-      // Let the router continue to the originally intended location.
-      blocker.proceed();
+      const href = targetHrefRef.current || defaultRoute;
 
-      // re-arm for future blocks on the next tick
-      setTimeout(() => {
-        didConfirmRef.current = false;
-      }, 0);
+      queueMicrotask(() => {
+        let proceeded = false;
+        try {
+          if (blocker.state === 'blocked') {
+            blocker.proceed();
+            proceeded = true;
+            // remember the current key; once it changes, nav has committed
+            navKeyRef.current = location.key;
+          }
+        } catch (e: any) {
+          if (!String(e?.message ?? '').includes('Invalid blocker state transition')) {
+            console.error(e);
+          }
+        }
+        if (!proceeded && href) {
+          navigate(href, { replace: true });
+        }
+      });
     };
 
     const cancelNavigation = () => {
-      blocker.reset(); // stay on the current page
+      blocker.reset();
       if (bypassConfirmation) bypassConfirmation.current = false;
+      inFlightRef.current = false;
     };
 
-    // Ask the app to confirm. Provide next location + controls.
-    confirmHandler(blocker.location, continueNavigation, cancelNavigation);
-  }, [blocker, confirmHandler]);
-
-  // Optional: if you want a manual escape hatch to a default route
-  // when there's no pending transition, you can expose this helper:
-  useEffect(() => {
-    if (!defaultRoute) return;
-    if (didConfirmRef.current && blocker.state === 'unblocked') {
-      navigate(defaultRoute);
+    try {
+      const check = confirmHandler(blocker.location, continueNavigation, cancelNavigation);
+      if (check && typeof (check as any).then === 'function') {
+        (check as Promise<void>).catch((e) => console.error(e));
+      }
+    } catch (e) {
+      console.error(e);
+      inFlightRef.current = false; // Something blew up, reset
     }
-  }, [blocker.state, defaultRoute, navigate]);
+  }, [blocker, confirmHandler, navigate, defaultRoute, bypassConfirmation, location.key]);
 }

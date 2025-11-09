@@ -50,8 +50,8 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export function useModalStack() {
+export const useModalStack = () => {
   const ctx = useContext(ModalContext);
   if (!ctx) throw new Error('useModalStack must be used inside <ModalProvider>');
   return ctx;
-}
+};

@@ -10,7 +10,7 @@ type ConfirmOpts = {
   disableClose?: boolean;
 };
 
-export function useConfirm() {
+export const useConfirm = () => {
   const { open, close } = useModalStack();
 
   return (opts: ConfirmOpts) =>
@@ -45,4 +45,4 @@ export function useConfirm() {
         />,
       );
     });
-}
+};

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "0a55b21e-d138-4207-ad6c-5cbb9c00aa5a",
+    "name": "Sports Max",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Bronze",
+    "tags": []
+  },
+  {
+    "id": "2a97516c-354b-4884-8cdb-d8f54a226a0a",
+    "name": "Family Time",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Silver",
+    "tags": []
+  },
+  {
+    "id": "b21ed138-e207-4d6c-9cbb-9c00aa5aea2a",
+    "name": "Movie Night",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Nickel",
+    "tags": []
+  },
+  {
+    "id": "516c354b-6884-4cdb-98f5-4a226a0a55b2",
+    "name": "Docs & News",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Copper",
+    "tags": []
+  },
+  {
+    "id": "d138e207-ad6c-4cbb-9c00-aa5aea2a9751",
+    "name": "Kids Club",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Rhodium",
+    "tags": []
+  },
+  {
+    "id": "354b6884-8cdb-48f5-8a22-6a0a55b21ed1",
+    "name": "Comedy Plus",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Platinum",
+    "tags": []
+  },
+  {
+    "id": "e207ad6c-5cbb-4c00-aa5a-ea2a97516c35",
+    "name": "Horror Vault",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Palladium",
+    "tags": []
+  },
+  {
+    "id": "68848cdb-d8f5-4a22-aa0a-55b21ed138e2",
+    "name": "Edu Pack",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Copper",
+    "tags": []
+  },
+  {
+    "id": "ad6c5cbb-9c00-4a5a-aa2a-97516c354b68",
+    "name": "Lifestyle Mix",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Gold",
+    "tags": []
+  },
+  {
+    "id": "8cdbd8f5-4a22-4a0a-95b2-1ed138e207ad",
+    "name": "Animation Zone",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Gold",
+    "tags": []
+  },
+  {
+    "id": "5cbb9c00-aa5a-4a2a-9751-6c354b68848c",
+    "name": "World News",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Silver",
+    "tags": []
+  },
+  {
+    "id": "d8f54a22-6a0a-45b2-9ed1-38e207ad6c5c",
+    "name": "Indie Gems",
+    "description": "",
+    "basePrice": 0,
+    "isActive": true,
+    "tier": "Bronze",
+    "tags": []
+  }
+]

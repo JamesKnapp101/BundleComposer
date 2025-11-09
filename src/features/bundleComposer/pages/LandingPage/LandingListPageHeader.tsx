@@ -33,7 +33,13 @@ const LandingListPageHeader = ({ rowSelection: RowSelectionState }: LandingListP
           {`Plans`}
         </span>
       </div>
-      <Button className="ml-4" variant="primary" size="md" onClick={launchBundleComposer}>
+      <Button
+        className="ml-4"
+        variant="primary"
+        size="md"
+        onClick={launchBundleComposer}
+        disabled={selectedIds?.length === 0}
+      >
         {error ? ' (failed)' : null}
         Bundle Composer
       </Button>

@@ -1,18 +1,28 @@
 import type { UseMutationResult } from '@tanstack/react-query';
-import { useLoaderData } from 'react-router-dom';
 import { useConfirm } from '../../../../ui/modal/useConfirm';
-import type { MasterJob, MutationVars } from '../../hooks/useManageLockAndMasterJob';
+
+type MutationVars = {
+  planIds: string[];
+  lockOwner?: string;
+  force?: boolean;
+  skipUnlock?: boolean;
+  metadata?: Record<string, unknown>;
+};
+
+type UnlockAndCancelMutation = UseMutationResult<any, unknown, MutationVars, unknown>;
 
 type Args = {
   planIds: string[];
-  unlockPlansAndCancelMasterJob: UseMutationResult<MasterJob, Error, MutationVars, unknown>;
-  cancelBlockAndNavigate?: (() => void) | null;
+  unlockPlansAndCancelMasterJob: UnlockAndCancelMutation;
+  proceed: () => void;
+  reset?: () => void;
+  onError?: (err: unknown) => void;
 };
 
 export const useDispatchConfirmCancelJob = () => {
   const confirm = useConfirm();
-  const { plans, sections } = useLoaderData() as { plans: string[]; sections: string[] };
-  return async ({ planIds, unlockPlansAndCancelMasterJob, cancelBlockAndNavigate }: Args) => {
+
+  return async ({ planIds, unlockPlansAndCancelMasterJob, proceed, reset, onError }: Args) => {
     const ok = await confirm({
       title: 'Warning',
       message:
@@ -22,12 +32,21 @@ export const useDispatchConfirmCancelJob = () => {
       disableClose: true,
     });
 
-    if (!ok) return;
-
-    unlockPlansAndCancelMasterJob.mutate({
-      planIds: plans ?? [],
-      force: false,
-      onComplete: cancelBlockAndNavigate ?? undefined,
-    });
+    if (!ok) {
+      reset?.(); // The user cancelled, so reset it for the next time they navigate
+      return;
+    }
+    // Otherwise do the unlock and cancel
+    try {
+      await unlockPlansAndCancelMasterJob.mutateAsync({
+        planIds,
+        lockOwner: 'mr.bulldops',
+        force: false,
+      });
+      proceed();
+    } catch (err) {
+      onError?.(err);
+      reset?.();
+    }
   };
 };

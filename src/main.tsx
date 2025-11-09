@@ -2,11 +2,13 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import App from './app/App';
 import BundleComposer from './features/bundleComposer/BundleComposer';
 import LandingListPage from './features/bundleComposer/pages/LandingPage/LandingListPage';
 import { store } from './features/bundleComposer/store/store';
 import './index.css';
+import { ensureScenarioInitialized } from './lib/mockBootstrap';
 
 const router = createBrowserRouter([
   {
@@ -31,10 +33,15 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </StrictMode>,
-);
+async function boot() {
+  await ensureScenarioInitialized();
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+        <Toaster richColors closeButton position="bottom-right" visibleToasts={5} expand={true} />
+      </Provider>
+    </StrictMode>,
+  );
+}
+boot();

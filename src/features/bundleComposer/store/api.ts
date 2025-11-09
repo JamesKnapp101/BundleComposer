@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Bundle } from '../../../lib/mock/models';
+import type { Bundle } from '../types';
 
 export const storeApi = createApi({
   reducerPath: 'api',

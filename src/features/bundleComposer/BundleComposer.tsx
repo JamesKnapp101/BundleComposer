@@ -2,18 +2,21 @@ import { TvMinimalPlay } from 'lucide-react';
 import { useEffect, useRef, useState, type PropsWithChildren } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import type { Dict } from 'src/schema';
+import { useSelectedPlansQuery } from '../../lib/hooks/useSelectedPlansQuery';
 import { createDataService } from '../../ui/api/dataService';
 import styles from '../../ui/BundleComposer.module.scss';
 import { PageHeader } from '../../ui/components/PageHeader';
-import { useSelectedPlansQuery } from '../../ui/hooks/useSelectedPlansQuery';
 import { Icon } from '../../ui/icons/Icon';
 import BCCancelJobButton from './components/BCCancelJobButton';
 import BCSubmitButton from './components/BCSubmitButton';
 import { useDispatchConfirmCancelJob } from './components/confirmations/dispatchConfirmCancelJob';
 import { useConfirmOnExit } from './hooks/useConfirmOnExit';
-import { useUnlockPlansAndCancelMasterJob } from './hooks/useManageLockAndMasterJob';
+import {
+  useLockAndCreateMasterJob,
+  useUnlockPlansAndCancelMasterJob,
+} from './hooks/useManageLockAndMasterJob';
 import BCPageContainer from './pages/BCPageContainer';
-import type { Dict } from './types';
 
 export type PlanUpdateWizardChangeObjectAttributeObj = {
   [objectType: string]: {
@@ -33,7 +36,6 @@ export type PlanUpdateWizardChangeObj = {
 };
 
 const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
-  console.log('BundleComposer component rendered');
   const dispatch = useDispatch();
   const confirmCancel = useDispatchConfirmCancelJob();
   const location = useLocation();
@@ -50,18 +52,12 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
   const unlockPlansAndCancelMasterJob = useUnlockPlansAndCancelMasterJob({
     onSuccess: () => {
       bypassConfirmationRef.current = true;
-      navigate('/listing');
       setUnlockingPlans(false);
     },
   });
   // useUpdateContainerHeightVars();
 
-  // const lockAndMasterJobCreationResult = useLockAndCreateMasterJob(
-  //   selectedPlanObjectIdList,
-  //   false,
-  //   'plans',
-  //   user,
-  // );
+  const lockAndMasterJobCreationResult = useLockAndCreateMasterJob();
 
   const statusMsg = {
     LOCKING: 'Locking Selected Plans, Please Stand By...',
@@ -70,6 +66,7 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
   };
 
   const selectedPlansDataQuery = useSelectedPlansQuery(['p1', 'p2']);
+  console.log('Selected Plans Data Query:', selectedPlansDataQuery);
 
   useEffect(() => {
     api.getUser('mr.bulldops').then((response: any) => {
@@ -84,16 +81,17 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
 
   console.log('Plan IDs for confirmation on exit:', planIds, selectedPlansDataQuery?.plans);
 
+  const dispatchConfirmCancelJob = useDispatchConfirmCancelJob();
+
   useConfirmOnExit(
     navigate,
-    (_tx, cancelBlockAndNavigate) => {
-      confirmCancel({
-        planIds,
-        unlockPlansAndCancelMasterJob,
-        cancelBlockAndNavigate: () => {
-          console.log('User confirmed cancel and navigate');
-          cancelBlockAndNavigate();
-        },
+    (_nextLocation, proceed, reset) => {
+      dispatchConfirmCancelJob({
+        planIds, // ← pass the actual ids
+        unlockPlansAndCancelMasterJob, // ← your mutation
+        proceed, // ← from useConfirmOnExit
+        reset, // ← optional, for Cancel path
+        onError: (e) => console.error('Unlock/Cancel failed:', e),
       });
     },
     '/listing',
@@ -101,36 +99,36 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
   );
 
   //if (!selectedPlansDataQuery) return <MessagedSpinner message={statusMsg.LOADING} />;
-  // if (lockAndMasterJobCreationResult.status !== 'success')
-  //   return <MessagedSpinner message={statusMsg.LOCKING} />;
-  // if (unlockingPlans === true) return <MessagedSpinner message={statusMsg.UNLOCKING} />;
+  if (lockAndMasterJobCreationResult.status !== 'success')
+    //   return <MessagedSpinner message={statusMsg.LOCKING} />;
+    // if (unlockingPlans === true) return <MessagedSpinner message={statusMsg.UNLOCKING} />;
 
-  return (
-    <main className={styles.container} data-testid="plan-update-wizard">
-      <div className={styles.headerContainer}>
-        <div className={styles.titleContainer}>
-          <PageHeader
-            className="flex items-center"
-            variant="record"
-            title="Bundle Composer"
-            icon={
-              <Icon className={styles.icon} name="tv-minimal-play" of={TvMinimalPlay} size={32} />
-            }
-            actions={
-              <>
-                <BCCancelJobButton />
-                <BCSubmitButton
-                  formRef={formRef}
-                  domFormRef={domFormRef}
-                  bypassConfirmationRef={bypassConfirmationRef}
-                />
-              </>
-            }
-          />
+    return (
+      <main className={styles.container} data-testid="plan-update-wizard">
+        <div className={styles.headerContainer}>
+          <div className={styles.titleContainer}>
+            <PageHeader
+              className="flex items-center"
+              variant="record"
+              title="Bundle Composer"
+              icon={
+                <Icon className={styles.icon} name="tv-minimal-play" of={TvMinimalPlay} size={32} />
+              }
+              actions={
+                <>
+                  <BCCancelJobButton />
+                  <BCSubmitButton
+                    formRef={formRef}
+                    domFormRef={domFormRef}
+                    bypassConfirmationRef={bypassConfirmationRef}
+                  />
+                </>
+              }
+            />
+          </div>
         </div>
-      </div>
-      <BCPageContainer formRef={formRef} domFormRef={domFormRef} />
-    </main>
-  );
+        <BCPageContainer formRef={formRef} domFormRef={domFormRef} />
+      </main>
+    );
 };
 export default BundleComposer;

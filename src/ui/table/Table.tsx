@@ -7,7 +7,9 @@ import {
   type SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { cn } from '../../lib/utils/cn';
 
 export type TableProps<TData> = {
   data: TData[];
@@ -77,6 +79,7 @@ export function Table<TData>({
     return (
       <input
         ref={ref}
+        className={'ml-1 accent-indigo-500'}
         type="checkbox"
         {...props}
         aria-checked={indeterminate ? 'mixed' : props.checked ? 'true' : 'false'}
@@ -114,7 +117,7 @@ export function Table<TData>({
     <div className="relative rounded-md border border-slate-200 bg-white">
       <table className="w-full text-sm table-fixed border-separate [border-spacing:0]">
         <ColGroup />
-        <thead className="bg-slate-50 border-b border-slate-200">
+        <thead className="bg-slate-200 border-b border-slate-300">
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id}>
               {hg.headers.map((header) => {
@@ -131,7 +134,8 @@ export function Table<TData>({
                         onClick={header.column.getToggleSortingHandler()}
                       >
                         {flexRender(header.column.columnDef.header, header.getContext())}
-                        {dir === 'asc' ? ' ▲' : dir === 'desc' ? ' ▼' : ''}
+                        {dir === 'asc' && <ChevronUp className="inline-block w-4 h-4" />}
+                        {dir === 'desc' && <ChevronDown className="inline-block w-4 h-4" />}
                       </button>
                     ) : (
                       flexRender(header.column.columnDef.header, header.getContext())
@@ -151,9 +155,18 @@ export function Table<TData>({
           <ColGroup />
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="border-b border-slate-100 hover:bg-slate-50">
+              <tr
+                key={row.id}
+                className={cn(
+                  'border-b border-slate-100',
+                  'rounded-md',
+                  'even:bg-slate-200',
+                  'hover:bg-slate-250',
+                  row.getIsSelected() && 'bg-blue-100 hover:bg-blue-100 even:bg-blue-200',
+                )}
+              >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-1 py-2 left-auto">
+                  <td key={cell.id} className="px-1 py-2 left-auto pr-4">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

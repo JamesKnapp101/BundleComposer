@@ -88,6 +88,7 @@ export function createDataService(opts: DataServiceOptions) {
   }
 
   async function createMasterJob(ids: string[], user: string) {
+    console.log('createMasterJob got ', ids, user);
     return request<{ id: string; name: string }>(`/jobs/master/create`, {
       method: 'POST',
       body: JSON.stringify({ ids, user }),
