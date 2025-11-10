@@ -1,17 +1,18 @@
 import { LayoutList } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import type { Plan } from 'src/schema';
 import { Icon } from '../../../../ui/icons/Icon';
 import { Button } from '../../../../ui/inputs/Button';
 import { useLockAndCreateMasterJob } from '../../hooks/useManageLockAndMasterJob';
 import styles from './LandingListPage.module.scss';
 
 interface LandingListPageHeaderProps {
-  rowSelection: Record<string, boolean>;
+  selectedRows: any;
 }
 
-const LandingListPageHeader = ({ rowSelection: RowSelectionState }: LandingListPageHeaderProps) => {
+const LandingListPageHeader = ({ selectedRows: selectedPlans }: LandingListPageHeaderProps) => {
   const { mutate, isPending, error } = useLockAndCreateMasterJob();
-  const selectedIds = Object.keys(RowSelectionState);
+  const selectedIds = selectedPlans.map((plan: Plan) => plan.id);
   const navigate = useNavigate();
   const launchBundleComposer = () => {
     mutate({
@@ -19,7 +20,7 @@ const LandingListPageHeader = ({ rowSelection: RowSelectionState }: LandingListP
       lockOwner: 'bundle-composer',
       metadata: { reason: 'publish-run' },
     });
-
+    console.log('selectedIds: ', selectedIds);
     const q = new URLSearchParams();
     q.set('plans', selectedIds.join(','));
     navigate(`/bundle-composer?${q.toString()}`);

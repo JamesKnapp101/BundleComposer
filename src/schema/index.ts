@@ -70,3 +70,12 @@ export const PlanChannelsSchema = z.object({
   sortIndex: z.number().int().nonnegative().optional(),
 });
 export type PlanChannelLink = z.infer<typeof PlanChannelsSchema>;
+export type PlanRow = {
+  id: string;
+  versionId: string;
+  name: string;
+  status: string;
+  planTier: string;
+  pricingModel: string;
+  basePrice: number;
+};

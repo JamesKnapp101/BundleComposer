@@ -1,4 +1,5 @@
 import type { ColumnDef } from '@tanstack/react-table';
+import type { PlanRow } from 'src/schema';
 
 type Row = { name: string };
 
@@ -6,7 +7,7 @@ const cashify = (val: number) => {
   return `$${val}.99`;
 };
 
-export const useLandingListPageColumns = (): ColumnDef<Row, any>[] => [
+export const useLandingListPageColumns = (): ColumnDef<PlanRow, any>[] => [
   {
     accessorKey: 'versionId',
     header: 'Version',
@@ -49,13 +50,6 @@ export const useLandingListPageColumns = (): ColumnDef<Row, any>[] => [
     header: 'Status',
     cell: (info) => {
       return <div className="text-start">{info.getValue()}</div>;
-    },
-  },
-  {
-    accessorKey: 'renewDate',
-    header: 'Renews On',
-    cell: (info) => {
-      return <div className="text-start">{info.getValue()?.split('T')?.[0]}</div>;
     },
   },
 ];
