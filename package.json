@@ -15,7 +15,6 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "format:check": "prettier --check .",
     "build": "vite build"
   },
   "lint-staged": {
