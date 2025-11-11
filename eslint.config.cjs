@@ -6,15 +6,9 @@ const jsxA11y = require('eslint-plugin-jsx-a11y');
 const globals = require('globals');
 
 module.exports = [
-  { ignores: ['dist/**', 'build/**', 'coverage/**', 'node_modules/**'] },
-
-  // Base JS recommendations
+  { ignores: ['dist/**','build/**','coverage/**','node_modules/**'] },
   js.configs.recommended,
-
-  // TypeScript (flat) recommendations
   ...tseslint.configs.recommended,
-
-  // Project rules
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
@@ -22,12 +16,7 @@ module.exports = [
       sourceType: 'module',
       globals: { ...globals.browser, ...globals.node },
       parser: tseslint.parser,
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-        // If you later enable type-aware lint rules:
-        // projectService: { allowDefaultProject: true },
-        // // or: project: ['./tsconfig.json'],
-      },
+      parserOptions: { ecmaFeatures: { jsx: true } },
     },
     plugins: {
       react,
@@ -36,12 +25,8 @@ module.exports = [
     },
     settings: { react: { version: 'detect' } },
     rules: {
-      // sensible defaults without dragging in each plugin's preset
-      'react/jsx-uses-react': 'off',
-      'react/react-in-jsx-scope': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'jsx-a11y/anchor-is-valid': 'warn',
     },
   },
 ];
