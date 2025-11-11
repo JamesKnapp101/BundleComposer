@@ -12,7 +12,6 @@ type PlansNormalized = { byId: Record<string, Plan>; allIds: string[] };
 export const useSelectedPlansQuery = (ids: string[]) => {
   const sortedIds = useMemo(() => [...ids].sort(), [ids]);
   const idSet = useMemo(() => new Set(sortedIds), [sortedIds]);
-
   const { data = { byId: {}, allIds: [] } as PlansNormalized } = useQuery({
     queryKey: QUERY_KEYS.scenario,
     queryFn: fetchState,
@@ -35,7 +34,6 @@ export const useSelectedPlansQuery = (ids: string[]) => {
       return { byId, allIds };
     },
   });
-
   const planPatches = useSelector((s: RootState) => s.drafts.plan);
 
   const plans = useMemo(

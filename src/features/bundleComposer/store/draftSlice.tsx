@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { DraftPatch, DraftsState, EntityType } from '../types';
+import type { DraftPatch, DraftsState, EntityType } from 'src/schema';
 
 const initialState: DraftsState = { plan: {}, bundle: {}, channel: {} };
 

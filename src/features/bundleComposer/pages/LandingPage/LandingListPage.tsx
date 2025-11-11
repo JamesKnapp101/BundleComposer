@@ -9,7 +9,7 @@ import {
   type RowSelectionState,
   type SortingState,
 } from '@tanstack/react-table';
-import type { PlanRow } from 'src/schema';
+import type { Plan, PlanRow } from 'src/schema';
 import '../../../../app/App.css';
 import data from '../../../../server/mocks/fixtures/plans.base.json';
 import { ListingLayout } from '../../../../ui/layouts/ListingLayout';
@@ -40,12 +40,10 @@ const LandingListPage = () => {
   });
 
   const selectedRows = table.getSelectedRowModel().flatRows.map((r) => r.original);
-  console.log('selectedRows: ', selectedRows);
-  const selectedPlanIds = selectedRows.map((r) => r.id);
 
   return (
     <div className="bg-slate-50">
-      <ListingLayout header={<LandingListPageHeader selectedRows={selectedRows} />}>
+      <ListingLayout header={<LandingListPageHeader selectedRows={selectedRows as Plan[]} />}>
         <div className="h-full">
           <TableContainer>
             <Table<PlanRow> table={table} selectable />

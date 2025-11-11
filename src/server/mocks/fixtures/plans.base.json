@@ -45,7 +45,7 @@
     "basePrice": 34
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "02c4f542-fdca-4ba5-88f4-1eb4329032d5",
     "name": "StreamMatrix-240904-CESWM Silver Premium",
     "status": "active",
     "versionId": "v4",
@@ -54,7 +54,7 @@
     "basePrice": 51
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "253d5702-62ab-4833-9d95-b8dc373d296e",
     "name": "StreamMatrix-250901-BDNRB Copper Plus",
     "status": "active",
     "versionId": "v3",
@@ -63,7 +63,7 @@
     "basePrice": 28
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "276c8fcd-c3a1-47a2-8352-ed813fd92253",
     "name": "StreamMatrix-250102-6MD2T Platinum Plus",
     "status": "active",
     "versionId": "v3",
@@ -72,7 +72,7 @@
     "basePrice": 92
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "496bd09c-1169-4e14-a357-c0c3d1fba99b",
     "name": "StreamMatrix-230901-HWK2H Gold Ultimate",
     "status": "active",
     "versionId": "v2",
@@ -81,7 +81,7 @@
     "basePrice": 74
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "b16217d9-8c08-4508-bd5f-64e9429c3324",
     "name": "StreamMatrix-240110-9K22E Nickel Lite",
     "status": "pending",
     "versionId": "v5",
@@ -90,7 +90,7 @@
     "basePrice": 23
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "3fb21869-88a9-4727-922a-3b1f9ae0affc",
     "name": "StreamMatrix-230215-5Y36Q Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -99,7 +99,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "bc70bf71-5872-4349-9501-b6b5b53acec0",
     "name": "StreamMatrix-260205-Z7NM4 Silver Plus",
     "status": "active",
     "versionId": "v3",
@@ -108,7 +108,7 @@
     "basePrice": 45
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "3319a212-e281-4fbb-b071-dc4edd1e092a",
     "name": "StreamMatrix-270420-6Q8T9 Bronze Basic",
     "status": "active",
     "versionId": "v3",
@@ -117,7 +117,7 @@
     "basePrice": 39
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "f58c8077-7011-4be2-8794-d4161be219d2",
     "name": "StreamMatrix-271105-6K35F Nickel Xtra Lite",
     "status": "active",
     "versionId": "v2",
@@ -126,7 +126,7 @@
     "basePrice": 24
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "d0a3ef31-275f-4108-87d7-fad65cfee3c4",
     "name": "StreamMatrix-271117-C5JK5 Platinum Plus",
     "status": "pending",
     "versionId": "v5",
@@ -135,7 +135,7 @@
     "basePrice": 98
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "92ad040b-5c8b-4f98-9464-a6756b807355",
     "name": "StreamMatrix-231108-NMNCB Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -144,7 +144,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "2259f39e-4a59-4c33-a8b5-9fe14fe664ad",
     "name": "StreamMatrix-240322-TSWJ5 Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -153,7 +153,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "663c6d80-07ad-4a46-94d0-5d924ab13e5a",
     "name": "StreamMatrix-260729-QM9K5 Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -162,7 +162,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "d122f22e-d402-40f6-b61f-266c8d95e58e",
     "name": "StreamMatrix-251129-VBZ4C Bronze Prime",
     "status": "active",
     "versionId": "v2",
@@ -171,7 +171,7 @@
     "basePrice": 40
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "3137092b-d877-4ad7-a754-2f6cc6386acd",
     "name": "StreamMatrix-260213-76KMT Copper Essential",
     "status": "pending",
     "versionId": "v5",
@@ -180,7 +180,7 @@
     "basePrice": 34
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "555906d5-cdee-4625-991b-0289a8c7d820",
     "name": "StreamMatrix-230301-DMTEA Gold Elite",
     "status": "active",
     "versionId": "v4",
@@ -189,7 +189,7 @@
     "basePrice": 69
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "42894e19-5fc3-41c0-8558-9a7a65907265",
     "name": "StreamMatrix-231117-33AXG Nickel Minus",
     "status": "active",
     "versionId": "v3",
@@ -198,7 +198,7 @@
     "basePrice": 15
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "2296b625-345a-45b0-9dce-6a60cfe3e57a",
     "name": "StreamMatrix-260914-K3YVH Bronze Basic",
     "status": "active",
     "versionId": "v3",
@@ -207,7 +207,7 @@
     "basePrice": 39
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "f3c1b527-b84f-46d7-91df-ac048673a9d9",
     "name": "StreamMatrix-270530-8WNNP Bronze Prime",
     "status": "active",
     "versionId": "v2",
@@ -216,7 +216,7 @@
     "basePrice": 40
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "055756ca-d2ac-4395-8d5e-aafa7fe37dd9",
     "name": "StreamMatrix-251017-6RQYA Nickel Lite",
     "status": "pending",
     "versionId": "v5",
@@ -225,7 +225,7 @@
     "basePrice": 23
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "24f3a13b-54de-4fe7-a607-8d012320bb92",
     "name": "StreamMatrix-250527-2TAHA Gold Elite",
     "status": "active",
     "versionId": "v4",
@@ -234,7 +234,7 @@
     "basePrice": 69
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "b461c408-3778-4306-85ad-4270cf300718",
     "name": "StreamMatrix-260525-XQW72 Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -243,7 +243,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "3de300b3-f5ea-40f3-8b16-4abd0fb3be14",
     "name": "StreamMatrix-230119-22PDM Copper Essential",
     "status": "active",
     "versionId": "v3",
@@ -252,7 +252,7 @@
     "basePrice": 32
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "8ea2c9a4-2427-4b6c-a45d-ea5e5ccc9699",
     "name": "StreamMatrix-231017-KAP3Q Copper Prime",
     "status": "active",
     "versionId": "v2",
@@ -261,7 +261,7 @@
     "basePrice": 35
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "13095461-e536-4aac-8273-afefa29fcb49",
     "name": "StreamMatrix-250613-GPA4X Palladium Supreme",
     "status": "pending",
     "versionId": "v5",
@@ -270,7 +270,7 @@
     "basePrice": 194
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "e787e911-67f8-4b70-956a-ad999cf3af6c",
     "name": "StreamMatrix-230921-SJQWH Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -279,7 +279,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "91997c87-6172-4925-8e66-eb4a6700d395",
     "name": "StreamMatrix-260715-E6JNQ Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -288,7 +288,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "c670c654-78cc-4a7b-b679-3c1ba28bc9ec",
     "name": "StreamMatrix-240615-XMHQ4 Platinum Plus",
     "status": "active",
     "versionId": "v3",
@@ -297,7 +297,7 @@
     "basePrice": 92
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "5db899d6-3157-4d09-986c-b27f6788c8ec",
     "name": "StreamMatrix-270218-3GTZA Bronze Prime",
     "status": "active",
     "versionId": "v2",
@@ -306,7 +306,7 @@
     "basePrice": 40
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "72973301-ae4e-41bd-b4f6-19e8adb8d531",
     "name": "StreamMatrix-230804-3MAQE Copper Essential",
     "status": "pending",
     "versionId": "v5",
@@ -315,7 +315,7 @@
     "basePrice": 34
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "1003e9dc-cd79-4b7e-b2b5-af8968ca6b19",
     "name": "StreamMatrix-240610-YYT55 Copper Plus",
     "status": "active",
     "versionId": "v4",
@@ -324,7 +324,7 @@
     "basePrice": 32
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "df9b22ef-633b-4f98-a043-3632f14cb7d0",
     "name": "StreamMatrix-230930-Y5XJ4 Silver Plus",
     "status": "active",
     "versionId": "v3",
@@ -333,7 +333,7 @@
     "basePrice": 45
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "4c7980f3-529e-483f-82ba-a3d038c118f7",
     "name": "StreamMatrix-230807-FF28R Nickel Lite",
     "status": "active",
     "versionId": "v3",
@@ -342,7 +342,7 @@
     "basePrice": 20
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "0577b6e7-db9a-42c5-bc6b-7e20af213b2c",
     "name": "StreamMatrix-230407-D6YUJ Nickel Xtra Lite",
     "status": "active",
     "versionId": "v2",
@@ -351,7 +351,7 @@
     "basePrice": 24
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "148834e2-ed15-4600-bd1d-cb68ea3e5cac",
     "name": "StreamMatrix-240607-ZA9A2 Bronze Standard",
     "status": "pending",
     "versionId": "v5",
@@ -360,7 +360,7 @@
     "basePrice": 40
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "7727a150-7154-4113-a6bf-6670c1bf4a8a",
     "name": "StreamMatrix-230927-YWB7C Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -369,7 +369,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "24da1f60-495a-4cea-beec-92fb46574de2",
     "name": "StreamMatrix-241226-RFU2C Gold Max",
     "status": "active",
     "versionId": "v3",
@@ -378,7 +378,7 @@
     "basePrice": 61
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "6ea7b758-74e5-4e8d-be30-ec86ea2770ec",
     "name": "StreamMatrix-270429-5F686 Bronze Basic",
     "status": "active",
     "versionId": "v3",
@@ -387,7 +387,7 @@
     "basePrice": 39
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "aef0bbf4-87a4-4d67-8e51-b93d464af67f",
     "name": "StreamMatrix-230108-63GVM Silver Prime Plus",
     "status": "active",
     "versionId": "v2",
@@ -396,7 +396,7 @@
     "basePrice": 55
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "5fe03aa7-be10-4d41-945e-8d070c1c2d16",
     "name": "StreamMatrix-230711-UUF6Q Gold Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -405,7 +405,7 @@
     "basePrice": 74
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "9c8f2ca5-5146-4fd8-9f27-04047945bf91",
     "name": "StreamMatrix-241213-8QDPW Gold Elite",
     "status": "active",
     "versionId": "v4",
@@ -414,7 +414,7 @@
     "basePrice": 69
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "124b25ea-ae7f-479f-8417-15d87b47c523",
     "name": "StreamMatrix-250418-Q4Q7R Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -423,7 +423,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "59e673d2-a4a7-442c-b5ad-40c7fa3cfb0d",
     "name": "StreamMatrix-270401-WVRZB Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -432,7 +432,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "532a7060-7e88-44fc-bb48-1a39c0654b71",
     "name": "StreamMatrix-230417-KPQKU Gold Ultimate",
     "status": "active",
     "versionId": "v2",
@@ -441,7 +441,7 @@
     "basePrice": 74
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "f69277dc-76b9-40ff-99f0-48683ed5d699",
     "name": "StreamMatrix-250521-97YFF Copper Essential",
     "status": "pending",
     "versionId": "v5",
@@ -450,7 +450,7 @@
     "basePrice": 34
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "4ba71d06-9625-40eb-925f-9c1d9f56fedf",
     "name": "StreamMatrix-230711-G9B6A Copper Plus",
     "status": "active",
     "versionId": "v4",
@@ -459,7 +459,7 @@
     "basePrice": 32
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "f4cffe73-b3f7-430d-9187-8f50e14d7f1e",
     "name": "StreamMatrix-250928-MD32B Platinum Elite",
     "status": "active",
     "versionId": "v3",
@@ -468,7 +468,7 @@
     "basePrice": 82
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "9b1c340a-7efb-45af-a32f-7496d08ce34e",
     "name": "StreamMatrix-241103-M3C7J Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -477,7 +477,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "f6800cbc-7885-4530-b0dd-287c635453cf",
     "name": "StreamMatrix-231029-X8WR5 Bronze Prime",
     "status": "active",
     "versionId": "v2",
@@ -486,7 +486,7 @@
     "basePrice": 40
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "d3442396-0bb6-47d5-be38-50b0d5964256",
     "name": "StreamMatrix-270425-FRM75 Platinum Plus",
     "status": "pending",
     "versionId": "v5",
@@ -495,7 +495,7 @@
     "basePrice": 98
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "6ee91cb3-ce67-465f-9465-9032505b6461",
     "name": "StreamMatrix-240528-RCXKA Silver Premium",
     "status": "active",
     "versionId": "v4",
@@ -504,7 +504,7 @@
     "basePrice": 51
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "27ad2c15-6850-413b-9722-9371bb7ef027",
     "name": "StreamMatrix-231105-Y9E8F Nickel Minus",
     "status": "active",
     "versionId": "v3",
@@ -513,7 +513,7 @@
     "basePrice": 15
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "35d95172-86e0-45b9-8f2b-30b89bb3280c",
     "name": "StreamMatrix-241020-VW7RD Nickel Lite",
     "status": "active",
     "versionId": "v3",
@@ -522,7 +522,7 @@
     "basePrice": 20
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "562044a4-e117-480f-a13c-ee27f55886f6",
     "name": "StreamMatrix-230122-GFR9X Bronze Prime",
     "status": "active",
     "versionId": "v2",
@@ -531,7 +531,7 @@
     "basePrice": 40
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "3e6fc2de-ced7-42a4-9002-314e9dece5e7",
     "name": "StreamMatrix-240217-75UQE Palladium Supreme",
     "status": "pending",
     "versionId": "v5",
@@ -540,7 +540,7 @@
     "basePrice": 194
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "1466fb86-b2f8-481d-b3eb-8d9dce023b0c",
     "name": "StreamMatrix-271116-EFT8S Nickel Minus",
     "status": "active",
     "versionId": "v4",
@@ -549,7 +549,7 @@
     "basePrice": 20
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "9e61e763-4eb9-442f-b5e2-3448b5514897",
     "name": "StreamMatrix-250411-FBNKM Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -558,7 +558,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "6a743c93-fa9b-4af2-b25c-c47bf8a4450f",
     "name": "StreamMatrix-270612-BNDYY Nickel Lite",
     "status": "active",
     "versionId": "v3",
@@ -567,7 +567,7 @@
     "basePrice": 20
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "a402606e-f456-4e2c-8bcb-72c9b55bf6bc",
     "name": "StreamMatrix-240831-7F8XP Platinum Ultra",
     "status": "active",
     "versionId": "v2",
@@ -576,7 +576,7 @@
     "basePrice": 98
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "5ef8ca32-88db-407d-9e02-0b399335ecde",
     "name": "StreamMatrix-270125-MXNHP Platinum Plus",
     "status": "pending",
     "versionId": "v5",
@@ -585,7 +585,7 @@
     "basePrice": 98
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "01078df1-91b8-4a77-8223-4148dc6829c6",
     "name": "StreamMatrix-241113-YPB98 Platinum Elite",
     "status": "active",
     "versionId": "v4",
@@ -594,7 +594,7 @@
     "basePrice": 92
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "d2ecb1e9-d7ba-47d7-a11b-2bf68af87a62",
     "name": "StreamMatrix-270724-4BTB3 Palladium Prime",
     "status": "active",
     "versionId": "v3",
@@ -603,7 +603,7 @@
     "basePrice": 127
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "2db7b470-b065-4e43-8c60-3e59fcb7c2ea",
     "name": "StreamMatrix-230804-5BK8Q Bronze Basic",
     "status": "active",
     "versionId": "v3",
@@ -612,7 +612,7 @@
     "basePrice": 39
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "036fbcd4-9c3d-495c-96f6-a8514e101f14",
     "name": "StreamMatrix-230209-KGJSU Gold Ultimate",
     "status": "active",
     "versionId": "v2",
@@ -621,7 +621,7 @@
     "basePrice": 74
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "80cba0b9-9a3d-4093-801c-7e82256b0222",
     "name": "StreamMatrix-231022-UDVN5 Palladium Supreme",
     "status": "pending",
     "versionId": "v5",
@@ -630,7 +630,7 @@
     "basePrice": 194
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "a9f82a8a-f81f-47f1-9e08-edcbb2924196",
     "name": "StreamMatrix-230223-U3UEP Nickel Minus",
     "status": "active",
     "versionId": "v4",
@@ -639,7 +639,7 @@
     "basePrice": 20
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "aca36f3a-32c1-4732-b100-d6bef2671f28",
     "name": "StreamMatrix-270824-CFPUH Silver Plus",
     "status": "active",
     "versionId": "v3",
@@ -648,7 +648,7 @@
     "basePrice": 45
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "c9419f0f-ca15-44ab-b038-f7d45d325320",
     "name": "StreamMatrix-240622-XPFSK Copper Essential",
     "status": "active",
     "versionId": "v3",
@@ -657,7 +657,7 @@
     "basePrice": 32
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "42cbdc74-e92d-4072-a0d7-330feb1de5c4",
     "name": "StreamMatrix-250128-245YX Platinum Ultra",
     "status": "active",
     "versionId": "v2",
@@ -666,7 +666,7 @@
     "basePrice": 98
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "922e9ac3-156a-4eb3-9f21-5f3ea73e2c3b",
     "name": "StreamMatrix-261015-GADZB Bronze Standard",
     "status": "pending",
     "versionId": "v5",
@@ -675,7 +675,7 @@
     "basePrice": 40
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "61063ef2-97e0-4d83-a252-5f88a58ad523",
     "name": "StreamMatrix-260717-G9FPV Silver Premium",
     "status": "active",
     "versionId": "v4",
@@ -684,7 +684,7 @@
     "basePrice": 51
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "93c6615a-9ad3-4f34-b946-20e8a7577922",
     "name": "StreamMatrix-271030-AHVHQ Silver Plus",
     "status": "active",
     "versionId": "v3",
@@ -693,7 +693,7 @@
     "basePrice": 45
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "3dd575d4-5c8e-4266-80f0-491c7dfd6d49",
     "name": "StreamMatrix-240901-WFE9U Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -702,7 +702,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "7e286444-8aaa-43cf-9ef2-65ffb66babda",
     "name": "StreamMatrix-261104-U38YF Copper Prime",
     "status": "active",
     "versionId": "v2",
@@ -711,7 +711,7 @@
     "basePrice": 35
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "d9bf7351-3302-407e-bd1b-e6498a0d5d9f",
     "name": "StreamMatrix-250107-GT593 Bronze Standard",
     "status": "pending",
     "versionId": "v5",
@@ -720,7 +720,7 @@
     "basePrice": 40
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "3c66c286-799c-4888-b049-bd757edcd72d",
     "name": "StreamMatrix-250711-PJ7GV Platinum Elite",
     "status": "active",
     "versionId": "v4",
@@ -729,7 +729,7 @@
     "basePrice": 92
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "21682c95-b073-48d4-896a-df4c766573e0",
     "name": "StreamMatrix-250127-YKGDD Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -738,7 +738,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "136cb671-8306-4bfb-8f25-cace795f74c1",
     "name": "StreamMatrix-240106-RDPRZ Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -747,7 +747,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "5757c661-da57-4951-8bd4-c910122fb62b",
     "name": "StreamMatrix-260205-GFBED Platinum Ultra",
     "status": "active",
     "versionId": "v2",
@@ -756,7 +756,7 @@
     "basePrice": 98
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "f010e3bf-6fa6-480f-98b7-ff4a1d460125",
     "name": "StreamMatrix-270416-KECVV Nickel Lite",
     "status": "pending",
     "versionId": "v5",
@@ -765,7 +765,7 @@
     "basePrice": 23
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "460315cd-4700-46f1-80c4-d8e0ed307ba8",
     "name": "StreamMatrix-261128-9ECCZ Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -774,7 +774,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "e8f306fb-80b1-4021-9cc1-ec078915dd64",
     "name": "StreamMatrix-250619-3GZEJ Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -783,7 +783,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "9b7634f0-ecf6-42f1-b40f-2178c361b601",
     "name": "StreamMatrix-250908-2P59S Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -792,7 +792,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "4f86b169-ec9a-45a6-977c-2b683ccb26c4",
     "name": "StreamMatrix-230404-ZSS42 Platinum Ultra",
     "status": "active",
     "versionId": "v2",
@@ -801,7 +801,7 @@
     "basePrice": 98
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "a74c6bc9-0b97-4ff0-b1e6-ffbd0f37672e",
     "name": "StreamMatrix-240820-UQP7C Copper Essential",
     "status": "pending",
     "versionId": "v5",
@@ -810,7 +810,7 @@
     "basePrice": 34
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "1afb17ab-3599-467e-b25c-afab50033491",
     "name": "StreamMatrix-240129-K2HVZ Copper Plus",
     "status": "active",
     "versionId": "v4",
@@ -819,7 +819,7 @@
     "basePrice": 32
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "d4ac2e79-dd63-47fa-aaf9-93e88d36b09c",
     "name": "StreamMatrix-250909-39GE9 Nickel Minus",
     "status": "active",
     "versionId": "v3",
@@ -828,7 +828,7 @@
     "basePrice": 15
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "081dfbec-50f9-4b41-804c-17c734ebc65e",
     "name": "StreamMatrix-230124-X8WVA Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -837,7 +837,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "6b28b4e9-756e-4dfd-b99d-d1835fb1450a",
     "name": "StreamMatrix-231212-HSH8E Bronze Prime",
     "status": "active",
     "versionId": "v2",
@@ -846,7 +846,7 @@
     "basePrice": 40
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "df47e739-1c2c-4d46-ab4e-6cc7b6003774",
     "name": "StreamMatrix-270219-U6XZX Platinum Plus",
     "status": "pending",
     "versionId": "v5",
@@ -855,7 +855,7 @@
     "basePrice": 98
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "cf3d6771-2114-44a1-b0d1-8a2f0a16c0c0",
     "name": "StreamMatrix-271102-WXE7X Gold Elite",
     "status": "active",
     "versionId": "v4",
@@ -864,7 +864,7 @@
     "basePrice": 69
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "9fd32012-9de6-4063-8805-c07316cf45cc",
     "name": "StreamMatrix-230419-VJDYD Gold Max",
     "status": "active",
     "versionId": "v3",
@@ -873,7 +873,7 @@
     "basePrice": 61
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "d5aca55f-edfa-4b0d-8342-aafeab13d1a2",
     "name": "StreamMatrix-260720-KYJJ8 Palladium Ultra",
     "status": "active",
     "versionId": "v3",
@@ -882,7 +882,7 @@
     "basePrice": 168
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "3b9eed65-87eb-4f44-9aef-d8de10c276d3",
     "name": "StreamMatrix-250616-A7P7K Platinum Ultra",
     "status": "active",
     "versionId": "v2",
@@ -891,7 +891,7 @@
     "basePrice": 98
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "893d7760-f8cb-4e78-b144-56642daf3720",
     "name": "StreamMatrix-270228-XJ38V Nickel Lite",
     "status": "pending",
     "versionId": "v5",
@@ -900,7 +900,7 @@
     "basePrice": 23
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "bda8f6a7-6357-46f0-ab02-a6f797f83505",
     "name": "StreamMatrix-250318-YZQV7 Platinum Elite",
     "status": "active",
     "versionId": "v4",
@@ -909,7 +909,7 @@
     "basePrice": 92
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "81250f2d-9b19-4d14-8c85-cf022dab22e7",
     "name": "StreamMatrix-240108-U3JTJ Palladium Prime",
     "status": "active",
     "versionId": "v3",
@@ -918,7 +918,7 @@
     "basePrice": 127
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "31e4a38f-405b-4fc3-8981-f405f91410f1",
     "name": "StreamMatrix-250208-XH4AP Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -927,7 +927,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "bfd07886-a40e-4b82-9765-bb0532216473",
     "name": "StreamMatrix-261215-VK7JS Copper Prime",
     "status": "active",
     "versionId": "v2",
@@ -936,7 +936,7 @@
     "basePrice": 35
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "24dd7543-2f61-408e-a767-5c53519115d3",
     "name": "StreamMatrix-240116-YMSXW Silver Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -945,7 +945,7 @@
     "basePrice": 54
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "f1997d9c-a651-4215-a6b6-ba9e24e71760",
     "name": "StreamMatrix-260430-5C5BK Gold Elite",
     "status": "active",
     "versionId": "v4",
@@ -954,7 +954,7 @@
     "basePrice": 69
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "daa225f8-bf95-4abe-9df3-c5e1a903de97",
     "name": "StreamMatrix-240313-GUUQ6 Palladium Prime",
     "status": "active",
     "versionId": "v3",
@@ -963,7 +963,7 @@
     "basePrice": 127
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "abdbbcbe-edd5-48a1-b72c-d5024c676a0f",
     "name": "StreamMatrix-240519-WBNHD Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -972,7 +972,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "c2d8c2ce-06ee-4cc2-96f1-220e5a5b9fbc",
     "name": "StreamMatrix-261213-JVJ5P Silver Prime Plus",
     "status": "active",
     "versionId": "v2",
@@ -981,7 +981,7 @@
     "basePrice": 55
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "f1209dda-b572-4a85-ad2d-7b88653bf83c",
     "name": "StreamMatrix-251117-XF4ND Silver Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -990,7 +990,7 @@
     "basePrice": 54
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "dd2888c1-3f59-49e2-9ec6-7e4e5e11b20f",
     "name": "StreamMatrix-270512-96BJG Nickel Minus",
     "status": "active",
     "versionId": "v4",
@@ -999,7 +999,7 @@
     "basePrice": 20
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "705c5165-7d20-4d87-84ca-987f85a16e2e",
     "name": "StreamMatrix-230701-UR77A Gold Max",
     "status": "active",
     "versionId": "v3",
@@ -1008,7 +1008,7 @@
     "basePrice": 61
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "524e28ed-b441-4279-84bd-bf1425b6e7ab",
     "name": "StreamMatrix-260629-AF54K Copper Essential",
     "status": "active",
     "versionId": "v3",
@@ -1017,7 +1017,7 @@
     "basePrice": 32
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "a32afacc-d8a8-411e-9e9f-f349d921b156",
     "name": "StreamMatrix-270720-CDUUP Silver Prime Plus",
     "status": "active",
     "versionId": "v2",
@@ -1026,7 +1026,7 @@
     "basePrice": 55
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "461a61c8-117d-4bd2-bd90-dd49f3a1a305",
     "name": "StreamMatrix-270216-B23JH Gold Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -1035,7 +1035,7 @@
     "basePrice": 74
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "d9a7af50-a681-4778-bb46-856c3f5ae67d",
     "name": "StreamMatrix-250727-S77WN Gold Elite",
     "status": "active",
     "versionId": "v4",
@@ -1044,7 +1044,7 @@
     "basePrice": 69
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "6f4d3dcf-3b1c-456e-aac0-3abd19f7e575",
     "name": "StreamMatrix-260218-8RDPA Gold Max",
     "status": "active",
     "versionId": "v3",
@@ -1053,7 +1053,7 @@
     "basePrice": 61
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "a57afd53-4b26-4636-889a-3a434cd4901d",
     "name": "StreamMatrix-270222-JQHU3 Bronze Basic",
     "status": "active",
     "versionId": "v3",
@@ -1062,7 +1062,7 @@
     "basePrice": 39
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "6c39dcfc-878d-48b1-aafd-a9ea3900348f",
     "name": "StreamMatrix-250715-KXC3S Platinum Ultra",
     "status": "active",
     "versionId": "v2",
@@ -1071,7 +1071,7 @@
     "basePrice": 98
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "0296402e-8ed3-4f28-b1bd-216a52518170",
     "name": "StreamMatrix-260421-7HZMS Gold Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -1080,7 +1080,7 @@
     "basePrice": 74
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "c60c42ee-0e7a-4404-80de-df97e44e8331",
     "name": "StreamMatrix-231104-WB2UU Platinum Elite",
     "status": "active",
     "versionId": "v4",
@@ -1089,7 +1089,7 @@
     "basePrice": 92
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "3145eeda-6bd6-4051-b306-6675d1049218",
     "name": "StreamMatrix-271211-MX9YC Nickel Minus",
     "status": "active",
     "versionId": "v3",
@@ -1098,7 +1098,7 @@
     "basePrice": 15
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "6d96c2ec-941b-4558-b195-c4f04af4b89c",
     "name": "StreamMatrix-270330-ZGA7Z Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -1107,7 +1107,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "d45b1b83-b963-4a6c-b24b-95174a83c84a",
     "name": "StreamMatrix-230706-3E5CS Gold Ultimate",
     "status": "active",
     "versionId": "v2",
@@ -1116,7 +1116,7 @@
     "basePrice": 74
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "3609f8bf-2010-4ea2-af64-20e7e0607fc3",
     "name": "StreamMatrix-241213-STVFF Silver Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -1125,7 +1125,7 @@
     "basePrice": 54
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "dd4d5acb-27b5-4715-a36f-e7dbb580f3dd",
     "name": "StreamMatrix-251231-98KNS Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -1134,7 +1134,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "9cf8b471-2313-4e48-b47f-4bcd9f8bab45",
     "name": "StreamMatrix-260618-JAXNY Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -1143,7 +1143,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "ca972f5c-3b13-4d62-87c3-00ce34093207",
     "name": "StreamMatrix-241207-CZBWQ Bronze Basic",
     "status": "active",
     "versionId": "v3",
@@ -1152,7 +1152,7 @@
     "basePrice": 39
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "80481a8c-25df-4eff-993e-d0d520581dcd",
     "name": "StreamMatrix-261007-PHNYV Bronze Prime",
     "status": "active",
     "versionId": "v2",
@@ -1161,7 +1161,7 @@
     "basePrice": 40
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "a605e1e0-7fca-4d16-8519-2b12db17151f",
     "name": "StreamMatrix-250622-WX2PR Copper Essential",
     "status": "pending",
     "versionId": "v5",
@@ -1170,7 +1170,7 @@
     "basePrice": 34
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "c4fade2c-1ef8-4e79-8217-39c2c938bb9a",
     "name": "StreamMatrix-240316-XWCB5 Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -1179,7 +1179,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "986aa715-c833-4eba-b64f-c618573fc8df",
     "name": "StreamMatrix-250914-87FNN Palladium Prime",
     "status": "active",
     "versionId": "v3",
@@ -1188,7 +1188,7 @@
     "basePrice": 127
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "273d0ce6-56b6-40bb-bb55-a001d2e4d205",
     "name": "StreamMatrix-240613-8JNH5 Bronze Basic",
     "status": "active",
     "versionId": "v3",
@@ -1197,7 +1197,7 @@
     "basePrice": 39
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "9415ef80-cea2-4bb7-ba61-3df3bfc32420",
     "name": "StreamMatrix-230420-6P3FD Bronze Prime",
     "status": "active",
     "versionId": "v2",
@@ -1206,7 +1206,7 @@
     "basePrice": 40
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "84167147-a182-4020-bf2d-47f4e7cc4ce7",
     "name": "StreamMatrix-250625-SD8BF Bronze Standard",
     "status": "pending",
     "versionId": "v5",
@@ -1215,7 +1215,7 @@
     "basePrice": 40
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "76d39da3-c3bc-40be-8506-93e4739a8029",
     "name": "StreamMatrix-260622-WCAB4 Silver Premium",
     "status": "active",
     "versionId": "v4",
@@ -1224,7 +1224,7 @@
     "basePrice": 51
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "1a157118-0ef5-4455-8315-c25dd7db89fc",
     "name": "StreamMatrix-240614-9H6M6 Platinum Elite",
     "status": "active",
     "versionId": "v3",
@@ -1233,7 +1233,7 @@
     "basePrice": 82
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "f6aa9f70-b3ea-45cd-80d0-de884159539b",
     "name": "StreamMatrix-251124-2RSBQ Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -1242,7 +1242,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "271adc3f-cc32-481c-89d3-935037596be0",
     "name": "StreamMatrix-260601-AJFH9 Copper Prime",
     "status": "active",
     "versionId": "v2",
@@ -1251,7 +1251,7 @@
     "basePrice": 35
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "a67e6cf3-676e-40f4-af37-addcb75aa2c3",
     "name": "StreamMatrix-231001-YQWGQ Silver Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -1260,7 +1260,7 @@
     "basePrice": 54
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "7c260394-b6de-4da3-b6e0-be99cc56a08f",
     "name": "StreamMatrix-230327-WP8SA Silver Premium",
     "status": "active",
     "versionId": "v4",
@@ -1269,7 +1269,7 @@
     "basePrice": 51
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "b25b9db7-d368-42e2-9718-408a0d3aa564",
     "name": "StreamMatrix-261128-7PNFS Copper Plus",
     "status": "active",
     "versionId": "v3",
@@ -1278,7 +1278,7 @@
     "basePrice": 28
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "738397e8-37b3-4fba-b6e0-f2d2bfa3db9a",
     "name": "StreamMatrix-240102-SYMWN Palladium Ultra",
     "status": "active",
     "versionId": "v3",
@@ -1287,7 +1287,7 @@
     "basePrice": 168
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "9d6fa669-c1f3-490b-a0c7-fd59d9fbe9d2",
     "name": "StreamMatrix-250121-84K2Y Gold Ultimate",
     "status": "active",
     "versionId": "v2",
@@ -1296,7 +1296,7 @@
     "basePrice": 74
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "07a611e7-be6e-47e3-ad73-67610393c982",
     "name": "StreamMatrix-230510-S56ZH Bronze Standard",
     "status": "pending",
     "versionId": "v5",
@@ -1305,7 +1305,7 @@
     "basePrice": 40
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "2dedb9a0-2bbe-4528-88e2-7714c91b6217",
     "name": "StreamMatrix-270107-ABZJ4 Platinum Elite",
     "status": "active",
     "versionId": "v4",
@@ -1314,7 +1314,7 @@
     "basePrice": 92
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "feb4cfb0-003c-4a40-928b-4c7a65578871",
     "name": "StreamMatrix-260630-R8CXM Gold Max",
     "status": "active",
     "versionId": "v3",
@@ -1323,7 +1323,7 @@
     "basePrice": 61
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "db86c120-37ef-40f8-bf95-da6789d6d2a4",
     "name": "StreamMatrix-260420-SYWXQ Palladium Ultra",
     "status": "active",
     "versionId": "v3",
@@ -1332,7 +1332,7 @@
     "basePrice": 168
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "1bf9beef-0a98-46f5-924a-f2dc6d8c65b7",
     "name": "StreamMatrix-260804-BZPGS Nickel Xtra Lite",
     "status": "active",
     "versionId": "v2",
@@ -1341,7 +1341,7 @@
     "basePrice": 24
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "5b1fa078-129f-43c9-b4d0-2520a3f9dc8d",
     "name": "StreamMatrix-230426-B2PCH Platinum Plus",
     "status": "pending",
     "versionId": "v5",
@@ -1350,7 +1350,7 @@
     "basePrice": 98
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "3ef91bbe-2218-43cf-a647-574753ac5d8a",
     "name": "StreamMatrix-261112-9EBBQ Copper Plus",
     "status": "active",
     "versionId": "v4",
@@ -1359,7 +1359,7 @@
     "basePrice": 32
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "ade7374c-1c11-43de-8e82-2c461770abe1",
     "name": "StreamMatrix-230625-XJ8U5 Platinum Elite",
     "status": "active",
     "versionId": "v3",
@@ -1368,7 +1368,7 @@
     "basePrice": 82
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "3c08c7d6-17e1-49a8-a09f-f1132cdc612d",
     "name": "StreamMatrix-230407-87PQB Palladium Ultra",
     "status": "active",
     "versionId": "v3",
@@ -1377,7 +1377,7 @@
     "basePrice": 168
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "b6b1853e-2687-4d7c-9683-844a3ae1a9e4",
     "name": "StreamMatrix-230615-FTVGE Silver Prime Plus",
     "status": "active",
     "versionId": "v2",
@@ -1386,7 +1386,7 @@
     "basePrice": 55
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "d38ef789-8448-4936-8d2e-0f3ea0f4244b",
     "name": "StreamMatrix-271008-PAZPP Bronze Standard",
     "status": "pending",
     "versionId": "v5",
@@ -1395,7 +1395,7 @@
     "basePrice": 40
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "efd87cbf-cec0-4539-9d3e-29320c84aa7a",
     "name": "StreamMatrix-251111-X4F9Q Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -1404,7 +1404,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "5d085140-c105-4562-a016-5bf787dacc56",
     "name": "StreamMatrix-250905-UY8XD Silver Plus",
     "status": "active",
     "versionId": "v3",
@@ -1413,7 +1413,7 @@
     "basePrice": 45
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "ccd026d0-4973-4f87-8e7d-3d229a4e0a52",
     "name": "StreamMatrix-240112-HQHB3 Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -1422,7 +1422,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "487dae73-f298-4680-bc79-37876d8d591e",
     "name": "StreamMatrix-241212-3ZDJP Copper Prime",
     "status": "active",
     "versionId": "v2",
@@ -1431,7 +1431,7 @@
     "basePrice": 35
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "9a5a9f0d-132b-41f8-9d28-5e48f24a8860",
     "name": "StreamMatrix-230417-TP562 Nickel Lite",
     "status": "pending",
     "versionId": "v5",
@@ -1440,7 +1440,7 @@
     "basePrice": 23
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "d9b8c21a-ce6f-491d-8b13-dd9b7b9fadb0",
     "name": "StreamMatrix-230117-4M9V9 Nickel Minus",
     "status": "active",
     "versionId": "v4",
@@ -1449,7 +1449,7 @@
     "basePrice": 20
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "fe2041d4-77bc-4309-8b1e-fa39ec716a7a",
     "name": "StreamMatrix-260203-DEE2D Gold Max",
     "status": "active",
     "versionId": "v3",
@@ -1458,7 +1458,7 @@
     "basePrice": 61
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "302c040b-e486-4c39-9bfa-4f8454dc2db4",
     "name": "StreamMatrix-230714-2JDV7 Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -1467,7 +1467,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "0abcd314-8f14-4b6a-abf8-bb228106f2d8",
     "name": "StreamMatrix-241126-XMCAH Gold Ultimate",
     "status": "active",
     "versionId": "v2",
@@ -1476,7 +1476,7 @@
     "basePrice": 74
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "ed484f96-2b60-42cc-9328-941ebb7071d9",
     "name": "StreamMatrix-270117-FF3PF Gold Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -1485,7 +1485,7 @@
     "basePrice": 74
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "97f0a439-001f-42dd-8bd9-7468dc89768a",
     "name": "StreamMatrix-260715-B58DJ Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -1494,7 +1494,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "28116cbc-31de-40c7-9b84-5ddc25651f31",
     "name": "StreamMatrix-250918-6D3EE Gold Max",
     "status": "active",
     "versionId": "v3",
@@ -1503,7 +1503,7 @@
     "basePrice": 61
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "ba2f73bf-65e0-4826-b146-955d1502985f",
     "name": "StreamMatrix-231009-E8BNM Platinum Plus",
     "status": "active",
     "versionId": "v3",
@@ -1512,7 +1512,7 @@
     "basePrice": 92
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "68f99c62-68b0-4a08-8b2e-ff1af79677a0",
     "name": "StreamMatrix-270630-KWMB5 Platinum Ultra",
     "status": "active",
     "versionId": "v2",
@@ -1521,7 +1521,7 @@
     "basePrice": 98
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "a97e6c43-d7c1-4cb5-b176-3604280223e0",
     "name": "StreamMatrix-240604-8GS49 Copper Essential",
     "status": "pending",
     "versionId": "v5",
@@ -1530,7 +1530,7 @@
     "basePrice": 34
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "9ba5e05b-95e2-424a-ab04-df3ced3e2b3d",
     "name": "StreamMatrix-270609-7QM3V Platinum Elite",
     "status": "active",
     "versionId": "v4",
@@ -1539,7 +1539,7 @@
     "basePrice": 92
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "f9a34c12-c805-4551-b06d-e00573f4a6e1",
     "name": "StreamMatrix-270731-Q9CCG Nickel Minus",
     "status": "active",
     "versionId": "v3",
@@ -1548,7 +1548,7 @@
     "basePrice": 15
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "7b4f98e1-94ef-4cdd-b524-f0f1dced56d6",
     "name": "StreamMatrix-231118-RHDCR Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -1557,7 +1557,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "aa08aa37-44f4-41b2-9521-2f6ce4e088e5",
     "name": "StreamMatrix-230827-79SPW Silver Prime Plus",
     "status": "active",
     "versionId": "v2",
@@ -1566,7 +1566,7 @@
     "basePrice": 55
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "c04d3bbb-40b3-4ecd-ac87-81a781e75a61",
     "name": "StreamMatrix-270630-73826 Gold Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -1575,7 +1575,7 @@
     "basePrice": 74
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "c9ce3baa-6c06-41e6-aab0-a5be99f44a66",
     "name": "StreamMatrix-240520-K8AXA Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -1584,7 +1584,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "eb7cfe0b-a7f3-457c-a5bc-34b3e8ba7323",
     "name": "StreamMatrix-240913-5MD2U Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -1593,7 +1593,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "f5a25ebf-910c-4c23-b424-8c425f35d75c",
     "name": "StreamMatrix-250310-YSGNZ Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -1602,7 +1602,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "726d41f7-c115-4116-8f31-4503b684a5ab",
     "name": "StreamMatrix-240327-5CGAX Nickel Xtra Lite",
     "status": "active",
     "versionId": "v2",
@@ -1611,7 +1611,7 @@
     "basePrice": 24
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "6b5e24b0-a50e-43c6-8463-9eea5976bba1",
     "name": "StreamMatrix-250501-H4U75 Palladium Supreme",
     "status": "pending",
     "versionId": "v5",
@@ -1620,7 +1620,7 @@
     "basePrice": 194
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "e5f6c0bb-7d58-46a0-bb7a-12afce3e7369",
     "name": "StreamMatrix-260624-XMZXX Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -1629,7 +1629,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "38b52d01-7373-44f5-ab65-ccaa9e94a085",
     "name": "StreamMatrix-231122-BN566 Copper Plus",
     "status": "active",
     "versionId": "v3",
@@ -1638,7 +1638,7 @@
     "basePrice": 28
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "cfb59998-3d89-4333-a315-9e0ac1fe1b64",
     "name": "StreamMatrix-270617-H9NCA Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -1647,7 +1647,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "f229387e-e052-4fab-81e0-38af9b459f22",
     "name": "StreamMatrix-260811-4WVV3 Platinum Ultra",
     "status": "active",
     "versionId": "v2",
@@ -1656,7 +1656,7 @@
     "basePrice": 98
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "7cbb1fd8-44f8-435a-a899-1cd66a4a2a1e",
     "name": "StreamMatrix-231005-BWVVQ Rhodium Supreme Ultimate Ultra",
     "status": "pending",
     "versionId": "v5",
@@ -1665,7 +1665,7 @@
     "basePrice": 482
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "7d40750e-5d3c-4e6c-9b25-2f1c81712a17",
     "name": "StreamMatrix-231130-PP5XH Bronze Choice",
     "status": "active",
     "versionId": "v4",
@@ -1674,7 +1674,7 @@
     "basePrice": 39
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "f7adf6ec-429b-498c-92a5-fd435cc49dd3",
     "name": "StreamMatrix-231228-SDT3H Bronze Plus",
     "status": "active",
     "versionId": "v3",
@@ -1683,7 +1683,7 @@
     "basePrice": 37
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "35909722-6be9-4f22-bc75-7945c34985b0",
     "name": "StreamMatrix-230118-RXVSS Silver Basic",
     "status": "active",
     "versionId": "v3",
@@ -1692,7 +1692,7 @@
     "basePrice": 50
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "e3b3005c-164f-4e19-9f6d-07a3ee4f883a",
     "name": "StreamMatrix-250927-XUDTM Copper Prime",
     "status": "active",
     "versionId": "v2",
@@ -1701,7 +1701,7 @@
     "basePrice": 35
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "87ef20e9-e8be-40cb-964d-2b8aa24d0e93",
     "name": "StreamMatrix-230218-MVAFK Silver Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -1710,7 +1710,7 @@
     "basePrice": 54
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "4c24f2a1-c186-450b-a804-f4c4f8324328",
     "name": "StreamMatrix-261005-NSPYJ Nickel Minus",
     "status": "active",
     "versionId": "v4",
@@ -1719,7 +1719,7 @@
     "basePrice": 20
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "361c3fd7-f9ae-4bda-85b0-7b3b2aee4251",
     "name": "StreamMatrix-230403-VVG4A Gold Max",
     "status": "active",
     "versionId": "v3",
@@ -1728,7 +1728,7 @@
     "basePrice": 61
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "8eb0b456-f45e-462d-a9a3-684147a8febe",
     "name": "StreamMatrix-260722-TGBUE Gold Plus",
     "status": "active",
     "versionId": "v3",
@@ -1737,7 +1737,7 @@
     "basePrice": 69
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "1250584b-43f1-453e-b148-c53ff9de1b7e",
     "name": "StreamMatrix-261212-5PE8A Silver Prime Plus",
     "status": "active",
     "versionId": "v2",
@@ -1746,7 +1746,7 @@
     "basePrice": 55
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "1ca817c0-bb8e-45ac-a9f4-c8136c783d03",
     "name": "StreamMatrix-230907-ZVDN3 Gold Xtra",
     "status": "pending",
     "versionId": "v5",
@@ -1755,7 +1755,7 @@
     "basePrice": 74
   },
   {
-    "id": "848cdbd8-f54a-426a-8a55-b21ed138e207",
+    "id": "ce0d0695-12ae-4654-884a-a324e0824d72",
     "name": "StreamMatrix-250115-HYF5T Copper Plus",
     "status": "active",
     "versionId": "v4",
@@ -1764,7 +1764,7 @@
     "basePrice": 32
   },
   {
-    "id": "bb9c00aa-5aea-4a97-916c-354b68848cdb",
+    "id": "6b6a2349-80aa-4a74-9654-dfb6e36b45aa",
     "name": "StreamMatrix-250913-U5CQX Palladium Prime",
     "status": "active",
     "versionId": "v3",
@@ -1773,7 +1773,7 @@
     "basePrice": 127
   },
   {
-    "id": "6a0a55b2-1ed1-48e2-87ad-6c5cbb9c00aa",
+    "id": "6dbd1a1e-6860-4870-8589-5c08d604261d",
     "name": "StreamMatrix-240904-UUY3R Nickel Lite",
     "status": "active",
     "versionId": "v3",
@@ -1782,7 +1782,7 @@
     "basePrice": 20
   },
   {
-    "id": "97516c35-4b68-448c-9bd8-f54a226a0a55",
+    "id": "25492262-3be7-43f9-8326-1d179947ea50",
     "name": "StreamMatrix-260617-WCKBJ Copper Prime",
     "status": "active",
     "versionId": "v2",
@@ -1791,7 +1791,7 @@
     "basePrice": 35
   },
   {
-    "id": "38e207ad-6c5c-4b9c-80aa-5aea2a97516c",
+    "id": "baeb26cf-d801-471f-84c5-fdfea420dcd3",
     "name": "StreamMatrix-270307-KE2X2 Silver Xtra",
     "status": "pending",
     "versionId": "v5",

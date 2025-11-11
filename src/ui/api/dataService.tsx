@@ -65,7 +65,6 @@ export function createDataService(opts: DataServiceOptions) {
   }
 
   async function getPlansByIds(ids: string[]) {
-    console.log('Fetching plan data for IDs:', ids);
     return request<any[]>('/plans/query', {
       method: 'POST',
       body: JSON.stringify({ ids }),
@@ -80,7 +79,6 @@ export function createDataService(opts: DataServiceOptions) {
   }
 
   async function unlockPlans(ids: string[], user: string) {
-    console.log('Unlocking plans for IDs:', ids, 'by user:', user);
     return request<{ id: string; name: string }>(`/plans/unlock`, {
       method: 'POST',
       body: JSON.stringify({ ids, user }),
@@ -88,7 +86,6 @@ export function createDataService(opts: DataServiceOptions) {
   }
 
   async function createMasterJob(ids: string[], user: string) {
-    console.log('createMasterJob got ', ids, user);
     return request<{ id: string; name: string }>(`/jobs/master/create`, {
       method: 'POST',
       body: JSON.stringify({ ids, user }),

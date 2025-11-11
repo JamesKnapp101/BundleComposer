@@ -82,7 +82,6 @@ export function useUnlockPlansAndCancelMasterJob(opts: UseUnlockAndCancelMasterJ
     mutationKey: ['unlock-and-create-master-job'],
     mutationFn: async (vars: MutationVars) => {
       const { planIds, lockOwner, metadata, skipUnlock } = vars;
-      console.log('Unlock and cancel master job called with vars:', vars);
       if (![...planIds, '1']?.length) {
         throw new Error('No planIds provided.');
       }

@@ -3,11 +3,11 @@ import { randomUUID } from 'crypto';
 import Fastify from 'fastify';
 import { readFile } from 'fs/promises';
 import path from 'node:path';
-import type { Plan, PlanBundleLink } from 'src/schema';
 import { z } from 'zod';
 import type { Scenario } from '../lib/api/scenarioClient';
-import { clearState, getState } from './mocks/db';
+import { clearState } from './mocks/db';
 import { buildScenario } from './mocks/factories';
+import { registerMockResetRoute } from './mocks/reset';
 
 type PlanId = string;
 type JobId = string;
@@ -26,6 +26,7 @@ const app = Fastify({
 });
 
 await app.register(cors, { origin: true });
+registerMockResetRoute(app);
 
 function parseIntParam(v: unknown, fallback: number) {
   const n = Number(v);
@@ -72,55 +73,144 @@ export async function readJsonAt<T = unknown>(absPath: string): Promise<T> {
   return JSON.parse(txt) as T;
 }
 
-app.post('/api/mocks/reset', async (req, reply) => {
-  try {
-    const { mode = 'base' } = (req.body ?? {}) as { mode?: 'base' | 'alt' };
-    const fixturesDir = path.resolve(process.cwd(), 'src/server/mocks/fixtures');
+async function loadFixtures(mode: 'base' | 'alt' = 'base') {
+  const fixturesDir = path.resolve(process.cwd(), 'src/server/mocks/fixtures');
+  const files = {
+    plans: path.join(fixturesDir, `plans.${mode}.json`),
+    bundles: path.join(fixturesDir, `bundles.${mode}.json`),
+    channels: path.join(fixturesDir, `channels.${mode}.json`),
+    planBundles: path.join(fixturesDir, `planBundles.${mode}.json`),
+    planChannels: path.join(fixturesDir, `planChannels.${mode}.json`),
+    bundleChannels: path.join(fixturesDir, `bundleChannels.${mode}.json`),
+  };
 
-    const files = {
-      plans: path.join(fixturesDir, `plans.${mode}.json`),
-      planBundles: path.join(fixturesDir, `planBundles.${mode}.json`),
-      planChannels: path.join(fixturesDir, `planChannels.${mode}.json`),
-      bundles: path.join(fixturesDir, `bundles.${mode}.json`),
-      channels: path.join(fixturesDir, `channels.${mode}.json`),
-      bundleChannels: path.join(fixturesDir, `bundleChannels.${mode}.json`),
-    };
+  const [plans, bundles, channels, planBundles, planChannels, bundleChannels] = await Promise.all([
+    readJsonAt(files.plans),
+    readJsonAt(files.bundles),
+    readJsonAt(files.channels),
+    readJsonAt(files.planBundles).catch(() => []),
+    readJsonAt(files.planChannels).catch(() => []),
+    readJsonAt(files.bundleChannels).catch(() => []),
+  ]);
 
-    const plans: Plan[] = await readJsonAt(files.plans);
-    const planBundles: PlanBundleLink[] = await readJsonAt(files.planBundles);
+  return {
+    plans: plans as any[],
+    bundles: bundles as any[],
+    channels: channels as any[],
+    planBundles: planBundles as any[],
+    bundleChannels: bundleChannels as any[],
+    planChannels: planChannels as any[],
+  };
+}
 
-    const plansById = Object.fromEntries(plans.map((p: any) => [N(p.id), p]));
+// app.post('/api/mocks/reset', async (req, reply) => {
+//   try {
+//     const { mode = 'base' } = (req.body ?? {}) as { mode?: 'base' | 'alt' };
 
-    const orphans: string[] = [];
-    for (const r of planBundles) {
-      if (!plansById[N(r.planId)]) {
-        orphans.push(r.planId);
-      }
-    }
-    if (orphans.length) {
-      throw new Error(
-        `planBundles: missing plan ids: ${[...new Set(orphans)].slice(0, 10).join(', ')}${orphans.length > 10 ? ' …' : ''}`,
-      );
-    }
+//     const fixturesDir = path.resolve(process.cwd(), 'src/server/mocks/fixtures');
+//     const files = {
+//       plans: path.join(fixturesDir, `plans.${mode}.json`),
+//       bundles: path.join(fixturesDir, `bundles.${mode}.json`),
+//       channels: path.join(fixturesDir, `channels.${mode}.json`),
+//       planBundles: path.join(fixturesDir, `planBundles.${mode}.json`),
+//       planChannels: path.join(fixturesDir, `planChannels.${mode}.json`),
+//       bundleChannels: path.join(fixturesDir, `bundleChannels.${mode}.json`),
+//     };
 
-    return reply.send({ ok: true, mode });
-  } catch (err) {
-    return reply.status(400).send({ error: (err as Error).message });
+//     // Load everything
+//     const [plansRaw, bundlesRaw, channelsRaw, planBundlesRaw, planChannelsRaw, bundleChannelsRaw] =
+//       await Promise.all([
+//         readJsonAt<Plan[]>(files.plans),
+//         readJsonAt<Bundle[]>(files.bundles),
+//         readJsonAt<Channel[]>(files.channels),
+//         readJsonAt<PlanBundleLink[]>(files.planBundles).catch(() => []),
+//         readJsonAt<PlanChannelLink[]>(files.planChannels).catch(() => []),
+//         readJsonAt<BundleChannelLink[]>(files.bundleChannels).catch(() => []),
+//       ]);
+
+//     // Normalize entity ids (if needed)
+//     const plans = plansRaw.map((p) => ({ ...p, id: N(p.id) }));
+//     const bundles = bundlesRaw.map((b) => ({ ...b, id: N(b.id) }));
+//     const channels = channelsRaw.map((c) => ({ ...c, id: N(c.id) }));
+
+//     // Normalize FKs
+//     const planBundles = planBundlesRaw.map((r) => ({
+//       ...r,
+//       planId: N(r.planId),
+//       bundleId: N(r.bundleId),
+//     }));
+//     const planChannels = planChannelsRaw.map((r) => ({
+//       ...r,
+//       planId: N(r.planId),
+//       channelId: N(r.channelId),
+//     }));
+//     const bundleChannels = bundleChannelsRaw.map((r) => ({
+//       ...r,
+//       bundleId: N(r.bundleId),
+//       channelId: N(r.channelId),
+//     }));
+
+//     // Indexes
+//     const plansById = Object.fromEntries(plans.map((p) => [p.id, p]));
+//     const bundlesById = Object.fromEntries(bundles.map((b) => [b.id, b]));
+//     const channelsById = Object.fromEntries(channels.map((c) => [c.id, c]));
+
+//     // Validate referential integrity
+//     const errors: string[] = [];
+
+//     const missing = (label: string, id: string) => errors.push(`${label}: ${id}`);
+
+//     for (const r of planBundles) {
+//       if (!plansById[r.planId]) missing('planBundles.planId', r.planId);
+//       if (!bundlesById[r.bundleId]) missing('planBundles.bundleId', r.bundleId);
+//     }
+//     for (const r of planChannels) {
+//       if (!plansById[r.planId]) missing('planChannels.planId', r.planId);
+//       if (!channelsById[r.channelId]) missing('planChannels.channelId', r.channelId);
+//     }
+//     for (const r of bundleChannels) {
+//       if (!bundlesById[r.bundleId]) missing('bundleChannels.bundleId', r.bundleId);
+//       if (!channelsById[r.channelId]) missing('bundleChannels.channelId', r.channelId);
+//     }
+
+//     if (errors.length) {
+//       const uniq = Array.from(new Set(errors));
+//       const head = uniq.slice(0, 10).join(', ');
+//       throw new Error(`Fixture integrity error(s): ${head}${uniq.length > 10 ? ' …' : ''}`);
+//     }
+
+//     // All good → populate in-memory store atomically
+//     setState({ plans, bundles, channels, planBundles, bundleChannels, planChannels });
+
+//     // Optional: log counts for sanity
+//     req.log.info(
+//       {
+//         counts: {
+//           plans: plans.length,
+//           bundles: bundles.length,
+//           channels: channels.length,
+//           planBundles: planBundles.length,
+//           planChannels: planChannels.length,
+//           bundleChannels: bundleChannels.length,
+//         },
+//       },
+//       'mock state set',
+//     );
+
+//     return reply.send({ ok: true, mode });
+//   } catch (err) {
+//     req.log.error(err, 'reset failed');
+//     return reply.status(400).send({ error: (err as Error).message });
+//   }
+// });
+
+app.get('/api/mocks/state', async (req, reply) => {
+  if (!app.mockState) {
+    req.log.info('state empty; lazy-loading fixtures (base)');
+    const s = await loadFixtures('base');
+    app.mockState = s;
   }
-});
-
-app.get('/api/mocks/state', async () => {
-  const s = getState();
-  if (!s)
-    return {
-      plans: [],
-      bundles: [],
-      channels: [],
-      planBundles: [],
-      bundleChannels: [],
-      planChannels: [],
-    };
-  return s;
+  return reply.send(app.mockState);
 });
 
 app.post('/api/mocks/clear', async () => {
@@ -151,10 +241,8 @@ app.get('/users/:userId', async (req, reply) => {
 });
 
 app.post('/plans/query', async (req, reply) => {
-  console.log('Received plans query:', (req as any).body);
   const { ids } = PlansQuery.parse((req as any).body ?? {});
   const results = ['']; //ids.map((id) => plans.get(id)).filter(Boolean);
-  console.log('Plans query for IDs:', ids, 'Returning:', results);
   return results;
 });
 
@@ -187,7 +275,6 @@ app.post('/plans/unlock', async (req, reply) => {
 });
 
 app.post('/jobs/master/create', async (req, reply) => {
-  console.log('Did I get here at least?');
   return true;
 });
 
