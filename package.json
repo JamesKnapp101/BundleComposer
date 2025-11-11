@@ -11,10 +11,12 @@
     "gen:plans": "tsx scripts/generate-plans.ts --count=200 --seed=demo --out=src/server/mocks/fixtures/plans.base.json",
     "sanitize:plans": "tsx scripts/sanitize-plans.ts src/server/mocks/fixtures/plans.base.json --salt=v1",
     "regen:plans": "pnpm run gen:plans && pnpm run sanitize:plans",
-    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check .",
+    "build": "vite build"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,md}": [
