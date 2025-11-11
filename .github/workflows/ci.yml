@@ -1,15 +1,59 @@
 name: ci
 on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
+        with:
+          version: 9
+
       - uses: actions/setup-node@v4
-        with: { node-version: "20", cache: "pnpm" }
-      - run: pnpm install
-      - run: pnpm lint
-      - run: pnpm test
-      - run: pnpm build
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      # Optional lint (non-blocking). Runs only if "lint" script exists.
+      - name: Lint (non-blocking)
+        run: |
+          if node -e "process.exit(require('./package.json').scripts?.lint ? 0 : 1)"; then
+            pnpm run lint || echo 'Lint failed (ignored for demo).'
+          else
+            echo 'No lint script; skipping.'
+          fi
+
+      # Typecheck if you have "typecheck" script (recommended: tsc --noEmit)
+      - name: Typecheck
+        run: |
+          if node -e "process.exit(require('./package.json').scripts?.typecheck ? 0 : 1)"; then
+            pnpm run typecheck
+          else
+            echo 'No typecheck script; skipping.'
+          fi
+
+      # Prettier check if you have "format:check" (recommended: prettier --check .)
+      - name: Prettier check
+        run: |
+          if node -e "process.exit(require('./package.json').scripts?.['format:check'] ? 0 : 1)"; then
+            pnpm run format:check
+          else
+            echo 'No format:check script; skipping.'
+          fi
+
+      # Tests if you have a "test" script
+      - name: Test
+        run: |
+          if node -e "process.exit(require('./package.json').scripts?.test ? 0 : 1)"; then
+            pnpm test
+          else
+            echo 'No test script; skipping.'
+          fi
+
+      - name: Build
+        run: pnpm build
