@@ -1,4 +1,3 @@
-// eslint.config.cjs
 const js = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const react = require('eslint-plugin-react');
@@ -7,15 +6,15 @@ const jsxA11y = require('eslint-plugin-jsx-a11y');
 const globals = require('globals');
 
 module.exports = [
-  { ignores: ['dist/**', 'coverage/**', 'build/**'] },
+  { ignores: ['dist/**', 'build/**', 'coverage/**', 'node_modules/**'] },
 
-  // Base JS rules
+  // Base JS recommendations
   js.configs.recommended,
 
-  // TypeScript recommended (flat config)
+  // TypeScript (flat) recommendations
   ...tseslint.configs.recommended,
 
-  // Your project rules
+  // Project rules
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
@@ -24,23 +23,25 @@ module.exports = [
       globals: { ...globals.browser, ...globals.node },
       parser: tseslint.parser,
       parserOptions: {
-        // If you want type-aware rules, uncomment the next line and ensure tsconfig exists
-        // project: ['./tsconfig.json'],
         ecmaFeatures: { jsx: true },
+        // If you later enable type-aware lint rules:
+        // projectService: { allowDefaultProject: true },
+        // // or: project: ['./tsconfig.json'],
       },
     },
     plugins: {
-      '@typescript-eslint': tseslint.plugin,
       react,
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
     },
     settings: { react: { version: 'detect' } },
     rules: {
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
-      ...jsxA11y.configs.recommended.rules,
-      // add any project-specific overrides here
+      // sensible defaults without dragging in each plugin's preset
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'jsx-a11y/anchor-is-valid': 'warn',
     },
   },
 ];
