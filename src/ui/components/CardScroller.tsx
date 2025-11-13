@@ -10,7 +10,7 @@ export function CardScroller({ children, height = '46vh', className }: CardScrol
     <div
       className={[
         'rounded-2xl bg-white shadow-sm ring-1 ring-slate-200',
-        'overflow-auto [scrollbar-gutter:stable_both-edges]',
+        'overflow-auto [scrollbar-gutter:stable]',
         className ?? '',
       ].join(' ')}
       style={{ height }}

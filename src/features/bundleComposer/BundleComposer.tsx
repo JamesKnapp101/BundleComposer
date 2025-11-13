@@ -1,7 +1,6 @@
 import { TvMinimalPlay } from 'lucide-react';
 import { useEffect, useRef, useState, type PropsWithChildren } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import type { Dict } from 'src/schema';
 import { UpdateEditor } from '../../features/updateEditor/public';
 import { useSelectedPlansQuery } from '../../lib/hooks/useSelectedPlansQuery';
 import { cn } from '../../lib/utils/cn';
@@ -9,7 +8,6 @@ import { createDataService } from '../../ui/api/dataService';
 import styles from '../../ui/BundleComposer.module.scss';
 import { PageHeader } from '../../ui/components/PageHeader';
 import { Icon } from '../../ui/icons/Icon';
-import type { DraftsByJob, UpdateJob } from '../updateEditor/types';
 import BCCancelJobButton from './components/BCCancelJobButton';
 import BCSubmitButton from './components/BCSubmitButton';
 import { useDispatchConfirmCancelJob } from './components/confirmations/dispatchConfirmCancelJob';
@@ -18,28 +16,13 @@ import {
   useLockAndCreateMasterJob,
   useUnlockPlansAndCancelMasterJob,
 } from './hooks/useManageLockAndMasterJob';
+import { buildAllPayloads } from './utils/buildAllPayloads';
+import { serialize } from './utils/serialize';
+import { setQueryParam } from './utils/setQueryParam';
 
-export type PlanUpdateWizardChangeObjectAttributeObj = {
-  [objectType: string]: {
-    name?: string;
-    objectId?: string;
-    propName?: string;
-  };
-};
-
-export type PlanUpdateWizardChangeObj = {
-  index: number;
-  updateType: string;
-  name: string;
-  displayName: string;
-  attributeObj?: PlanUpdateWizardChangeObjectAttributeObj;
-  values?: Dict;
-};
-
-const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
+const BundleComposer: React.FC<PropsWithChildren<any>> = () => {
   const navigate = useNavigate();
   const formRef = useRef<any>({});
-  const domFormRef = useRef<HTMLFormElement>(null);
   const bypassConfirmationRef = useRef(false);
   const [unlockingPlans, setUnlockingPlans] = useState<boolean>();
   const [user, setUser] = useState<any>(null);
@@ -66,6 +49,7 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
   };
 
   const selectedPlansDataQuery = useSelectedPlansQuery(selectedIds);
+  const planIds = selectedPlansDataQuery?.plans?.map((plan) => plan.id).filter(Boolean) ?? [];
   console.log('selectedPlansDataQuery: ', selectedPlansDataQuery);
 
   useEffect(() => {
@@ -74,21 +58,15 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
     });
   }, []);
 
-  // This piece handles when the user attempts to leave the
-  // Plan Update Wizard before they submit their changes, blocking
-  // them with a confirmation modal before letting them proceed
-  const planIds = selectedPlansDataQuery?.plans?.map((plan) => plan.id).filter(Boolean) ?? [];
-
   const dispatchConfirmCancelJob = useDispatchConfirmCancelJob();
-
   useConfirmOnExit(
     navigate,
     (_nextLocation, proceed, reset) => {
       dispatchConfirmCancelJob({
-        planIds, // ← pass the actual ids
-        unlockPlansAndCancelMasterJob, // ← your mutation
-        proceed, // ← from useConfirmOnExit
-        reset, // ← optional, for Cancel path
+        planIds,
+        unlockPlansAndCancelMasterJob,
+        proceed,
+        reset,
         onError: (e) => console.error('Unlock/Cancel failed:', e),
       });
     },
@@ -97,64 +75,6 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
   );
 
   const { plans: selectedPlans } = useSelectedPlansQuery(planIds);
-
-  function parseJobsFromUrlParam(s: string | null): UpdateJob[] {
-    if (!s) return [];
-    try {
-      const arr = JSON.parse(decodeURIComponent(s));
-      // TODO: validate shape with zod if you like
-      return Array.isArray(arr) ? (arr as UpdateJob[]) : [];
-    } catch {
-      return [];
-    }
-  }
-
-  // simple serializer
-  function serialize(jobs: UpdateJob[]) {
-    return encodeURIComponent(JSON.stringify(jobs));
-  }
-
-  // setQueryParam helper
-  function setQueryParam(key: string, value: string) {
-    const url = new URL(window.location.href);
-    url.searchParams.set(key, value);
-    window.history.replaceState(null, '', url.toString());
-  }
-
-  // payload builder skeleton
-  function buildAllPayloads(jobs: UpdateJob[], draftsByJob: DraftsByJob) {
-    return jobs.map((job) => {
-      const space = draftsByJob[job.id] ?? { plan: {}, bundle: {}, channel: {} };
-      switch (job.type) {
-        case 'plan-properties':
-          return {
-            type: job.type,
-            planChanges: Object.entries(space.plan)
-              .filter(([planId]) => job.planIds.includes(planId))
-              .map(([planId, patch]) => ({ planId, patch })),
-          };
-        case 'plan-channels':
-          return {
-            type: job.type,
-            channelChanges: Object.entries(space.channel).map(([channelId, patch]) => ({
-              channelId,
-              patch,
-            })),
-          };
-        case 'plan-bundles':
-        case 'plan-bundle-properties':
-          return {
-            type: job.type,
-            bundleChanges: Object.entries(space.bundle).map(([bundleId, patch]) => ({
-              bundleId,
-              patch,
-            })),
-          };
-        default:
-          return { type: job.type };
-      }
-    });
-  }
 
   //if (!selectedPlansDataQuery) return <MessagedSpinner message={statusMsg.LOADING} />;
   if (lockAndMasterJobCreationResult.status !== 'success')
@@ -182,17 +102,12 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
               actions={
                 <>
                   <BCCancelJobButton />
-                  <BCSubmitButton
-                    formRef={formRef}
-                    domFormRef={domFormRef}
-                    bypassConfirmationRef={bypassConfirmationRef}
-                  />
+                  <BCSubmitButton formRef={formRef} />
                 </>
               }
             />
           </div>
         </div>
-
         <UpdateEditor
           selectedPlans={selectedPlans}
           initialJobs={[]} //jobsFromUrl}
@@ -200,11 +115,6 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = (props) => {
           onJobsChange={(jobs: any) => setQueryParam('jobs', serialize(jobs))}
           onBuildPayloads={(jobs: any, draftsByJob: any) => buildAllPayloads(jobs, draftsByJob)}
         />
-        {/* <BCPageContainer
-          selectedPlansDataQuery={selectedPlansDataQuery}
-          formRef={formRef}
-          domFormRef={domFormRef}
-        /> */}
       </main>
     );
 };

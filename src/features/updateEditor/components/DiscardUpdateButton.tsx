@@ -1,28 +1,25 @@
 import { RotateCcw } from 'lucide-react';
 import * as React from 'react';
+import { useDispatchConfirmDiscardAllChanges } from '../../../features/bundleComposer/components/confirmations/dispatchConfirmDiscardAllChanges';
 import { Button } from '../../../ui/inputs/Button';
 
-type DiscardUpdateButtonProps = {
+interface DiscardUpdateButtonProps {
   disabled?: boolean;
   onClick: () => void;
-  /** If true, shows a native confirm before discarding. Default: true */
-  confirm?: boolean;
   className?: string;
   'data-testid'?: string;
-};
+}
 
 export const DiscardUpdateButton: React.FC<DiscardUpdateButtonProps> = ({
   disabled,
   onClick,
-  confirm = true,
   className,
   'data-testid': testId = 'discard-update-button',
 }) => {
+  const dispatchConfirmDiscardAllChanges = useDispatchConfirmDiscardAllChanges(onClick);
   const handleClick = () => {
     if (disabled) return;
-    if (!confirm || window.confirm('Discard all unsaved changes for this update?')) {
-      onClick();
-    }
+    dispatchConfirmDiscardAllChanges();
   };
 
   return (

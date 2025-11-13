@@ -1,4 +1,4 @@
-export const planUpdateWizardFormID: string = 'plan-update-wizard-change-form';
+export const bundleComposerFormID: string = 'bundle-composer-change-form';
 export const updateTypes = {
   LOCAL_CHANNELS: 'Local Channels',
   PLAN_ATTRIBUTES: 'Plan Attributes',
@@ -6,13 +6,6 @@ export const updateTypes = {
   BUNDLE_ATTRIBUTES: 'Bundle Attributes',
   CHANNELS: 'Channels',
 };
-export const planUpdateWizardUpdateOptions: string[] = [
-  updateTypes.PLAN_ATTRIBUTES,
-  updateTypes.LOCAL_CHANNELS,
-  updateTypes.BUNDLE_CHANNELS,
-  updateTypes.BUNDLE_ATTRIBUTES,
-  updateTypes.CHANNELS,
-];
 export const updateTypeObjMap = {
   [updateTypes.LOCAL_CHANNELS]: 'localchannel',
   [updateTypes.PLAN_ATTRIBUTES]: 'plan',

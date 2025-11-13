@@ -14,15 +14,24 @@ export const TierSchema = z.enum([
 ]);
 export type Tier = z.infer<typeof TierSchema>;
 
+export const PriceModelSchema = z.enum(['Flat', 'Per-Bundle', 'Per-Channel', 'Hybrid']);
+export type PriceModel = z.infer<typeof PriceModelSchema>;
+
+export const PlanStatusSchema = z.enum(['Active', 'Inactive', 'Pending', 'Canceled']);
+export type PlanStatus = z.infer<typeof PlanStatusSchema>;
+
+export const BundleStatusSchema = z.enum(['Active', 'Inactive', 'Blocked', 'Canceled']);
+export type BundleStatus = z.infer<typeof BundleStatusSchema>;
+
 const Id = z.string().min(1);
 
 export const PlanSchema = z.object({
   id: Id,
   name: z.string(),
-  status: z.enum(['active', 'inactive', 'pending']).default('active'),
+  status: PlanStatusSchema,
   versionId: z.string(),
   planTier: TierSchema,
-  pricingModel: z.enum(['flat', 'per-bundle', 'per-channel', 'hybrid']).default('flat'),
+  pricingModel: PriceModelSchema,
   basePrice: z.number().nonnegative().default(0),
 });
 export type Plan = z.infer<typeof PlanSchema>;

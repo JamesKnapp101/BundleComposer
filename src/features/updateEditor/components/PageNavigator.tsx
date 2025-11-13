@@ -3,14 +3,14 @@ import * as React from 'react';
 import { cn } from '../../../lib/utils/cn';
 import { Button } from '../../../ui/inputs/Button';
 
-type PageNavigatorProps = {
-  current: number; // currentChangeIndex
-  total: number; // currentChangeArray.length
-  onChange: (nextIndex: number) => void; // replaces dispatch(...)
+interface PageNavigatorProps {
+  current: number;
+  total: number;
+  onChange: (nextIndex: number) => void;
   onSubmitWithValidation: () => Promise<boolean>;
-  maxVisibleButtons?: number; // default 7
+  maxVisibleButtons?: number;
   className?: string;
-};
+}
 
 export const PageNavigator: React.FC<PageNavigatorProps> = ({
   current,
@@ -40,7 +40,7 @@ export const PageNavigator: React.FC<PageNavigatorProps> = ({
   return (
     <div
       className={cn('flex items-center gap-1', className)}
-      data-testid="plan_update_wizard_plan_line_item_navigator-tray"
+      data-testid="bundle-composer-navigator-tray"
     >
       {/* First */}
       <Button

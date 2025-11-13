@@ -3,8 +3,9 @@ import { randomUUID } from 'crypto';
 import Fastify from 'fastify';
 import { readFile } from 'fs/promises';
 import path from 'node:path';
+import type { Bundle, Channel } from 'src/schema';
 import { z } from 'zod';
-import type { Scenario } from '../lib/api/scenarioClient';
+import { type Scenario } from '../lib/api/scenarioClient';
 import { clearState } from './mocks/db';
 import { buildScenario } from './mocks/factories';
 import { registerMockResetRoute } from './mocks/reset';
@@ -272,6 +273,152 @@ app.post('/plans/unlock', async (req, reply) => {
   // p.lockedAt = null;
   // p.version += 1;
   // return p;
+});
+
+app.get<{
+  Querystring: { planIds?: string };
+}>('/api/channels/planChannels', async (req, reply) => {
+  const { planIds } = req.query ?? {};
+  if (!planIds) return reply.code(400).send({ error: 'Missing planIds' });
+
+  const ids = Array.from(
+    new Set(
+      planIds
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean),
+    ),
+  );
+  if (!ids.length) return reply.code(400).send({ error: 'No valid planIds' });
+
+  const scenario = await loadFixtures('base');
+
+  // Indexes
+  const channelById = new Map(scenario.channels.map((c: Channel) => [c.id, c]));
+
+  const planToDirect: Map<string, { channelId: string; sortIndex: number }[]> = new Map();
+  for (const row of scenario.planChannels ?? []) {
+    if (!planToDirect.has(row.planId)) planToDirect.set(row.planId, []);
+    planToDirect.get(row.planId)!.push({ channelId: row.channelId, sortIndex: row.sortIndex ?? 0 });
+  }
+
+  const planToBundles: Map<string, { bundleId: string; sortIndex: number }[]> = new Map();
+  for (const pb of scenario.planBundles ?? []) {
+    if (!planToBundles.has(pb.planId)) planToBundles.set(pb.planId, []);
+    planToBundles.get(pb.planId)!.push({ bundleId: pb.bundleId, sortIndex: pb.sortIndex ?? 0 });
+  }
+
+  const bundleToChannels: Map<string, { channelId: string; sortIndex: number }[]> = new Map();
+  for (const bc of scenario.bundleChannels ?? []) {
+    if (!bundleToChannels.has(bc.bundleId)) bundleToChannels.set(bc.bundleId, []);
+    bundleToChannels
+      .get(bc.bundleId)!
+      .push({ channelId: bc.channelId, sortIndex: bc.sortIndex ?? 0 });
+  }
+
+  // Build result
+  const out: Record<string, Channel[]> = {};
+
+  for (const pid of ids) {
+    // 1) Direct planChannels (preserve order)
+    const direct = (planToDirect.get(pid) ?? [])
+      .slice()
+      .sort((a, b) => a.sortIndex - b.sortIndex)
+      .map((x) => channelById.get(x.channelId))
+      .filter(Boolean) as Channel[];
+
+    // 2) Fallback/augment via bundles → bundleChannels
+    let viaBundles: Channel[] = [];
+    if (!direct.length) {
+      const bundleRefs = (planToBundles.get(pid) ?? [])
+        .slice()
+        .sort((a, b) => a.sortIndex - b.sortIndex);
+      const seen = new Set<string>();
+      for (const { bundleId } of bundleRefs) {
+        const chRefs = (bundleToChannels.get(bundleId) ?? [])
+          .slice()
+          .sort((a, b) => a.sortIndex - b.sortIndex);
+        for (const { channelId } of chRefs) {
+          if (seen.has(channelId)) continue;
+          const ch = channelById.get(channelId);
+          if (ch) {
+            viaBundles.push(ch);
+            seen.add(channelId);
+          }
+        }
+      }
+    }
+
+    // Prefer direct if present; otherwise bundle-derived
+    out[pid] = direct.length ? direct : viaBundles;
+  }
+
+  req.log.info(
+    { requestCount: ids.length, first: ids[0], foundForFirst: out[ids[0]]?.length ?? 0 },
+    'planChannels lookup',
+  );
+
+  return reply.send(out);
+});
+
+app.get<{
+  Querystring: { planIds?: string };
+}>('/api/channels/planBundles', async (req, reply) => {
+  const { planIds } = req.query ?? {};
+  if (!planIds) return reply.code(400).send({ error: 'Missing planIds' });
+
+  const ids = Array.from(
+    new Set(
+      planIds
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean),
+    ),
+  );
+  if (!ids.length) return reply.code(400).send({ error: 'No valid planIds' });
+
+  const scenario = await loadFixtures('base');
+
+  // Indexes
+  const bundleById = new Map(scenario.bundles.map((bundle: Bundle) => [bundle.id, bundle]));
+
+  const planToDirect: Map<string, { bundleId: string; sortIndex: number }[]> = new Map();
+  for (const row of scenario.planBundles ?? []) {
+    if (!planToDirect.has(row.planId)) planToDirect.set(row.planId, []);
+    planToDirect.get(row.planId)!.push({ bundleId: row.bundleId, sortIndex: row.sortIndex ?? 0 });
+  }
+
+  const planToBundles: Map<string, { bundleId: string; sortIndex: number }[]> = new Map();
+  for (const pb of scenario.planBundles ?? []) {
+    if (!planToBundles.has(pb.planId)) planToBundles.set(pb.planId, []);
+    planToBundles.get(pb.planId)!.push({ bundleId: pb.bundleId, sortIndex: pb.sortIndex ?? 0 });
+  }
+
+  // const bundleToChannels: Map<string, { channelId: string; sortIndex: number }[]> = new Map();
+  // for (const bc of scenario.bundleChannels ?? []) {
+  //   if (!bundleToChannels.has(bc.bundleId)) bundleToChannels.set(bc.bundleId, []);
+  //   bundleToChannels
+  //     .get(bc.bundleId)!
+  //     .push({ channelId: bc.channelId, sortIndex: bc.sortIndex ?? 0 });
+  // }
+
+  // Build result
+  const out: Record<string, Bundle[]> = {};
+
+  for (const pid of ids) {
+    out[pid] = (planToDirect.get(pid) ?? [])
+      .slice()
+      .sort((a, b) => a.sortIndex - b.sortIndex)
+      .map((x) => bundleById.get(x.bundleId))
+      .filter(Boolean) as Bundle[];
+  }
+
+  req.log.info(
+    { requestCount: ids.length, first: ids[0], foundForFirst: out[ids[0]]?.length ?? 0 },
+    'planBundles lookup',
+  );
+
+  return reply.send(out);
 });
 
 app.post('/jobs/master/create', async (req, reply) => {

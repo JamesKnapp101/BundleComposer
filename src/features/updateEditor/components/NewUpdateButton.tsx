@@ -2,11 +2,11 @@ import { PlusCircle } from 'lucide-react';
 import * as React from 'react';
 import { Button } from '../../../ui/inputs/Button';
 
-type NewUpdateButtonProps = {
+interface NewUpdateButtonProps {
   onClick: () => void;
   className?: string;
   'data-testid'?: string;
-};
+}
 
 export const NewUpdateButton: React.FC<NewUpdateButtonProps> = ({
   onClick,

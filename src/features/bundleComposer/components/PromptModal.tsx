@@ -1,13 +1,13 @@
 import { AlertTriangle } from 'lucide-react';
 import React from 'react';
 
-type PromptModalProps = {
+interface PromptModalProps {
   heading?: string;
   message: string;
   disableClose?: boolean;
   footer?: React.ReactNode;
   IconComp?: React.ComponentType<{ className?: string; size?: number }>;
-};
+}
 
 export const PromptModal: React.FC<PromptModalProps> = ({
   heading = 'Confirm',

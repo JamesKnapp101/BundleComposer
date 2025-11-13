@@ -10,11 +10,10 @@ import {
   type SortingState,
 } from '@tanstack/react-table';
 import type { Plan, PlanRow } from 'src/schema';
-import '../../../../app/App.css';
-import data from '../../../../server/mocks/fixtures/plans.base.json';
-import { ListingLayout } from '../../../../ui/layouts/ListingLayout';
-import { Table } from '../../../../ui/table/Table';
-import { TableContainer } from '../../../../ui/table/TableContainer';
+import data from '../server/mocks/fixtures/plans.base.json';
+import { ListingLayout } from '../ui/layouts/ListingLayout';
+import { Table } from '../ui/table/Table';
+import { TableContainer } from '../ui/table/TableContainer';
 import { useLandingListPageColumns } from './hooks/useLandingListPageColumns';
 import LandingListPageHeader from './LandingListPageHeader';
 

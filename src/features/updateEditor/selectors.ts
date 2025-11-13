@@ -52,3 +52,11 @@ export const selectIsCurrentJobDirty = createSelector(
   (d) =>
     Object.keys(d.plan).length + Object.keys(d.bundle).length + Object.keys(d.channel).length > 0,
 );
+export const selectJobSpace = (state: RootState, jobId: string) =>
+  state.updateEditor.drafts.byJobId[jobId] ?? { plan: {}, bundle: {}, channel: {} };
+
+export const selectPlanDirty = (state: RootState, jobId: string, planId: string) =>
+  Boolean(selectJobSpace(state, jobId).plan[planId]);
+
+export const selectChannelDirty = (state: RootState, jobId: string, channelId: string) =>
+  Boolean(selectJobSpace(state, jobId).channel[channelId]);

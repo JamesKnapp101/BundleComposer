@@ -3,27 +3,20 @@ import { Button } from '../../../ui/inputs/Button';
 
 interface BCSubmitButtonProps {
   formRef: RefObject<any>;
-  domFormRef: RefObject<any>;
-  bypassConfirmationRef: RefObject<boolean>;
 }
 
-const BCSubmitButton: React.FC<BCSubmitButtonProps> = ({
-  formRef,
-  domFormRef,
-  bypassConfirmationRef,
-}) => {
+const BCSubmitButton: React.FC<BCSubmitButtonProps> = ({ formRef }) => {
   return (
     <Button
-      id="plan-update-wizard-submit-changes-button"
-      data-testid="plan-update-wizard-submit-changes-button"
+      id="bundle-composer-submit-changes-button"
+      data-testid="bundle-composer-submit-changes-button"
       title="Submit Updates"
       type="button"
       onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
         await formRef.current?.submit();
       }}
     >
-      {' '}
-      Submit Updates
+      {'Submit Updates'}
     </Button>
   );
 };

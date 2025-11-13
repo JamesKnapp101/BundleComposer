@@ -8,35 +8,8 @@ import {
 import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '../../../lib/utils/cn';
-
-// ---- Types from updateEditor ----
-export const UpdateType = {
-  PlanProperties: 'plan-properties',
-  PlanChannels: 'plan-channels',
-  PlanBundles: 'plan-bundles',
-  PlanBundleProperties: 'plan-bundle-properties',
-} as const;
-export type UpdateType = (typeof UpdateType)[keyof typeof UpdateType];
-
-export type UpdateArgs =
-  | { type: typeof UpdateType.PlanProperties; planPropertyKeys?: string[] }
-  | {
-      type: typeof UpdateType.PlanChannels;
-      channelIds?: string[];
-      scope?: 'all' | 'local' | 'non-local';
-    }
-  | { type: typeof UpdateType.PlanBundles; bundleIds?: string[]; mode?: 'add' | 'remove' | 'edit' }
-  | { type: typeof UpdateType.PlanBundleProperties; bundleIds?: string[]; propertyKeys?: string[] };
-
-export type UpdateJob = {
-  id: string;
-  type: UpdateType;
-  args: UpdateArgs;
-  planIds: string[];
-  status: 'draft' | 'ready' | 'submitted';
-  createdAt: number;
-  // optional: displayName?: string; // add to your job if you want custom labels
-};
+import { UpdateType, type UpdateJob } from '../types';
+import { labelForType } from '../utils/labelForType';
 
 export interface PagePickerProps {
   jobs: UpdateJob[];
@@ -45,22 +18,6 @@ export interface PagePickerProps {
   onSubmitWithValidation: () => Promise<boolean>;
   className?: string;
   'data-testid'?: string;
-}
-
-// Label helpers
-function labelForType(t: UpdateType): string {
-  switch (t) {
-    case UpdateType.PlanProperties:
-      return 'Plan Properties';
-    case UpdateType.PlanChannels:
-      return 'Plan Channels';
-    case UpdateType.PlanBundles:
-      return 'Plan Bundles';
-    case UpdateType.PlanBundleProperties:
-      return 'Bundle Properties';
-    default:
-      return 'Update';
-  }
 }
 
 function summarizeJob(job: UpdateJob): string {

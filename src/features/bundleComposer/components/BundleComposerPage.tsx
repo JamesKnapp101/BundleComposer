@@ -2,17 +2,19 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import type { Plan } from 'src/schema';
+import { selectCurrentJob } from '../../../features/updateEditor/selectors';
 import { useSelectedPlansQuery } from '../../../lib/hooks';
 import { Button } from '../../../ui/inputs/Button';
 import { clearAll, clearDraft, upsertDraft } from '../store/draftSlice';
 import type { RootState } from '../store/store';
-import { PlanVirtualList } from './PlanVirtualList';
+import { PlanVirtualList } from '../virtualTable/PlanVirtualList';
 
 export default function BundleComposerPage() {
   const [sp] = useSearchParams();
   const ids = useMemo(() => (sp.get('plans') ?? '').split(',').filter(Boolean), [sp]);
 
   const { plans } = useSelectedPlansQuery(ids);
+  const currentJob = useSelector(selectCurrentJob);
   const dispatch = useDispatch();
   const patches = useSelector((s: RootState) => s.drafts.plan);
 
@@ -28,6 +30,18 @@ export default function BundleComposerPage() {
           id,
           patch,
           type: 'plan',
+        }),
+      ),
+    [dispatch],
+  );
+
+  const onChangeChannel = useCallback(
+    (id: string, patch: Partial<Plan>) =>
+      dispatch(
+        upsertDraft({
+          id,
+          patch,
+          type: 'channel',
         }),
       ),
     [dispatch],
@@ -72,9 +86,9 @@ export default function BundleComposerPage() {
 
       <PlanVirtualList
         plans={plans}
-        patches={patches}
         onChangePlan={onChangePlan}
-        onDiscard={onDiscard}
+        onChangeChannel={onChangeChannel}
+        currentJob={currentJob}
       />
     </div>
   );

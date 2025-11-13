@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-
-// updateEditor slice + selectors
+import { useAppDispatch, useAppSelector } from '../../../features/bundleComposer/store/hooks';
 import {
   makeSelectIsJobDirty,
   selectCurrentJob,
@@ -8,25 +7,26 @@ import {
   selectJobs,
 } from '../../../features/updateEditor/selectors';
 import {
+  UpdateType,
+  type DraftsByJob,
+  type EditorPhase,
+  type UpdateArgs,
+  type UpdateJob,
+} from '../../../features/updateEditor/types';
+import type { Channel as AppChannel, Bundle, Plan } from '../../../schema';
+import { CardScroller } from '../../../ui/components/CardScroller';
+import { PlanVirtualList } from '../../bundleComposer/virtualTable/PlanVirtualList';
+import {
   addJob,
+  clearBundleDraft,
+  clearChannelDraft,
   clearJobDrafts,
+  clearPlanDraft,
+  patchBundleField,
+  patchChannelField,
   patchPlanField,
   setCurrentJobIndex,
-} from '../../../features/updateEditor/updateEditorSlice';
-
-// shared types
-import type {
-  EditorPhase,
-  UpdateArgs,
-  UpdateJob,
-  UpdateType,
-} from '../../../features/updateEditor/types';
-
-// child components (assumed to exist)
-import type { Plan } from 'src/schema';
-import { PlanVirtualList } from '../../../features/bundleComposer/components/PlanVirtualList';
-import { useAppDispatch, useAppSelector } from '../../../features/bundleComposer/store/hooks';
-import { CardScroller } from '../../../ui/components/CardScroller';
+} from '../updateEditorSlice';
 import { DiscardUpdateButton } from './DiscardUpdateButton';
 import { JobBar } from './JobBar';
 import { NewUpdateButton } from './NewUpdateButton';
@@ -34,41 +34,23 @@ import { PageNavigator } from './PageNavigator';
 import { PagePicker } from './PagePicker';
 import { SelectionRow } from './SelectionRow';
 
-/* ---------- Props ---------- */
-
-type DraftsByJob = {
-  [jobId: string]: {
-    plan: Record<string, Partial<Plan>>;
-    bundle: Record<string, any>;
-    channel: Record<string, any>;
-  };
-};
-
-type UpdateEditorProps = {
-  // Accept either a raw array or the hook’s { plans } shape
+interface UpdateEditorProps {
   selectedPlans: Plan[] | { plans: Plan[] };
-
-  // URL/state sync hooks (optional)
   initialJobs?: UpdateJob[];
   onChangeActiveJob?: (index: number) => void;
   onJobsChange?: (jobs: UpdateJob[]) => void;
   onBuildPayloads?: (jobs: UpdateJob[], drafts: DraftsByJob) => unknown;
-
-  // Validation hook before page/job transitions (optional)
   onSubmitWithValidation?: () => Promise<boolean>;
-};
+}
 
-/* ---------- Component ---------- */
-
-export function UpdateEditor({
+export const UpdateEditor = ({
   selectedPlans,
   initialJobs,
   onChangeActiveJob,
   onJobsChange,
-  onBuildPayloads, // available for your Submit flow if needed
+  onBuildPayloads,
   onSubmitWithValidation,
-}: UpdateEditorProps) {
-  // Normalize selectedPlans prop
+}: UpdateEditorProps) => {
   const plansArray: Plan[] = Array.isArray(selectedPlans) ? selectedPlans : selectedPlans.plans;
 
   const dispatch = useAppDispatch();
@@ -94,7 +76,6 @@ export function UpdateEditor({
     return true;
   }, [onSubmitWithValidation]);
 
-  /* ---------- Hydrate from initialJobs ---------- */
   useEffect(() => {
     if (!initialJobs?.length) return;
     // Push each job to the slice (id, type, args, planIds are assumed valid)
@@ -103,7 +84,6 @@ export function UpdateEditor({
     if (initialJobs.length > 0) setPhase('edit');
   }, [dispatch, initialJobs]);
 
-  /* ---------- Notify shell for URL syncing ---------- */
   useEffect(() => {
     onJobsChange?.(jobs);
   }, [jobs, onJobsChange]);
@@ -111,8 +91,6 @@ export function UpdateEditor({
   useEffect(() => {
     onChangeActiveJob?.(currentIdx);
   }, [currentIdx, onChangeActiveJob]);
-
-  /* ---------- Selection/config flow ---------- */
 
   const onTypePicked = (t: UpdateType) => {
     setJob({
@@ -145,15 +123,11 @@ export function UpdateEditor({
     setJob(null);
   };
 
-  /* ---------- Navigation between committed jobs ---------- */
-
   const handleNavChange = async (nextIndex: number) => {
     const ok = await validate();
     if (!ok) return;
     dispatch(setCurrentJobIndex(nextIndex));
   };
-
-  /* ---------- Page actions ---------- */
 
   const handleDiscardCurrent = async () => {
     if (!currentJob) return;
@@ -161,8 +135,6 @@ export function UpdateEditor({
     if (!ok) return;
     dispatch(clearJobDrafts({ jobId: currentJob.id }));
   };
-
-  /* ---------- Render ---------- */
 
   return (
     <div className="flex flex-col gap-3 mr-5 ml-5">
@@ -200,26 +172,108 @@ export function UpdateEditor({
             />
           </div>
           <CardScroller height="77vh">
-            <PlanVirtualList
-              plans={plansArray}
-              currentJob={currentJob}
-              onChangePlan={(planId, patch) => {
-                // explode the patch into per-field actions if needed
-                for (const [field, value] of Object.entries(patch)) {
-                  dispatch(
-                    patchPlanField({
-                      jobId: currentJob.id,
-                      planId,
-                      field: field as keyof Plan,
-                      value,
-                    }),
-                  );
-                }
-              }}
-              onDiscardPlan={(planId) => {
-                // dispatch(clearPlanDraft({ jobId: currentJob.id, planId }));
-              }}
-            />
+            {currentJob.type === UpdateType.PlanProperties ||
+            currentJob.type === UpdateType.PlanChannels ? (
+              <PlanVirtualList
+                plans={plansArray}
+                currentJob={currentJob}
+                onChangePlan={(planId, patch) => {
+                  for (const [field, value] of Object.entries(patch)) {
+                    dispatch(
+                      patchPlanField({
+                        jobId: currentJob.id,
+                        planId,
+                        field: field as keyof Plan,
+                        value,
+                      }),
+                    );
+                  }
+                }}
+                // onChangeBundle={(bundleId, patch) => {
+                //   for (const [field, value] of Object.entries(patch)) {
+                //     dispatch(
+                //       patchBundleField({
+                //         jobId: currentJob.id,
+                //         bundleId,
+                //         field: field as keyof Bundle,
+                //         value,
+                //       }),
+                //     );
+                //   }
+                // }}
+                onChangeChannel={(channelId, patch) => {
+                  for (const [field, value] of Object.entries(patch)) {
+                    dispatch(
+                      patchChannelField({
+                        jobId: currentJob.id,
+                        channelId,
+                        field: field as keyof Omit<AppChannel, 'id'>,
+                        value,
+                      }),
+                    );
+                  }
+                }}
+                onDiscardPlan={(planId) => {
+                  dispatch(clearPlanDraft({ jobId: currentJob.id, planId }));
+                }}
+                // onDiscardBundle={(bundleId) => {
+                //   dispatch(clearBundleDraft({ jobId: currentJob.id, bundleId }));
+                // }}
+                onDiscardChannel={(channelId) => {
+                  dispatch(clearChannelDraft({ jobId: currentJob.id, channelId }));
+                }}
+              />
+            ) : (
+              <PlanVirtualList
+                plans={plansArray}
+                currentJob={currentJob}
+                // onChangePlan={(planId, patch) => {
+                //   for (const [field, value] of Object.entries(patch)) {
+                //     dispatch(
+                //       patchPlanField({
+                //         jobId: currentJob.id,
+                //         planId,
+                //         field: field as keyof Plan,
+                //         value,
+                //       }),
+                //     );
+                //   }
+                // }}
+                onChangeBundle={(bundleId, patch) => {
+                  for (const [field, value] of Object.entries(patch)) {
+                    dispatch(
+                      patchBundleField({
+                        jobId: currentJob.id,
+                        bundleId,
+                        field: field as keyof Bundle,
+                        value,
+                      }),
+                    );
+                  }
+                }}
+                onChangeChannel={(channelId, patch) => {
+                  for (const [field, value] of Object.entries(patch)) {
+                    dispatch(
+                      patchChannelField({
+                        jobId: currentJob.id,
+                        channelId,
+                        field: field as keyof Omit<AppChannel, 'id'>,
+                        value,
+                      }),
+                    );
+                  }
+                }}
+                // onDiscardPlan={(planId) => {
+                //   dispatch(clearPlanDraft({ jobId: currentJob.id, planId }));
+                // }}
+                onDiscardBundle={(bundleId) => {
+                  dispatch(clearBundleDraft({ jobId: currentJob.id, bundleId }));
+                }}
+                onDiscardChannel={(channelId) => {
+                  dispatch(clearChannelDraft({ jobId: currentJob.id, channelId }));
+                }}
+              />
+            )}
           </CardScroller>
           <div className="flex items-center justify-end gap-2">
             <DiscardUpdateButton disabled={!isCurrentJobDirty} onClick={handleDiscardCurrent} />
@@ -234,4 +288,4 @@ export function UpdateEditor({
       )}
     </div>
   );
-}
+};

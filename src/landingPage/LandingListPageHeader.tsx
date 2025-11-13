@@ -1,8 +1,8 @@
 import { LayoutList, Loader2, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { Plan } from 'src/schema';
-import { cn } from '../../../../lib/utils/cn';
-import { useLockAndCreateMasterJob } from '../../hooks/useManageLockAndMasterJob';
+import { useLockAndCreateMasterJob } from '../features/bundleComposer/hooks/useManageLockAndMasterJob';
+import { cn } from '../lib/utils/cn';
 
 type LandingListPageHeaderProps = { selectedRows: Plan[] };
 

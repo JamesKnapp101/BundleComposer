@@ -5,9 +5,9 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner';
 import App from './app/App';
 import BundleComposer from './features/bundleComposer/BundleComposer';
-import LandingListPage from './features/bundleComposer/pages/LandingPage/LandingListPage';
 import { store } from './features/bundleComposer/store/store';
 import './index.css';
+import LandingListPage from './landingPage/LandingListPage';
 import { ensureScenarioInitialized } from './lib/mockBootstrap';
 
 const router = createBrowserRouter([
