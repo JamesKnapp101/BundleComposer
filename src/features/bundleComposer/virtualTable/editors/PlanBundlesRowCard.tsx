@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronRight, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import * as React from 'react';
 import { useState } from 'react';
 import type { Bundle, Dict, Plan } from 'src/schema';
@@ -14,12 +14,18 @@ type PartialBundle = Partial<Bundle>;
 interface Props {
   plan: Plan & Record<string, unknown>;
   bundles: (Bundle & Record<string, unknown>)[];
-  dirtyBundles?: Dict;
+  dirtyBundles?: Dict; // linkKey -> dirty
   bundleFieldDirty: Record<string, Set<string>>;
   bundleFieldsToShow: string[];
+  removedBundleIdsByPlanId?: Record<string, string[]>;
+
   onDiscardPlan?: (planId: string) => void;
-  onChangeBundle: (bundleId: ID, patch: PartialBundle) => void;
-  onDiscardBundle?: (bundleId: ID) => void;
+  onChangeBundle: (bundleLinkKey: ID, patch: PartialBundle) => void;
+  onDiscardBundle?: (bundleLinkKey: ID) => void;
+
+  onAddBundleToPlan?: (planId: string, bundleId: string) => void;
+  onRemoveBundleFromPlan?: (planId: string, bundleId: string) => void;
+  onOpenBundlePicker?: (planId: string) => void;
 }
 
 export const PlanBundlesRowCard: React.FC<Props> = ({
@@ -28,25 +34,39 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
   dirtyBundles = {},
   bundleFieldDirty,
   bundleFieldsToShow,
+  removedBundleIdsByPlanId,
   onDiscardPlan,
   onChangeBundle,
   onDiscardBundle,
+  onAddBundleToPlan,
+  onRemoveBundleFromPlan,
+  onOpenBundlePicker,
 }) => {
   const [open, setOpen] = useState(true);
-  const isBundleFieldDirty = (bid: string, field: keyof Bundle) =>
-    bundleFieldDirty?.[bid]?.has(field as string) ?? false;
+  console.log('onOpenBundlePicker: ', onOpenBundlePicker);
+  console.log('onAddBundleToPlan: ', onAddBundleToPlan);
+
+  const isBundleFieldDirty = (linkKey: string, field: keyof Bundle) =>
+    bundleFieldDirty?.[linkKey]?.has(field as string) ?? false;
+
+  const removedIdsForPlan = removedBundleIdsByPlanId?.[plan.id] ?? [];
+  const isBundleRemoved = (bundleId: string) => removedIdsForPlan.includes(bundleId);
+
   const anyDirty = dirtyBundles && Object.values(dirtyBundles).some(Boolean);
+  const anyRemoved = bundles.some((b) => isBundleRemoved(b.id));
 
   return (
     <div
       className={cn(
         'relative isolate my-2 mx-2 rounded-xl border bg-white shadow-sm',
         anyDirty && 'ring-2 ring-amber-400/80 ring-offset-2 ring-offset-white',
+        anyRemoved && 'border-red-300',
       )}
     >
       {/* Header */}
       <div className="flex items-center justify-between rounded-t-xl bg-slate-200 px-4 py-2">
         <button
+          type="button"
           className="inline-flex items-center gap-2 text-left"
           onClick={() => setOpen((o) => !o)}
         >
@@ -61,6 +81,20 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
         </button>
 
         <div className="flex items-center gap-2">
+          {/* Add from catalog */}
+          {onOpenBundlePicker && onAddBundleToPlan && (
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="inline-flex items-center gap-1"
+              onClick={() => onOpenBundlePicker(plan.id)}
+            >
+              <Plus className="h-3 w-3" />
+              <span>Add bundles from catalog</span>
+            </Button>
+          )}
+
           {onDiscardPlan && dirtyBundles && (
             <Button variant="ghost" size="sm" onClick={() => onDiscardPlan(plan.id)}>
               Discard Plan
@@ -71,38 +105,78 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
 
       {open && (
         <div className="border-t">
-          {/* Optional header strip */}
           <div className="px-4 py-2 text-sm text-slate-600 border-b bg-slate-50">
-            Channels associated with this plan
+            Bundles associated with this plan
           </div>
 
           <div role="list" className="divide-y">
             {bundles.length === 0 && (
-              <div className="px-4 py-6 text-sm text-slate-500">No channels linked.</div>
+              <div className="px-4 py-6 text-sm text-slate-500">No bundles linked.</div>
             )}
 
-            {bundles.map((bundle) => {
-              const isDirty = !!dirtyBundles[bundle.id];
+            {bundles.map((bundle, sortIndex) => {
+              const linkKey = `${plan.id}:${bundle.id}:${sortIndex}`;
+              const isDirty = !!dirtyBundles[linkKey];
+              const removed = isBundleRemoved(bundle.id);
+
               return (
-                <div key={bundle.id} role="listitem" className="px-4 py-3">
+                <div
+                  key={linkKey}
+                  role="listitem"
+                  className={cn(
+                    'px-4 py-3 rounded-md',
+                    removed && 'border border-red-300 bg-red-50/60',
+                  )}
+                >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-start gap-2">
+                      {/* trash / undo icon in upper-left */}
+                      {(onRemoveBundleFromPlan || onAddBundleToPlan) && (
+                        <button
+                          type="button"
+                          aria-label={
+                            removed ? 'Restore bundle to plan' : 'Remove bundle from plan'
+                          }
+                          className="mt-0.5 rounded-full p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                          onClick={() => {
+                            if (removed) {
+                              onAddBundleToPlan?.(plan.id, bundle.id);
+                            } else {
+                              onRemoveBundleFromPlan?.(plan.id, bundle.id);
+                            }
+                          }}
+                        >
+                          {removed ? (
+                            <RotateCcw className="h-4 w-4 text-red-600" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                        </button>
+                      )}
+
                       <span className="font-medium">{bundle.name}</span>
                       <span className="text-xs text-slate-500">
                         #{String(bundle.id).slice(0, 8)}
                       </span>
-                      {isDirty && (
+
+                      {removed && (
+                        <span className="ml-1 rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-700">
+                          removed
+                        </span>
+                      )}
+
+                      {isDirty && !removed && (
                         <span className="ml-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
                           dirty
                         </span>
                       )}
                     </div>
 
-                    {onDiscardBundle && isDirty && (
+                    {onDiscardBundle && isDirty && !removed && (
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => onDiscardBundle?.(bundle.id)}
+                        onClick={() => onDiscardBundle?.(linkKey)}
                         className="shrink-0"
                       >
                         Discard
@@ -110,73 +184,74 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                     )}
                   </div>
 
-                  {/* Editable fields for the channel */}
+                  {/* Editable fields */}
                   <div className="mt-3 grid gap-3 md:grid-cols-3">
                     {bundleFieldsToShow.includes('name') && (
                       <Labeled label="Bundle Name">
                         <Input
                           type="text"
                           value={(bundle.name as string | undefined) ?? ''}
-                          onChange={(e) =>
-                            onChangeBundle(bundle.id, { name: e.target.value || '' })
-                          }
+                          onChange={(e) => onChangeBundle(linkKey, { name: e.target.value || '' })}
                           placeholder="Bundle Name"
                           className={cn(
-                            isBundleFieldDirty(bundle.id, 'name') &&
+                            isBundleFieldDirty(linkKey, 'name') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
                         />
                       </Labeled>
                     )}
+
                     {bundleFieldsToShow.includes('description') && (
                       <Labeled label="Bundle Description">
                         <Input
                           type="text"
                           value={(bundle.description as string | undefined) ?? ''}
                           onChange={(e) =>
-                            onChangeBundle(bundle.id, { description: e.target.value || '' })
+                            onChangeBundle(linkKey, { description: e.target.value || '' })
                           }
                           placeholder="Bundle Description"
                           className={cn(
-                            isBundleFieldDirty(bundle.id, 'description') &&
+                            isBundleFieldDirty(linkKey, 'description') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
                         />
                       </Labeled>
                     )}
+
                     {bundleFieldsToShow.includes('basePrice') && (
                       <Labeled label="Base Price">
                         <Input
                           type="number"
-                          value={(bundle.price as number | undefined) ?? 0}
+                          value={(bundle.basePrice as number | undefined) ?? 0}
                           onChange={(e) =>
-                            onChangeBundle(bundle.id, {
+                            onChangeBundle(linkKey, {
                               basePrice: Number((e.target.value ?? '0') || 0),
                             })
                           }
                           placeholder="Base Price"
                           className={cn(
-                            isBundleFieldDirty(bundle.id, 'basePrice') &&
+                            isBundleFieldDirty(linkKey, 'basePrice') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
                         />
                       </Labeled>
                     )}
+
                     {bundleFieldsToShow.includes('isActive') && (
                       <Labeled label="Active?">
                         <div
                           className={cn(
-                            isBundleFieldDirty(bundle.id, 'isActive') &&
+                            isBundleFieldDirty(linkKey, 'isActive') &&
                               'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
                           )}
                         >
                           <Toggle
-                            id={`is-local-${bundle.id}`}
+                            id={`is-active-${linkKey}`}
                             size="md"
                             labelLeft="No"
                             labelRight="Yes"
                             checked={Boolean(bundle.isActive)}
-                            onChange={(next) => onChangeBundle(bundle.id, { isActive: next })}
+                            onChange={(next) => onChangeBundle(linkKey, { isActive: next })}
                           />
                         </div>
                       </Labeled>

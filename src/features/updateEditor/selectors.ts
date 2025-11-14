@@ -1,6 +1,7 @@
 // src/features/updateEditor/selectors.ts
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '../../features/bundleComposer/store/store';
+import type { UpdateArgs } from './types';
 
 // Base slice
 export const selectUpdateEditor = (s: RootState) => s.updateEditor;
@@ -25,17 +26,46 @@ export const makeSelectDraftsForJob = (jobId: string) =>
     (ue) => ue.drafts.byJobId[jobId] ?? { plan: {}, bundle: {}, channel: {} },
   );
 
+// tiny helper – any non-empty arrays in the map?
+const hasNonEmptyMap = (map?: Record<string, string[]>): boolean =>
+  !!map && Object.values(map).some((arr) => arr.length > 0);
+
 // Is a given job dirty? (factory selector)
 export const makeSelectIsJobDirty = (jobId: string) =>
   createSelector([selectUpdateEditor], (ue) => {
     const space = ue.drafts.byJobId[jobId];
-    if (!space) return false;
-    return (
+    const job = ue.jobs.find((j) => j.id === jobId);
+
+    // No drafts and no job? definitely not dirty
+    if (!space && !job) return false;
+
+    const hasDraftFields =
+      !!space &&
       Object.keys(space.plan).length +
         Object.keys(space.bundle).length +
         Object.keys(space.channel).length >
-      0
-    );
+        0;
+
+    // Relationship diffs live on job.args
+    const args = job?.args as UpdateArgs & {
+      bundlesToAddByPlanId?: Record<string, string[]>;
+      bundlesToRemoveByPlanId?: Record<string, string[]>;
+      channelsToAddByPlanId?: Record<string, string[]>;
+      channelsToRemoveByPlanId?: Record<string, string[]>;
+      channelsToAddByBundleKey?: Record<string, string[]>;
+      channelsToRemoveByBundleKey?: Record<string, string[]>;
+    };
+
+    const hasRelationshipDiffs =
+      !!args &&
+      (hasNonEmptyMap(args.bundlesToAddByPlanId) ||
+        hasNonEmptyMap(args.bundlesToRemoveByPlanId) ||
+        hasNonEmptyMap(args.channelsToAddByPlanId) ||
+        hasNonEmptyMap(args.channelsToRemoveByPlanId) ||
+        hasNonEmptyMap(args.channelsToAddByBundleKey) ||
+        hasNonEmptyMap(args.channelsToRemoveByBundleKey));
+
+    return hasDraftFields || hasRelationshipDiffs;
   });
 
 // Convenience: current job drafts / dirty, derived from current index

@@ -9,16 +9,11 @@ export interface ToggleProps
   onChange: (next: boolean) => void;
   disabled?: boolean;
   size?: Size;
-  labelLeft?: string; // e.g., "No"
-  labelRight?: string; // e.g., "Yes"
+  labelLeft?: string;
+  labelRight?: string;
   className?: string;
 }
 
-/**
- * Accessible boolean toggle (checkbox under the hood).
- * - Keyboard: Space/Enter
- * - Screen readers: role="switch" + aria-checked
- */
 export const Toggle = React.forwardRef<HTMLInputElement, ToggleProps>(
   (
     {
@@ -77,7 +72,7 @@ export const Toggle = React.forwardRef<HTMLInputElement, ToggleProps>(
             className={cn(
               'rounded-full transition-colors duration-200 ease-out ring-1 ring-inset',
               s.track,
-              checked ? 'bg-indigo-600 ring-indigo-600/40' : 'bg-slate-200 ring-slate-300',
+              checked ? 'bg-blue-600 ring-blue-600/40' : 'bg-slate-200 ring-slate-300',
             )}
           />
 

@@ -15,6 +15,12 @@ export const renderEditorsForJob = ({
   onDiscardPlan,
   onDiscardBundle,
   onDiscardChannel,
+  onAddBundleToPlan,
+  onRemoveBundleFromPlan,
+  onAddChannelToPlan,
+  onRemoveChannelFromPlan,
+  onAddChannelToBundle,
+  onRemoveChannelFromBundle,
   fieldsToShow,
   bundlesByPlanId,
   dirtyBundlesByPlanId,
@@ -23,6 +29,10 @@ export const renderEditorsForJob = ({
   planFieldDirty,
   bundleFieldDirty,
   channelFieldDirty,
+  removedChannelIdsByPlanId,
+  removedBundleIdsByPlanId,
+  onOpenBundlePicker,
+  onOpenChannelPicker,
 }: RenderArgs) => {
   switch (job.type) {
     case UpdateType.PlanProperties:
@@ -55,6 +65,10 @@ export const renderEditorsForJob = ({
           }}
           onDiscardPlan={() => onDiscardPlan(plan.id)}
           onDiscardChannel={onDiscardChannel}
+          onAddChannelToPlan={onAddChannelToPlan}
+          onRemoveChannelFromPlan={onRemoveChannelFromPlan}
+          removedChannelIdsByPlanId={removedChannelIdsByPlanId}
+          onOpenChannelPicker={onOpenChannelPicker}
         />
       );
     }
@@ -76,6 +90,10 @@ export const renderEditorsForJob = ({
           }}
           onDiscardPlan={() => onDiscardPlan(plan.id)}
           onDiscardBundle={onDiscardBundle}
+          onAddBundleToPlan={onAddBundleToPlan}
+          onRemoveBundleFromPlan={onRemoveBundleFromPlan}
+          removedBundleIdsByPlanId={removedBundleIdsByPlanId}
+          onOpenBundlePicker={onOpenBundlePicker}
         />
       );
 

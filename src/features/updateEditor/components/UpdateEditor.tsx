@@ -17,6 +17,9 @@ import type { Channel as AppChannel, Bundle, Plan } from '../../../schema';
 import { CardScroller } from '../../../ui/components/CardScroller';
 import { PlanVirtualList } from '../../bundleComposer/virtualTable/PlanVirtualList';
 import {
+  addBundleToPlan,
+  addChannelToBundle,
+  addChannelToPlan,
   addJob,
   clearBundleDraft,
   clearChannelDraft,
@@ -25,8 +28,13 @@ import {
   patchBundleField,
   patchChannelField,
   patchPlanField,
+  removeBundleFromPlan,
+  removeChannelFromBundle,
+  removeChannelFromPlan,
   setCurrentJobIndex,
 } from '../updateEditorSlice';
+import { BundlePickerModal } from './BundlePickerModal';
+import { ChannelPickerModal } from './ChannelPickerModal';
 import { DiscardUpdateButton } from './DiscardUpdateButton';
 import { JobBar } from './JobBar';
 import { NewUpdateButton } from './NewUpdateButton';
@@ -57,6 +65,52 @@ export const UpdateEditor = ({
   const jobs = useAppSelector(selectJobs);
   const currentJob = useAppSelector(selectCurrentJob);
   const currentIdx = useAppSelector(selectCurrentJobIndex);
+  const [bundlePickerPlanId, setBundlePickerPlanId] = useState<string | null>(null);
+  const [selectedBundleIds, setSelectedBundleIds] = useState<string[]>([]);
+  const [channelPickerPlanId, setChannelPickerPlanId] = useState<string | null>(null);
+  const [selectedChannelIds, setSelectedChannelIds] = useState<string[]>([]);
+
+  const openBundlePicker = useCallback(
+    (planId: string) => {
+      setBundlePickerPlanId(planId);
+
+      const job = currentJob;
+      if (job?.type === UpdateType.PlanBundles) {
+        const args = job.args as UpdateArgs;
+        const existingAdds = args.bundlesToAddByPlanId?.[planId] ?? [];
+        setSelectedBundleIds(existingAdds);
+      } else {
+        setSelectedBundleIds([]);
+      }
+    },
+    [currentJob],
+  );
+
+  const closeBundlePicker = useCallback(() => {
+    setBundlePickerPlanId(null);
+    setSelectedBundleIds([]);
+  }, []);
+
+  const openChannelPicker = useCallback(
+    (planId: string) => {
+      setChannelPickerPlanId(planId);
+
+      const job = currentJob;
+      if (job?.type === UpdateType.PlanChannels) {
+        const args = job.args as UpdateArgs;
+        const existingAdds = args.channelsToAddByPlanId?.[planId] ?? [];
+        setSelectedChannelIds(existingAdds);
+      } else {
+        setSelectedChannelIds([]);
+      }
+    },
+    [currentJob],
+  );
+
+  const closeChannelPicker = useCallback(() => {
+    setChannelPickerPlanId(null);
+    setSelectedChannelIds([]);
+  }, []);
 
   // Memoize a factory selector for the current job’s dirty flag
   const isCurrentJobDirty = useAppSelector(
@@ -172,108 +226,112 @@ export const UpdateEditor = ({
             />
           </div>
           <CardScroller height="77vh">
-            {currentJob.type === UpdateType.PlanProperties ||
-            currentJob.type === UpdateType.PlanChannels ? (
-              <PlanVirtualList
-                plans={plansArray}
-                currentJob={currentJob}
-                onChangePlan={(planId, patch) => {
-                  for (const [field, value] of Object.entries(patch)) {
-                    dispatch(
-                      patchPlanField({
-                        jobId: currentJob.id,
-                        planId,
-                        field: field as keyof Plan,
-                        value,
-                      }),
-                    );
-                  }
-                }}
-                // onChangeBundle={(bundleId, patch) => {
-                //   for (const [field, value] of Object.entries(patch)) {
-                //     dispatch(
-                //       patchBundleField({
-                //         jobId: currentJob.id,
-                //         bundleId,
-                //         field: field as keyof Bundle,
-                //         value,
-                //       }),
-                //     );
-                //   }
-                // }}
-                onChangeChannel={(channelId, patch) => {
-                  for (const [field, value] of Object.entries(patch)) {
-                    dispatch(
-                      patchChannelField({
-                        jobId: currentJob.id,
-                        channelId,
-                        field: field as keyof Omit<AppChannel, 'id'>,
-                        value,
-                      }),
-                    );
-                  }
-                }}
-                onDiscardPlan={(planId) => {
-                  dispatch(clearPlanDraft({ jobId: currentJob.id, planId }));
-                }}
-                // onDiscardBundle={(bundleId) => {
-                //   dispatch(clearBundleDraft({ jobId: currentJob.id, bundleId }));
-                // }}
-                onDiscardChannel={(channelId) => {
-                  dispatch(clearChannelDraft({ jobId: currentJob.id, channelId }));
-                }}
-              />
-            ) : (
-              <PlanVirtualList
-                plans={plansArray}
-                currentJob={currentJob}
-                // onChangePlan={(planId, patch) => {
-                //   for (const [field, value] of Object.entries(patch)) {
-                //     dispatch(
-                //       patchPlanField({
-                //         jobId: currentJob.id,
-                //         planId,
-                //         field: field as keyof Plan,
-                //         value,
-                //       }),
-                //     );
-                //   }
-                // }}
-                onChangeBundle={(bundleId, patch) => {
-                  for (const [field, value] of Object.entries(patch)) {
-                    dispatch(
-                      patchBundleField({
-                        jobId: currentJob.id,
-                        bundleId,
-                        field: field as keyof Bundle,
-                        value,
-                      }),
-                    );
-                  }
-                }}
-                onChangeChannel={(channelId, patch) => {
-                  for (const [field, value] of Object.entries(patch)) {
-                    dispatch(
-                      patchChannelField({
-                        jobId: currentJob.id,
-                        channelId,
-                        field: field as keyof Omit<AppChannel, 'id'>,
-                        value,
-                      }),
-                    );
-                  }
-                }}
-                // onDiscardPlan={(planId) => {
-                //   dispatch(clearPlanDraft({ jobId: currentJob.id, planId }));
-                // }}
-                onDiscardBundle={(bundleId) => {
-                  dispatch(clearBundleDraft({ jobId: currentJob.id, bundleId }));
-                }}
-                onDiscardChannel={(channelId) => {
-                  dispatch(clearChannelDraft({ jobId: currentJob.id, channelId }));
-                }}
-              />
-            )}
+            <PlanVirtualList
+              plans={plansArray}
+              currentJob={currentJob}
+              onChangePlan={(planId, patch) => {
+                for (const [field, value] of Object.entries(patch)) {
+                  dispatch(
+                    patchPlanField({
+                      jobId: currentJob.id,
+                      planId,
+                      field: field as keyof Plan,
+                      value,
+                    }),
+                  );
+                }
+              }}
+              onChangeBundle={(linkKey, patch) => {
+                for (const [field, value] of Object.entries(patch)) {
+                  dispatch(
+                    patchBundleField({
+                      jobId: currentJob.id,
+                      linkKey,
+                      field: field as keyof Bundle,
+                      value,
+                    }),
+                  );
+                }
+              }}
+              onChangeChannel={(channelId, patch) => {
+                for (const [field, value] of Object.entries(patch)) {
+                  dispatch(
+                    patchChannelField({
+                      jobId: currentJob.id,
+                      channelId,
+                      field: field as keyof Omit<AppChannel, 'id'>,
+                      value,
+                    }),
+                  );
+                }
+              }}
+              onDiscardPlan={(planId) => {
+                dispatch(clearPlanDraft({ jobId: currentJob.id, planId }));
+              }}
+              onDiscardBundle={(linkKey) => {
+                dispatch(clearBundleDraft({ jobId: currentJob.id, linkKey }));
+              }}
+              onDiscardChannel={(channelId) => {
+                dispatch(clearChannelDraft({ jobId: currentJob.id, channelId }));
+              }}
+              // --- NEW relationship actions wired to slice ---
+              onAddBundleToPlan={(planId, bundleId) => {
+                dispatch(
+                  addBundleToPlan({
+                    jobId: currentJob.id,
+                    planId,
+                    bundleId,
+                  }),
+                );
+              }}
+              onRemoveBundleFromPlan={(planId, bundleId) => {
+                dispatch(
+                  removeBundleFromPlan({
+                    jobId: currentJob.id,
+                    planId,
+                    bundleId,
+                  }),
+                );
+              }}
+              onAddChannelToPlan={(planId, channelId) => {
+                dispatch(
+                  addChannelToPlan({
+                    jobId: currentJob.id,
+                    planId,
+                    channelId,
+                  }),
+                );
+              }}
+              onRemoveChannelFromPlan={(planId, channelId) => {
+                dispatch(
+                  removeChannelFromPlan({
+                    jobId: currentJob.id,
+                    planId,
+                    channelId,
+                  }),
+                );
+              }}
+              onAddChannelToBundle={(bundleLinkKey, channelId) => {
+                dispatch(
+                  addChannelToBundle({
+                    jobId: currentJob.id,
+                    bundleLinkKey,
+                    channelId,
+                  }),
+                );
+              }}
+              onRemoveChannelFromBundle={(bundleLinkKey, channelId) => {
+                dispatch(
+                  removeChannelFromBundle({
+                    jobId: currentJob.id,
+                    bundleLinkKey,
+                    channelId,
+                  }),
+                );
+              }}
+              onOpenBundlePicker={openBundlePicker}
+              onOpenChannelPicker={openChannelPicker}
+            />
           </CardScroller>
           <div className="flex items-center justify-end gap-2">
             <DiscardUpdateButton disabled={!isCurrentJobDirty} onClick={handleDiscardCurrent} />
@@ -286,6 +344,42 @@ export const UpdateEditor = ({
           </div>
         </div>
       )}
+      <BundlePickerModal
+        open={bundlePickerPlanId !== null}
+        planId={bundlePickerPlanId}
+        selected={selectedBundleIds}
+        onSelectedChange={setSelectedBundleIds}
+        onCancel={closeBundlePicker}
+        onConfirm={() => {
+          if (!currentJob || !bundlePickerPlanId) return;
+
+          for (const bundleId of selectedBundleIds) {
+            dispatch(
+              addBundleToPlan({ jobId: currentJob.id, planId: bundlePickerPlanId, bundleId }),
+            );
+          }
+
+          closeBundlePicker();
+        }}
+      />
+      <ChannelPickerModal
+        open={channelPickerPlanId !== null}
+        planId={channelPickerPlanId}
+        selected={selectedChannelIds}
+        onSelectedChange={setSelectedChannelIds}
+        onCancel={closeChannelPicker}
+        onConfirm={() => {
+          if (!currentJob || !channelPickerPlanId) return;
+
+          for (const channelId of selectedChannelIds) {
+            dispatch(
+              addChannelToPlan({ jobId: currentJob.id, planId: channelPickerPlanId, channelId }),
+            );
+          }
+
+          closeChannelPicker();
+        }}
+      />
     </div>
   );
 };
