@@ -1,3 +1,4 @@
+import { useChannels } from '../../../lib/hooks/useChannels';
 import type { Channel } from '../../../schema';
 import { Button } from '../../../ui/inputs/Button';
 
@@ -10,8 +11,6 @@ type ChannelPickerModalProps = {
   onCancel: () => void;
 };
 
-// TODO: replace this with your real hook / data source
-// e.g. const { data: allChannels = [] } = useAllChannelsQuery();
 type ChannelPickerChannel = Channel;
 
 export const ChannelPickerModal: React.FC<ChannelPickerModalProps> = ({
@@ -22,7 +21,7 @@ export const ChannelPickerModal: React.FC<ChannelPickerModalProps> = ({
   onConfirm,
   onCancel,
 }) => {
-  const allChannels: ChannelPickerChannel[] = []; // stub so TS is happy
+  const { data: allChannels = [] } = useChannels();
 
   if (!open || !planId) return null;
 

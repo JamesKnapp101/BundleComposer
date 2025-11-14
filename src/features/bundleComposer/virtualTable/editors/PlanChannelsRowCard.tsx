@@ -43,6 +43,7 @@ interface Props {
 
   // per-plan removed channel ids: planId -> channelIds[]
   removedChannelIdsByPlanId?: Record<string, string[]>;
+  addedChannelIdsByPlanId?: Record<string, string[]>;
 
   // plan-level discard (optional)
   onDiscardPlan?: (planId: string) => void;
@@ -64,6 +65,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
   channelFieldDirty,
   channelFieldsToShow,
   removedChannelIdsByPlanId,
+  addedChannelIdsByPlanId,
   onDiscardPlan,
   onDiscardChannel,
   onChangeChannel,
@@ -78,11 +80,12 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
 
   // per-plan removed channels, same pattern as bundles
   const removedIdsForPlan = removedChannelIdsByPlanId?.[plan.id] ?? [];
+  const addedIdsForPlan = addedChannelIdsByPlanId?.[plan.id] ?? [];
   const isChannelRemoved = (channelId: string) => removedIdsForPlan.includes(channelId);
-
+  const isChannelAdded = (channelId: string) => addedIdsForPlan.includes(channelId);
   const anyDirty = dirtyChannels && Object.values(dirtyChannels).some(Boolean);
   const anyRemoved = channels.some((ch) => isChannelRemoved(ch.id));
-  console.log('So did removedChannelIdsByPlanId make it over here? ', removedChannelIdsByPlanId);
+
   return (
     <div
       className={cn(
@@ -146,7 +149,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
             {channels.map((ch) => {
               const isDirty = !!dirtyChannels[ch.id];
               const removed = isChannelRemoved(ch.id);
-
+              const added = isChannelAdded(ch.id);
               return (
                 <div
                   key={ch.id}
@@ -154,6 +157,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                   className={cn(
                     'px-4 py-3 rounded-md',
                     removed && 'border border-red-300 bg-red-50/60',
+                    added && !removed && 'border border-emerald-300 bg-emerald-50/70',
                   )}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -188,6 +192,12 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                           <span className="text-xs text-slate-500">
                             #{String(ch.id).slice(0, 8)}
                           </span>
+
+                          {added && !removed && (
+                            <span className="ml-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700">
+                              new
+                            </span>
+                          )}
 
                           {removed && (
                             <span className="ml-1 rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-700">

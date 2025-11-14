@@ -18,7 +18,7 @@ interface Props {
   bundleFieldDirty: Record<string, Set<string>>;
   bundleFieldsToShow: string[];
   removedBundleIdsByPlanId?: Record<string, string[]>;
-
+  addedBundleIdsByPlanId?: Record<string, string[]>;
   onDiscardPlan?: (planId: string) => void;
   onChangeBundle: (bundleLinkKey: ID, patch: PartialBundle) => void;
   onDiscardBundle?: (bundleLinkKey: ID) => void;
@@ -35,6 +35,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
   bundleFieldDirty,
   bundleFieldsToShow,
   removedBundleIdsByPlanId,
+  addedBundleIdsByPlanId,
   onDiscardPlan,
   onChangeBundle,
   onDiscardBundle,
@@ -43,15 +44,14 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
   onOpenBundlePicker,
 }) => {
   const [open, setOpen] = useState(true);
-  console.log('onOpenBundlePicker: ', onOpenBundlePicker);
-  console.log('onAddBundleToPlan: ', onAddBundleToPlan);
 
   const isBundleFieldDirty = (linkKey: string, field: keyof Bundle) =>
     bundleFieldDirty?.[linkKey]?.has(field as string) ?? false;
 
   const removedIdsForPlan = removedBundleIdsByPlanId?.[plan.id] ?? [];
+  const addedIdsForPlan = addedBundleIdsByPlanId?.[plan.id] ?? [];
   const isBundleRemoved = (bundleId: string) => removedIdsForPlan.includes(bundleId);
-
+  const isBundleAdded = (bundleId: string) => addedIdsForPlan.includes(bundleId);
   const anyDirty = dirtyBundles && Object.values(dirtyBundles).some(Boolean);
   const anyRemoved = bundles.some((b) => isBundleRemoved(b.id));
 
@@ -118,6 +118,8 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
               const linkKey = `${plan.id}:${bundle.id}:${sortIndex}`;
               const isDirty = !!dirtyBundles[linkKey];
               const removed = isBundleRemoved(bundle.id);
+              const added = isBundleAdded(bundle.id);
+              console.log('Added? ', added);
 
               return (
                 <div
@@ -126,6 +128,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                   className={cn(
                     'px-4 py-3 rounded-md',
                     removed && 'border border-red-300 bg-red-50/60',
+                    added && !removed && 'border border-emerald-300 bg-emerald-50/70',
                   )}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -159,13 +162,19 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                         #{String(bundle.id).slice(0, 8)}
                       </span>
 
+                      {added && !removed && (
+                        <span className="ml-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700">
+                          new
+                        </span>
+                      )}
+
                       {removed && (
                         <span className="ml-1 rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-700">
                           removed
                         </span>
                       )}
 
-                      {isDirty && !removed && (
+                      {isDirty && !removed && !added && (
                         <span className="ml-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
                           dirty
                         </span>

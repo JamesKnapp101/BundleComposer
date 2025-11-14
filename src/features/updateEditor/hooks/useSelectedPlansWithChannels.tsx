@@ -11,7 +11,6 @@ const getChannelsByPlanIds = async (ids: string[]): Promise<Record<string, Chann
 
 export function useSelectedPlansWithChannels(ids: string[]) {
   const { plans, isDirty } = useSelectedPlansQuery(ids);
-  console.log('Calling with id list of ', ids);
   const { data: channelsByPlanId = {}, isLoading } = useQuery({
     queryKey: ['channelsByPlanIds', [...ids].sort()],
     queryFn: () => getChannelsByPlanIds(ids),

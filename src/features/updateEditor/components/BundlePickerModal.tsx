@@ -1,4 +1,4 @@
-import type { Bundle } from '../../../schema';
+import { useBundles } from '../../../lib/hooks/useBundles';
 import { Button } from '../../../ui/inputs/Button';
 
 type BundlePickerModalProps = {
@@ -10,10 +10,6 @@ type BundlePickerModalProps = {
   onCancel: () => void;
 };
 
-// TODO: replace this with your real hook / data source
-// e.g. const { data: allBundles = [] } = useAllBundlesQuery();
-type BundlePickerBundle = Bundle; // or whatever your Bundle type is
-
 export const BundlePickerModal: React.FC<BundlePickerModalProps> = ({
   open,
   planId,
@@ -22,8 +18,7 @@ export const BundlePickerModal: React.FC<BundlePickerModalProps> = ({
   onConfirm,
   onCancel,
 }) => {
-  // ⬇️ replace this with your real query
-  const allBundles: BundlePickerBundle[] = []; // stub so TS is happy
+  const { data: allBundles = [] } = useBundles();
 
   if (!open || !planId) return null;
 

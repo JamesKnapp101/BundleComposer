@@ -12,13 +12,7 @@ export const Labeled = ({
   className?: string;
 }) => {
   return (
-    <div
-      className={[
-        'group flex flex-col gap-1.5 rounded-lg',
-        'focus-within:ring-2 focus-within:ring-indigo-500/50 focus-within:ring-offset-2 focus-within:ring-offset-white',
-        className,
-      ].join(' ')}
-    >
+    <div className={['group flex flex-col gap-1.5 rounded-lg', className].join(' ')}>
       <div className="flex items-baseline justify-between">
         <label
           className={[

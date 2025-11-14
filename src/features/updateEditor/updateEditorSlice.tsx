@@ -97,26 +97,36 @@ const updateEditorReducer = createSlice({
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
 
-      const args = (job.args ??= {} as any);
+      const args = (job.args ??= {} as UpdateArgs);
 
       const addMap: Record<string, string[]> =
         (args.bundlesToAddByPlanId as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.bundlesToRemoveByPlanId as Record<string, string[]>) ?? {};
 
-      const added = (addMap[planId] ??= []);
-      if (!added.includes(bundleId)) added.push(bundleId);
+      const removedForPlan = removeMap[planId] ?? [];
+      const isCurrentlyRemoved = removedForPlan.includes(bundleId);
 
-      const removed = removeMap[planId];
-      if (removed) {
-        removeMap[planId] = removed.filter((id) => id !== bundleId);
-        if (!removeMap[planId].length) delete removeMap[planId];
+      if (isCurrentlyRemoved) {
+        // Case 1: this was an existing bundle that had been marked removed.
+        // Undo: just clear the removed flag, don't mark as "added".
+        const nextRemoved = removedForPlan.filter((id) => id !== bundleId);
+        if (nextRemoved.length) {
+          removeMap[planId] = nextRemoved;
+        } else {
+          delete removeMap[planId];
+        }
+      } else {
+        // Case 2: true new bundle being added to this plan.
+        const addedForPlan = addMap[planId] ?? [];
+        if (!addedForPlan.includes(bundleId)) {
+          addMap[planId] = [...addedForPlan, bundleId];
+        }
       }
 
       args.bundlesToAddByPlanId = addMap;
       args.bundlesToRemoveByPlanId = removeMap;
     },
-
     removeBundleFromPlan(
       state,
       action: PayloadAction<{ jobId: string; planId: string; bundleId: string }>,
@@ -125,21 +135,32 @@ const updateEditorReducer = createSlice({
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
 
-      const args = (job.args ??= {} as any);
+      const args = (job.args ??= {} as UpdateArgs);
 
       const addMap: Record<string, string[]> =
         (args.bundlesToAddByPlanId as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.bundlesToRemoveByPlanId as Record<string, string[]>) ?? {};
 
-      const added = addMap[planId];
-      if (added) {
-        addMap[planId] = added.filter((id) => id !== bundleId);
-        if (!addMap[planId].length) delete addMap[planId];
-      }
+      const addedForPlan = addMap[planId] ?? [];
+      const wasPendingAdd = addedForPlan.includes(bundleId);
 
-      const removed = (removeMap[planId] ??= []);
-      if (!removed.includes(bundleId)) removed.push(bundleId);
+      if (wasPendingAdd) {
+        // Case 1: user is "removing" a bundle that was only ever a pending add.
+        // Just cancel the add; no removed flag.
+        const nextAdded = addedForPlan.filter((id) => id !== bundleId);
+        if (nextAdded.length) {
+          addMap[planId] = nextAdded;
+        } else {
+          delete addMap[planId];
+        }
+      } else {
+        // Case 2: existing bundle — mark it as removed.
+        const removedForPlan = (removeMap[planId] ??= []);
+        if (!removedForPlan.includes(bundleId)) {
+          removedForPlan.push(bundleId);
+        }
+      }
 
       args.bundlesToAddByPlanId = addMap;
       args.bundlesToRemoveByPlanId = removeMap;
@@ -161,13 +182,24 @@ const updateEditorReducer = createSlice({
       const removeMap: Record<string, string[]> =
         (args.channelsToRemoveByPlanId as Record<string, string[]>) ?? {};
 
-      const added = (addMap[planId] ??= []);
-      if (!added.includes(channelId)) added.push(channelId);
+      const removedForPlan = removeMap[planId] ?? [];
+      const isCurrentlyRemoved = removedForPlan.includes(channelId);
 
-      const removed = removeMap[planId];
-      if (removed) {
-        removeMap[planId] = removed.filter((id) => id !== channelId);
-        if (!removeMap[planId].length) delete removeMap[planId];
+      if (isCurrentlyRemoved) {
+        // Case 1: this was an existing bundle that had been marked removed.
+        // Undo: just clear the removed flag, don't mark as "added".
+        const nextRemoved = removedForPlan.filter((id) => id !== channelId);
+        if (nextRemoved.length) {
+          removeMap[planId] = nextRemoved;
+        } else {
+          delete removeMap[planId];
+        }
+      } else {
+        // Case 2: true new bundle being added to this plan.
+        const addedForPlan = addMap[planId] ?? [];
+        if (!addedForPlan.includes(channelId)) {
+          addMap[planId] = [...addedForPlan, channelId];
+        }
       }
 
       args.channelsToAddByPlanId = addMap;
@@ -182,21 +214,32 @@ const updateEditorReducer = createSlice({
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
 
-      const args = (job.args ??= {} as any);
+      const args = (job.args ??= {} as UpdateArgs);
 
       const addMap: Record<string, string[]> =
         (args.channelsToAddByPlanId as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.channelsToRemoveByPlanId as Record<string, string[]>) ?? {};
 
-      const added = addMap[planId];
-      if (added) {
-        addMap[planId] = added.filter((id) => id !== channelId);
-        if (!addMap[planId].length) delete addMap[planId];
-      }
+      const addedForPlan = addMap[planId] ?? [];
+      const wasPendingAdd = addedForPlan.includes(channelId);
 
-      const removed = (removeMap[planId] ??= []);
-      if (!removed.includes(channelId)) removed.push(channelId);
+      if (wasPendingAdd) {
+        // Case 1: user is "removing" a bundle that was only ever a pending add.
+        // Just cancel the add; no removed flag.
+        const nextAdded = addedForPlan.filter((id) => id !== channelId);
+        if (nextAdded.length) {
+          addMap[planId] = nextAdded;
+        } else {
+          delete addMap[planId];
+        }
+      } else {
+        // Case 2: existing bundle — mark it as removed.
+        const removedForPlan = (removeMap[planId] ??= []);
+        if (!removedForPlan.includes(channelId)) {
+          removedForPlan.push(channelId);
+        }
+      }
 
       args.channelsToAddByPlanId = addMap;
       args.channelsToRemoveByPlanId = removeMap;

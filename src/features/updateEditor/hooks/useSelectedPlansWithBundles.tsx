@@ -9,9 +9,8 @@ const getBundlesByPlanIds = async (ids: string[]): Promise<Record<string, Channe
   return res.json();
 };
 
-export function useSelectedPlansWithBundles(ids: string[]) {
+export const useSelectedPlansWithBundles = (ids: string[]) => {
   const { plans, isDirty } = useSelectedPlansQuery(ids);
-  console.log('Calling with id list of ', ids);
   const { data: bundlesByPlanId = {}, isLoading } = useQuery({
     queryKey: ['bundlesByPlanIds', [...ids].sort()],
     queryFn: () => getBundlesByPlanIds(ids),
@@ -22,4 +21,4 @@ export function useSelectedPlansWithBundles(ids: string[]) {
   });
 
   return { plans, bundlesByPlanId, isLoading, isDirty };
-}
+};

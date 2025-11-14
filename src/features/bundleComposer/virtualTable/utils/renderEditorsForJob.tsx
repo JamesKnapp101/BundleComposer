@@ -30,7 +30,9 @@ export const renderEditorsForJob = ({
   bundleFieldDirty,
   channelFieldDirty,
   removedChannelIdsByPlanId,
+  addedChannelIdsByPlanId,
   removedBundleIdsByPlanId,
+  addedBundleIdsByPlanId,
   onOpenBundlePicker,
   onOpenChannelPicker,
 }: RenderArgs) => {
@@ -68,12 +70,14 @@ export const renderEditorsForJob = ({
           onAddChannelToPlan={onAddChannelToPlan}
           onRemoveChannelFromPlan={onRemoveChannelFromPlan}
           removedChannelIdsByPlanId={removedChannelIdsByPlanId}
+          addedChannelIdsByPlanId={addedChannelIdsByPlanId}
           onOpenChannelPicker={onOpenChannelPicker}
         />
       );
     }
     case UpdateType.PlanBundles:
       const bundles = bundlesByPlanId?.[plan.id] ?? [];
+      const addedBundles = addedBundleIdsByPlanId?.[plan.id] ?? [];
       const dirtyBundles = dirtyBundlesByPlanId?.[plan.id] ?? {};
       return (
         <PlanBundlesRowCard
@@ -93,6 +97,7 @@ export const renderEditorsForJob = ({
           onAddBundleToPlan={onAddBundleToPlan}
           onRemoveBundleFromPlan={onRemoveBundleFromPlan}
           removedBundleIdsByPlanId={removedBundleIdsByPlanId}
+          addedBundleIdsByPlanId={addedBundleIdsByPlanId}
           onOpenBundlePicker={onOpenBundlePicker}
         />
       );

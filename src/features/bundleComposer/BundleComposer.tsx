@@ -50,7 +50,6 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = () => {
 
   const selectedPlansDataQuery = useSelectedPlansQuery(selectedIds);
   const planIds = selectedPlansDataQuery?.plans?.map((plan) => plan.id).filter(Boolean) ?? [];
-  console.log('selectedPlansDataQuery: ', selectedPlansDataQuery);
 
   useEffect(() => {
     api.getUser('mr.bulldops').then((response: any) => {

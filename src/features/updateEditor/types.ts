@@ -154,6 +154,9 @@ export type RenderArgs = {
 
   removedBundleIdsByPlanId?: Record<string, string[]>;
   removedChannelIdsByPlanId?: Record<string, string[]>;
+
+  addedBundleIdsByPlanId?: Record<string, string[]>;
+  addedChannelIdsByPlanId?: Record<string, string[]>;
 };
 
 export type Job = {

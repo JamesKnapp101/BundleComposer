@@ -70,42 +70,20 @@ export const UpdateEditor = ({
   const [channelPickerPlanId, setChannelPickerPlanId] = useState<string | null>(null);
   const [selectedChannelIds, setSelectedChannelIds] = useState<string[]>([]);
 
-  const openBundlePicker = useCallback(
-    (planId: string) => {
-      setBundlePickerPlanId(planId);
-
-      const job = currentJob;
-      if (job?.type === UpdateType.PlanBundles) {
-        const args = job.args as UpdateArgs;
-        const existingAdds = args.bundlesToAddByPlanId?.[planId] ?? [];
-        setSelectedBundleIds(existingAdds);
-      } else {
-        setSelectedBundleIds([]);
-      }
-    },
-    [currentJob],
-  );
+  const openBundlePicker = useCallback((planId: string) => {
+    setBundlePickerPlanId(planId);
+    setSelectedBundleIds([]);
+  }, []);
 
   const closeBundlePicker = useCallback(() => {
     setBundlePickerPlanId(null);
     setSelectedBundleIds([]);
   }, []);
 
-  const openChannelPicker = useCallback(
-    (planId: string) => {
-      setChannelPickerPlanId(planId);
-
-      const job = currentJob;
-      if (job?.type === UpdateType.PlanChannels) {
-        const args = job.args as UpdateArgs;
-        const existingAdds = args.channelsToAddByPlanId?.[planId] ?? [];
-        setSelectedChannelIds(existingAdds);
-      } else {
-        setSelectedChannelIds([]);
-      }
-    },
-    [currentJob],
-  );
+  const openChannelPicker = useCallback((planId: string) => {
+    setChannelPickerPlanId(planId);
+    setSelectedChannelIds([]);
+  }, []);
 
   const closeChannelPicker = useCallback(() => {
     setChannelPickerPlanId(null);
@@ -352,13 +330,11 @@ export const UpdateEditor = ({
         onCancel={closeBundlePicker}
         onConfirm={() => {
           if (!currentJob || !bundlePickerPlanId) return;
-
           for (const bundleId of selectedBundleIds) {
             dispatch(
               addBundleToPlan({ jobId: currentJob.id, planId: bundlePickerPlanId, bundleId }),
             );
           }
-
           closeBundlePicker();
         }}
       />
