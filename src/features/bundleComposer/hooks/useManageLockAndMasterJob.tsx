@@ -34,10 +34,10 @@ type UseUnlockAndCancelMasterJobOpts = {
 
 const api = createDataService({ baseUrl: 'http://localhost:5175', timeoutMs: 8000 });
 
-export function useLockAndCreateMasterJob(opts: UseLockAndCreateMasterJobOpts = {}) {
-  const qc = useQueryClient();
-  const LP = 'lock-plans';
-  const MJ = 'create-master-job';
+export const useLockAndCreateMasterJob = (opts: UseLockAndCreateMasterJobOpts = {}) => {
+  const queryClient = useQueryClient();
+  const LOCK_PLANS = 'lock-plans';
+  const MASTER_JOB = 'create-master-job';
 
   return useMutation({
     mutationKey: ['lock-and-create-master-job'],
@@ -49,34 +49,34 @@ export function useLockAndCreateMasterJob(opts: UseLockAndCreateMasterJobOpts = 
       if (!vars.skipLock) {
         try {
           await api.lockPlans(planIds, 'mr.bulldops');
-          notify.success(LP, 'Success', 'Plan(s) successfully locked.');
+          notify.success(LOCK_PLANS, 'Success', 'Plan(s) successfully locked.');
         } catch (err) {
-          notify.error(LP, 'Error', 'Failed to lock selected plans.');
+          notify.error(LOCK_PLANS, 'Error', 'Failed to lock selected plans.');
         }
       }
       try {
         masterJobId = await api.createMasterJob(['1', '2'], 'mr.bulldops');
-        notify.success(MJ, 'Success', 'Created Master Job.');
+        notify.success(MASTER_JOB, 'Success', 'Created Master Job.');
       } catch (err) {
-        notify.error(MJ, 'Error', 'Failed to create master job.');
+        notify.error(MASTER_JOB, 'Error', 'Failed to create master job.');
       }
       return masterJobId;
     },
     onSuccess: (job, vars) => {
       for (const key of opts.invalidateKeys ?? [['plans'], ['jobs']]) {
-        qc.invalidateQueries({ queryKey: key }).catch(() => {});
+        queryClient.invalidateQueries({ queryKey: key }).catch(() => {});
       }
       opts.onSuccess?.(job, vars);
     },
     onError: opts.onError,
   });
-}
+};
 
-export function useUnlockPlansAndCancelMasterJob(opts: UseUnlockAndCancelMasterJobOpts = {}) {
-  const qc = useQueryClient();
+export const useUnlockPlansAndCancelMasterJob = (opts: UseUnlockAndCancelMasterJobOpts = {}) => {
+  const queryClient = useQueryClient();
   const { invalidateKeys = [['plans'], ['jobs']], onSuccess, onError } = opts;
-  const UP = 'unlock-plans';
-  const XMJ = 'cancel-master-job';
+  const UNLOCK_PLANS = 'unlock-plans';
+  const X_MASTER_JOB = 'cancel-master-job';
 
   return useMutation({
     mutationKey: ['unlock-and-create-master-job'],
@@ -89,22 +89,22 @@ export function useUnlockPlansAndCancelMasterJob(opts: UseUnlockAndCancelMasterJ
       if (!skipUnlock) {
         try {
           await api.unlockPlans(planIds, 'mr.bulldops');
-          notify.success(UP, 'Success', 'Plan(s) successfully unlocked.');
+          notify.success(UNLOCK_PLANS, 'Success', 'Plan(s) successfully unlocked.');
         } catch (err) {
-          notify.error(UP, 'Error', 'Failed to unlock selected plans.');
+          notify.error(UNLOCK_PLANS, 'Error', 'Failed to unlock selected plans.');
         }
       }
       try {
         const job = await api.cancelMasterJob('masterJobId');
-        notify.success(XMJ, 'Success', 'Master Job cancelled.');
+        notify.success(X_MASTER_JOB, 'Success', 'Master Job cancelled.');
       } catch (err) {
-        notify.error(XMJ, 'Error', 'Failed to cancel master job.');
+        notify.error(X_MASTER_JOB, 'Error', 'Failed to cancel master job.');
       }
       return { id: '', name: '' };
     },
     onSuccess: (job, vars) => {
       for (const key of invalidateKeys) {
-        qc.invalidateQueries({ queryKey: key }).catch(() => {});
+        queryClient.invalidateQueries({ queryKey: key }).catch(() => {});
       }
       onSuccess?.(job, vars);
     },
@@ -112,4 +112,4 @@ export function useUnlockPlansAndCancelMasterJob(opts: UseUnlockAndCancelMasterJ
       onError?.(err, vars);
     },
   });
-}
+};

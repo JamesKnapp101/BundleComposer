@@ -22,7 +22,6 @@ interface Props {
   onDiscardPlan?: (planId: string) => void;
   onChangeBundle: (bundleLinkKey: ID, patch: PartialBundle) => void;
   onDiscardBundle?: (bundleLinkKey: ID) => void;
-
   onAddBundleToPlan?: (planId: string, bundleId: string) => void;
   onRemoveBundleFromPlan?: (planId: string, bundleId: string) => void;
   onOpenBundlePicker?: (planId: string) => void;
@@ -44,10 +43,8 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
   onOpenBundlePicker,
 }) => {
   const [open, setOpen] = useState(true);
-
   const isBundleFieldDirty = (linkKey: string, field: keyof Bundle) =>
     bundleFieldDirty?.[linkKey]?.has(field as string) ?? false;
-
   const removedIdsForPlan = removedBundleIdsByPlanId?.[plan.id] ?? [];
   const addedIdsForPlan = addedBundleIdsByPlanId?.[plan.id] ?? [];
   const isBundleRemoved = (bundleId: string) => removedIdsForPlan.includes(bundleId);
@@ -63,7 +60,6 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
         anyRemoved && 'border-red-300',
       )}
     >
-      {/* Header */}
       <div className="flex items-center justify-between rounded-t-xl bg-slate-200 px-4 py-2">
         <button
           type="button"
@@ -75,13 +71,12 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
           <span className="text-xs text-slate-500">#{String(plan.id).slice(0, 8)}</span>
           {anyDirty && (
             <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
-              dirty
+              {'edited'}
             </span>
           )}
         </button>
 
         <div className="flex items-center gap-2">
-          {/* Add from catalog */}
           {onOpenBundlePicker && onAddBundleToPlan && (
             <Button
               type="button"
@@ -91,13 +86,13 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
               onClick={() => onOpenBundlePicker(plan.id)}
             >
               <Plus className="h-3 w-3" />
-              <span>Add bundles from catalog</span>
+              <span>{'Add bundles from catalog'}</span>
             </Button>
           )}
 
           {onDiscardPlan && dirtyBundles && (
             <Button variant="ghost" size="sm" onClick={() => onDiscardPlan(plan.id)}>
-              Discard Plan
+              {'Discard Plan'}
             </Button>
           )}
         </div>
@@ -106,20 +101,17 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
       {open && (
         <div className="border-t">
           <div className="px-4 py-2 text-sm text-slate-600 border-b bg-slate-50">
-            Bundles associated with this plan
+            {'Bundles associated with this plan'}
           </div>
-
           <div role="list" className="divide-y">
             {bundles.length === 0 && (
-              <div className="px-4 py-6 text-sm text-slate-500">No bundles linked.</div>
+              <div className="px-4 py-6 text-sm text-slate-500">{'No bundles linked.'}</div>
             )}
-
             {bundles.map((bundle, sortIndex) => {
               const linkKey = `${plan.id}:${bundle.id}:${sortIndex}`;
               const isDirty = !!dirtyBundles[linkKey];
               const removed = isBundleRemoved(bundle.id);
               const added = isBundleAdded(bundle.id);
-              console.log('Added? ', added);
 
               return (
                 <div
@@ -133,7 +125,6 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-2">
-                      {/* trash / undo icon in upper-left */}
                       {(onRemoveBundleFromPlan || onAddBundleToPlan) && (
                         <button
                           type="button"
@@ -156,7 +147,6 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                           )}
                         </button>
                       )}
-
                       <span className="font-medium">{bundle.name}</span>
                       <span className="text-xs text-slate-500">
                         #{String(bundle.id).slice(0, 8)}
@@ -164,19 +154,19 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
 
                       {added && !removed && (
                         <span className="ml-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700">
-                          new
+                          {'new'}
                         </span>
                       )}
 
                       {removed && (
                         <span className="ml-1 rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-700">
-                          removed
+                          {'removed'}
                         </span>
                       )}
 
                       {isDirty && !removed && !added && (
                         <span className="ml-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
-                          dirty
+                          {'edited'}
                         </span>
                       )}
                     </div>
@@ -188,7 +178,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                         onClick={() => onDiscardBundle?.(linkKey)}
                         className="shrink-0"
                       >
-                        Discard
+                        {'Discard'}
                       </Button>
                     )}
                   </div>
@@ -206,10 +196,10 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                             isBundleFieldDirty(linkKey, 'name') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
+                          disabled={removed}
                         />
                       </Labeled>
                     )}
-
                     {bundleFieldsToShow.includes('description') && (
                       <Labeled label="Bundle Description">
                         <Input
@@ -223,10 +213,10 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                             isBundleFieldDirty(linkKey, 'description') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
+                          disabled={removed}
                         />
                       </Labeled>
                     )}
-
                     {bundleFieldsToShow.includes('basePrice') && (
                       <Labeled label="Base Price">
                         <Input
@@ -242,10 +232,10 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                             isBundleFieldDirty(linkKey, 'basePrice') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
+                          disabled={removed}
                         />
                       </Labeled>
                     )}
-
                     {bundleFieldsToShow.includes('isActive') && (
                       <Labeled label="Active?">
                         <div
@@ -261,6 +251,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                             labelRight="Yes"
                             checked={Boolean(bundle.isActive)}
                             onChange={(next) => onChangeBundle(linkKey, { isActive: next })}
+                            disabled={removed}
                           />
                         </div>
                       </Labeled>

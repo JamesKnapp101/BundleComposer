@@ -33,7 +33,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-async function boot() {
+const boot = async () => {
   await ensureScenarioInitialized();
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -43,5 +43,5 @@ async function boot() {
       </Provider>
     </StrictMode>,
   );
-}
+};
 boot();

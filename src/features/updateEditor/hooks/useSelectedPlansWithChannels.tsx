@@ -6,10 +6,10 @@ const getChannelsByPlanIds = async (ids: string[]): Promise<Record<string, Chann
   const qs = new URLSearchParams({ planIds: ids.join(',') });
   const res = await fetch(`/api/channels/planChannels?${qs.toString()}`);
   if (!res.ok) throw new Error('failed');
-  return res.json(); // { [planId]: Channel[] }
+  return res.json();
 };
 
-export function useSelectedPlansWithChannels(ids: string[]) {
+export const useSelectedPlansWithChannels = (ids: string[]) => {
   const { plans, isDirty } = useSelectedPlansQuery(ids);
   const { data: channelsByPlanId = {}, isLoading } = useQuery({
     queryKey: ['channelsByPlanIds', [...ids].sort()],
@@ -21,4 +21,4 @@ export function useSelectedPlansWithChannels(ids: string[]) {
   });
 
   return { plans, channelsByPlanId, isLoading, isDirty };
-}
+};

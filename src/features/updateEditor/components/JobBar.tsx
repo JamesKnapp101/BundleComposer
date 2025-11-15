@@ -35,7 +35,7 @@ export const JobBar: React.FC<Props> = ({ job, onChange, isDirty = false, rightE
           title={isDirty ? 'You have unsaved changes' : 'Change selection'}
           data-testid="job-bar-change-button"
         >
-          Change…
+          {'Change…'}
         </button>
       </div>
     </div>

@@ -33,7 +33,7 @@ export const DiscardUpdateButton: React.FC<DiscardUpdateButtonProps> = ({
       data-testid={testId}
     >
       <RotateCcw className="mr-2 h-4 w-4" />
-      Discard Update
+      {'Discard Update'}
     </Button>
   );
 };

@@ -20,23 +20,17 @@ interface Props {
   onDiscardPlan?: (planId: string, job: UpdateJob) => void;
   onDiscardBundle?: (bundleId: string, job: UpdateJob) => void;
   onDiscardChannel?: (channelId: string, job: UpdateJob) => void;
-
   onAddBundleToPlan?: (planId: string, bundleId: string) => void;
   onRemoveBundleFromPlan?: (planId: string, bundleId: string) => void;
-
   onAddChannelToPlan?: (planId: string, channelId: string) => void;
   onRemoveChannelFromPlan?: (planId: string, channelId: string) => void;
-
   onAddChannelToBundle?: (bundleLinkKey: string, channelId: string) => void;
   onRemoveChannelFromBundle?: (bundleLinkKey: string, channelId: string) => void;
-
   onOpenBundlePicker?: (planId: string) => void;
   onOpenChannelPicker?: (planId: string) => void;
 
   fieldsToShow?: string[];
 }
-type PlanBundlesJobArgs = Extract<UpdateArgs, { type: typeof UpdateType.PlanBundles }>;
-type PlanChannelsJobArgs = Extract<UpdateArgs, { type: typeof UpdateType.PlanChannels }>;
 
 export const PlanVirtualList = ({
   plans,
@@ -58,13 +52,10 @@ export const PlanVirtualList = ({
   fieldsToShow,
 }: Props) => {
   const args = (currentJob.args ?? {}) as UpdateArgs;
-
-  // Job-level diff maps
   const bundlesToAddByPlanId = args.bundlesToAddByPlanId ?? {};
   const bundlesToRemoveByPlanId = args.bundlesToRemoveByPlanId ?? {};
   const channelsToAddByPlanId = args.channelsToAddByPlanId ?? {};
   const channelsToRemoveByPlanId = args.channelsToRemoveByPlanId ?? {};
-
   const parentRef = useRef<HTMLDivElement>(null);
 
   const draftsForJob = useAppSelector(
@@ -100,12 +91,9 @@ export const PlanVirtualList = ({
 
   const catalogBundles = useBundles();
   const catalogChannels = useChannels();
-  console.log('catalogBundles: ', catalogBundles.data);
-
   const planPatches: Record<string, Partial<Plan>> = draftsForJob?.plan ?? {};
   const { channelsByPlanId } = useSelectedPlansWithChannels(plans.map((plan) => plan.id));
   const channelPatches: Record<string, Partial<Channel>> = draftsForJob?.channel ?? {};
-
   const { bundlesByPlanId } = useSelectedPlansWithBundles(plans.map((plan) => plan.id));
   const bundlePatches: Record<string, Partial<Bundle>> = draftsForJob?.bundle ?? {};
 
@@ -131,8 +119,6 @@ export const PlanVirtualList = ({
     return map;
   }, [catalogBundles.data]);
 
-  console.log('This it? ', catalogBundlesById);
-
   const allBundlesById = useMemo(() => {
     const map: Record<string, Bundle> = {};
 
@@ -143,13 +129,11 @@ export const PlanVirtualList = ({
         }
       }
     }
-
     return map;
   }, [bundlesByPlanId]);
 
   const allChannelsById = useMemo(() => {
     const map: Record<string, Channel> = {};
-
     for (const list of Object.values(channelsByPlanId ?? {})) {
       for (const channel of list as unknown as Channel[]) {
         if (!map[channel.id]) {
@@ -157,17 +141,14 @@ export const PlanVirtualList = ({
         }
       }
     }
-
     return map;
   }, [bundlesByPlanId]);
 
-  // merge patches into the channels we render, respecting removes
   const mergedChannelsByPlanId = useMemo(() => {
     const out: Record<string, Channel[]> = {};
 
     for (const plan of plans) {
       const pid = plan.id;
-
       const baseList = (channelsByPlanId?.[pid] as unknown as Channel[] | undefined) ?? [];
       const removedIds = new Set(channelsToRemoveByPlanId[pid] ?? []);
       const addedIds = channelsToAddByPlanId[pid] ?? [];
@@ -191,11 +172,9 @@ export const PlanVirtualList = ({
           const sortIndex = baseMerged.length + idx;
           const linkKey = `${pid}:${channelId}:${sortIndex}`;
           const patch = channelPatches[linkKey] ?? {};
-
           const fromCatalog = catalogChannelsById[channelId];
-          console.log('Did we get fromCatalog? ', fromCatalog);
+
           return {
-            // Prefer real catalog data if we have it
             ...(fromCatalog ?? { id: channelId, name: `(New) ${channelId}` }),
             ...patch,
           } as Channel;
@@ -219,7 +198,6 @@ export const PlanVirtualList = ({
 
     for (const [pid, list] of Object.entries(mergedChannelsByPlanId)) {
       const removedIds = new Set(channelsToRemoveByPlanId[pid] ?? []);
-
       out[pid] = Object.fromEntries(
         (list as Channel[]).map((ch) => {
           const isPatched = Boolean(channelPatches[ch.id]);
@@ -228,11 +206,9 @@ export const PlanVirtualList = ({
         }),
       );
     }
-
     return out;
   }, [mergedChannelsByPlanId, channelPatches, channelsToRemoveByPlanId]);
 
-  // ---- BUNDLES: base + diff (adds/removes) ----
   const mergedBundlesByPlanId = useMemo(() => {
     const out: Record<string, Bundle[]> = {};
 
@@ -244,7 +220,6 @@ export const PlanVirtualList = ({
       const addedIds = bundlesToAddByPlanId[pid] ?? [];
       const seen = new Set<string>();
 
-      // 1) Existing bundles: keep them even if "removed" (we just style them)
       const baseMerged: Bundle[] = baseList
         .filter((bundle) => {
           if (seen.has(bundle.id)) return false;
@@ -256,9 +231,6 @@ export const PlanVirtualList = ({
           const patch = bundlePatches[linkKey] ?? {};
           return { ...bundle, ...patch };
         });
-
-      // 2) Newly-added bundles: only keep if they're not marked removed,
-      //    and hydrate from the catalog (allBundlesById) if possible.
       const addedMerged: Bundle[] = addedIds
         .filter((id) => !seen.has(id) && !removedIds.has(id))
         .map((bundleId, idx) => {
@@ -267,9 +239,7 @@ export const PlanVirtualList = ({
           const patch = bundlePatches[linkKey] ?? {};
 
           const fromCatalog = catalogBundlesById[bundleId];
-          console.log('Did we get fromCatalog? ', fromCatalog);
           return {
-            // Prefer real catalog data if we have it
             ...(fromCatalog ?? { id: bundleId, name: `(New) ${bundleId}` }),
             ...patch,
           } as Bundle;
@@ -309,7 +279,6 @@ export const PlanVirtualList = ({
     return out;
   }, [mergedBundlesByPlanId, bundlePatches, bundlesToRemoveByPlanId, bundlesToAddByPlanId]);
 
-  // derive fields when job is PlanProperties or PlanBundleProperties
   const derivedFieldsToShow = useMemo(() => {
     if (fieldsToShow && fieldsToShow.length) return fieldsToShow;
     if (currentJob.type === UpdateType.PlanProperties) {

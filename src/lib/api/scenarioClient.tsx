@@ -57,7 +57,6 @@ async function fetchJson<T>(
         'Request failed';
       throw new Error(`${res.status} ${msg}`);
     }
-
     return json as T;
   } catch (err) {
     if ((err as any)?.name === 'AbortError') {

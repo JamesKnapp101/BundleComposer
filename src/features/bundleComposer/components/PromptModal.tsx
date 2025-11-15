@@ -28,7 +28,6 @@ export const PromptModal: React.FC<PromptModalProps> = ({
         className="absolute inset-0 bg-black/40"
         onClick={disableClose ? undefined : (e) => e.stopPropagation()}
       />
-      {/* Panel */}
       <div className="relative z-[1001] w-[min(92vw,520px)] rounded-2xl bg-white shadow-xl ring-1 ring-black/5">
         <div className="p-5 sm:p-6">
           <div className="flex items-start gap-3">

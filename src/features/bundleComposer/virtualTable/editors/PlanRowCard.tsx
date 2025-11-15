@@ -52,17 +52,16 @@ export const PlanRowCard = ({
           <span className="text-xs text-slate-500">#{String(plan.id).slice(0, 8)}</span>
           {dirty && (
             <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
-              dirty
+              {'edited'}
             </span>
           )}
         </button>
         {dirty && (
           <Button variant="ghost" size="sm" onClick={onDiscard}>
-            Discard
+            {'Discard'}
           </Button>
         )}
       </div>
-
       {open && (
         <div className="grid auto-rows-min gap-3 border-t px-4 py-3 md:grid-cols-3">
           {fieldsToShow.includes('name') && (

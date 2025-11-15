@@ -21,7 +21,6 @@ const LandingListPage = () => {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [sorting, setSorting] = useState<SortingState>([]); // ✅ typed
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
   const columns = useLandingListPageColumns();
 
   const table = useReactTable<PlanRow>({

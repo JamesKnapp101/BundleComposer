@@ -14,7 +14,7 @@ export class ApiError extends Error {
   }
 }
 
-export function createDataService(opts: DataServiceOptions) {
+export const createDataService = (opts: DataServiceOptions) => {
   const {
     baseUrl,
     defaultHeaders = { 'Content-Type': 'application/json' },
@@ -38,7 +38,6 @@ export function createDataService(opts: DataServiceOptions) {
 
     try {
       const res = await fetch(url, { ...rest, headers, signal: ctl.signal });
-
       const contentType = res.headers.get('content-type') || '';
       const isJson = contentType.includes('application/json');
       const body = isJson ? await res.json().catch(() => undefined) : await res.text();
@@ -116,4 +115,4 @@ export function createDataService(opts: DataServiceOptions) {
     createMasterJob,
     cancelMasterJob,
   };
-}
+};

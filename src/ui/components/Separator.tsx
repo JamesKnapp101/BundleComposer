@@ -1,20 +1,17 @@
-import * as React from 'react';
+import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
+import { cn } from '../../lib/utils/cn';
 
 type Orientation = 'horizontal' | 'vertical';
 
-export interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SeparatorProps extends HTMLAttributes<HTMLDivElement> {
   orientation?: Orientation;
   inset?: boolean;
   decorative?: boolean;
-  label?: React.ReactNode;
+  label?: ReactNode;
   labelClassName?: string;
 }
 
-function cn(...parts: Array<string | false | null | undefined>) {
-  return parts.filter(Boolean).join(' ');
-}
-
-export const Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(
+export const Separator = forwardRef<HTMLDivElement, SeparatorProps>(
   (
     {
       orientation = 'horizontal',

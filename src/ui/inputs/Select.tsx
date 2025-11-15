@@ -19,7 +19,7 @@ type Props = {
   sizeStyles?: string; // pass your existing sizing utility string
 };
 
-export function BCSelect({
+export const BCSelect = ({
   options,
   value,
   onChange,
@@ -33,7 +33,7 @@ export function BCSelect({
   ariaLabel,
   className,
   sizeStyles = 'px-3 py-2 text-sm',
-}: Props) {
+}: Props) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const listRef = useRef<HTMLUListElement | null>(null);
   const [open, setOpen] = useState(false);
@@ -60,27 +60,26 @@ export function BCSelect({
     return options.filter((o) => o.label.toLowerCase().includes(q));
   }, [options, query]);
 
-  function isSelected(v: string) {
-    return normalizedValue.includes(v);
-  }
+  const isSelected = (value: string) => {
+    return normalizedValue.includes(value);
+  };
 
-  function toggle(v: string) {
+  const toggle = (value: string) => {
     if (!onChange) return;
     if (multiple) {
-      if (isSelected(v)) onChange(normalizedValue.filter((x) => x !== v));
-      else onChange([...normalizedValue, v]);
+      if (isSelected(value)) onChange(normalizedValue.filter((x) => x !== value));
+      else onChange([...normalizedValue, value]);
     } else {
-      onChange(v);
+      onChange(value);
       setOpen(false);
     }
-  }
+  };
 
-  function clear() {
+  const clear = () => {
     onChange?.(multiple ? [] : undefined);
     setQuery('');
-  }
+  };
 
-  // ---- popover positioning in a portal (fixed) ----
   const [menuStyle, setMenuStyle] = useState<React.CSSProperties>({});
   const menuContainer = useMemo(() => {
     let el = document.getElementById('bcselect-portal');
@@ -96,7 +95,6 @@ export function BCSelect({
     const btn = buttonRef.current;
     if (!btn) return;
     const r = btn.getBoundingClientRect();
-    // keep width = button width; stick under it; flip if close to bottom
     const viewportH = window.innerHeight || document.documentElement.clientHeight;
     const estimatedH = Math.min(maxMenuHeight, 320) + (searchable ? 48 : 0);
     const fitsBelow = r.bottom + estimatedH <= viewportH;
@@ -105,7 +103,7 @@ export function BCSelect({
       top: Math.round(fitsBelow ? r.bottom + 8 : r.top - estimatedH - 8),
       left: Math.round(r.left),
       width: Math.round(r.width),
-      zIndex: 60_000, // very high to beat virtual rows
+      zIndex: 60_000,
       maxHeight: maxMenuHeight,
     } as React.CSSProperties);
   };
@@ -113,13 +111,11 @@ export function BCSelect({
   useLayoutEffect(() => {
     if (!open) return;
     positionMenu();
-  }, [open, normalizedValue.length, options.length]); // remeasure on content change
+  }, [open, normalizedValue.length, options.length]);
 
   useEffect(() => {
     if (!open) return;
     const onScroll = () => {
-      // If the parent list scrolls, you can either close or reposition.
-      // Reposition feels nicer inside virtual lists:
       positionMenu();
     };
     const onResize = () => positionMenu();
@@ -208,7 +204,6 @@ export function BCSelect({
               </span>
             )}
           </span>
-
           {/* Right controls */}
           <span className="ml-2 flex shrink-0 items-center gap-1">
             {clearable &&
@@ -230,7 +225,6 @@ export function BCSelect({
             />
           </span>
         </button>
-
         {/* Popover in a portal */}
         {open &&
           createPortal(
@@ -256,7 +250,6 @@ export function BCSelect({
                   />
                 </div>
               )}
-
               <ul
                 id={listboxId}
                 role="listbox"
@@ -313,10 +306,9 @@ export function BCSelect({
       </div>
     </div>
   );
-}
+};
 
-/* simple Chip used for multi-select values */
-function Chip({
+const Chip = ({
   label,
   onRemove,
   disabled,
@@ -324,7 +316,7 @@ function Chip({
   label: string;
   onRemove: () => void;
   disabled?: boolean;
-}) {
+}) => {
   return (
     <span className="inline-flex items-center gap-1 rounded-md border border-slate-300 bg-slate-50 px-2 py-0.5 text-xs">
       {label}
@@ -342,4 +334,4 @@ function Chip({
       )}
     </span>
   );
-}
+};

@@ -49,10 +49,10 @@ export const buildScenario = (
   const plans: Plan[] = Array.from({ length: counts.plans }, (_, i) => ({
     id: nextId('p'),
     name: `Plan ${i + 1}`,
-    status: 'active',
+    status: 'Active',
     versionId: nanoid(),
     planTier: pick(tiers),
-    pricingModel: 'hybrid',
+    pricingModel: 'Hybrid',
     basePrice: Math.floor(rng() * 10),
   }));
 

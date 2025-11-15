@@ -1,7 +1,12 @@
+import type { DraftPatch, DraftsState, EntityType } from '@features/updateEditor/types';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { DraftPatch, DraftsState, EntityType } from 'src/schema';
 
-const initialState: DraftsState = { plan: {}, bundle: {}, channel: {} };
+const initialState: DraftsState = {
+  plan: {},
+  bundle: {},
+  channel: {},
+  byJobId: {},
+};
 
 type UpsertPayload<T = any> = { type: EntityType; id: string; patch: DraftPatch<T> };
 type ClearPayload = { type: EntityType; id: string };

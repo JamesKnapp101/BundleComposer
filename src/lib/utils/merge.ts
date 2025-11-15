@@ -1,4 +1,4 @@
-export function deepMerge<T>(base: T, patch: Partial<T>): T {
+export const deepMerge = <T>(base: T, patch: Partial<T>): T => {
   if (patch == null) return base;
   if (Array.isArray(base) || Array.isArray(patch)) return (patch as T) ?? base;
   if (typeof base === 'object' && typeof patch === 'object') {
@@ -11,4 +11,4 @@ export function deepMerge<T>(base: T, patch: Partial<T>): T {
     return out;
   }
   return (patch as T) ?? base;
-}
+};

@@ -26,10 +26,8 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = () => {
   const bypassConfirmationRef = useRef(false);
   const [unlockingPlans, setUnlockingPlans] = useState<boolean>();
   const [user, setUser] = useState<any>(null);
-
   const [sp] = useSearchParams();
   const selectedIds = (sp.get('plans') ?? '').split(',').filter(Boolean);
-
   const api = createDataService({ baseUrl: 'http://localhost:5175', timeoutMs: 8000 });
 
   const unlockPlansAndCancelMasterJob = useUnlockPlansAndCancelMasterJob({
@@ -109,7 +107,7 @@ const BundleComposer: React.FC<PropsWithChildren<any>> = () => {
         </div>
         <UpdateEditor
           selectedPlans={selectedPlans}
-          initialJobs={[]} //jobsFromUrl}
+          initialJobs={[]}
           onChangeActiveJob={(i: any) => setQueryParam('active', i)}
           onJobsChange={(jobs: any) => setQueryParam('jobs', serialize(jobs))}
           onBuildPayloads={(jobs: any, draftsByJob: any) => buildAllPayloads(jobs, draftsByJob)}

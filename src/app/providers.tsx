@@ -3,6 +3,6 @@ import type { ReactNode } from 'react';
 
 const qc = new QueryClient();
 
-export function AppProviders({ children }: { children: ReactNode }) {
+export const AppProviders = ({ children }: { children: ReactNode }) => {
   return <QueryClientProvider client={qc}>{children}</QueryClientProvider>;
-}
+};

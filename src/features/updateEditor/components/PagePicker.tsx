@@ -20,7 +20,7 @@ export interface PagePickerProps {
   'data-testid'?: string;
 }
 
-function summarizeJob(job: UpdateJob): string {
+const summarizeJob = (job: UpdateJob): string => {
   const typeLabel = labelForType(job.type);
   switch (job.args.type) {
     case UpdateType.PlanProperties:
@@ -34,7 +34,7 @@ function summarizeJob(job: UpdateJob): string {
     default:
       return typeLabel;
   }
-}
+};
 
 export const PagePicker: React.FC<PagePickerProps> = ({
   jobs,
@@ -55,17 +55,40 @@ export const PagePicker: React.FC<PagePickerProps> = ({
   return (
     <div className={cn('flex items-center gap-2', className)} data-testid={testId}>
       <span className="text-sm text-slate-600">Navigate to Page</span>
+
       <Select value={String(current)} onValueChange={handleSelect}>
         <SelectTrigger className="w-[280px] justify-between">
           <SelectValue placeholder="Select a page…" />
           <ChevronDown className="h-4 w-4 opacity-70" />
         </SelectTrigger>
-        <SelectContent>
-          {jobs.map((job, idx) => (
-            <SelectItem key={job.id} value={String(idx)}>
-              {`Page ${idx + 1} — ${summarizeJob(job)}`}
-            </SelectItem>
-          ))}
+
+        <SelectContent
+          position="popper"
+          side="bottom"
+          align="start"
+          sideOffset={4}
+          className={cn(
+            'z-[9999] min-w-[280px] overflow-hidden cursor-default',
+            'rounded-lg border border-slate-200 bg-white shadow-lg',
+          )}
+        >
+          <div className="max-h-64 overflow-auto py-1 px-1">
+            {jobs.map((job, idx) => (
+              <SelectItem
+                key={job.id}
+                value={String(idx)}
+                className={cn(
+                  'flex w-full items-center rounded-md px-2 py-1.5 text-sm',
+                  'cursor-pointer select-none outline-none transition-colors',
+                  'text-slate-700',
+                  'hover:bg-slate-100 hover:text-slate-900',
+                  'data-[highlighted]:bg-slate-100 data-[highlighted]:text-slate-900',
+                )}
+              >
+                {`Page ${idx + 1} — ${summarizeJob(job)}`}
+              </SelectItem>
+            ))}
+          </div>
         </SelectContent>
       </Select>
     </div>

@@ -14,20 +14,12 @@ type PartialChannel = Partial<Channel>;
 interface Props {
   plan: Plan & Record<string, unknown>;
   channels: (Channel & Record<string, unknown>)[];
-
-  dirtyChannels?: Dict; // controls "dirty" chip + optional Discard button
+  dirtyChannels?: Dict;
   channelFieldDirty: Record<string, Set<string>>;
-  // which channel fields to show per row
   channelFieldsToShow: string[];
-
-  // plan-level discard (optional)
   onDiscardPlan?: (planId: string) => void;
-
-  // channel edits
   onChangeChannel: (channelId: ID, patch: PartialChannel) => void;
   onDiscardChannel?: (channelId: ID) => void;
-
-  // association edits
   onAddChannelToPlan?: (planId: ID, channelId: ID) => void;
   onRemoveChannelFromPlan?: (planId: ID, channelId: ID) => void;
   removedChannelIds?: string[];
@@ -36,23 +28,14 @@ interface Props {
 interface Props {
   plan: Plan & Record<string, unknown>;
   channels: (Channel & Record<string, unknown>)[];
-
-  dirtyChannels?: Dict; // controls "dirty" chip + optional Discard button
+  dirtyChannels?: Dict;
   channelFieldDirty: Record<string, Set<string>>;
   channelFieldsToShow: string[];
-
-  // per-plan removed channel ids: planId -> channelIds[]
   removedChannelIdsByPlanId?: Record<string, string[]>;
   addedChannelIdsByPlanId?: Record<string, string[]>;
-
-  // plan-level discard (optional)
   onDiscardPlan?: (planId: string) => void;
-
-  // channel edits
   onChangeChannel: (channelId: ID, patch: PartialChannel) => void;
   onDiscardChannel?: (channelId: ID) => void;
-
-  // relationship actions
   onAddChannelToPlan?: (planId: ID, channelId: ID) => void;
   onRemoveChannelFromPlan?: (planId: ID, channelId: ID) => void;
   onOpenChannelPicker?: (planId: string) => void;
@@ -74,11 +57,8 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
   onOpenChannelPicker,
 }) => {
   const [open, setOpen] = useState(true);
-
   const isChannelFieldDirty = (cid: string, field: keyof Channel) =>
     channelFieldDirty?.[cid]?.has(field as string) ?? false;
-
-  // per-plan removed channels, same pattern as bundles
   const removedIdsForPlan = removedChannelIdsByPlanId?.[plan.id] ?? [];
   const addedIdsForPlan = addedChannelIdsByPlanId?.[plan.id] ?? [];
   const isChannelRemoved = (channelId: string) => removedIdsForPlan.includes(channelId);
@@ -94,7 +74,6 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
         anyRemoved && 'border-red-300',
       )}
     >
-      {/* Header */}
       <div className="flex items-center justify-between rounded-t-xl bg-slate-200 px-4 py-2">
         <button
           type="button"
@@ -106,7 +85,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
           <span className="text-xs text-slate-500">#{String(plan.id).slice(0, 8)}</span>
           {anyDirty && (
             <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
-              dirty
+              {'edited'}
             </span>
           )}
         </button>
@@ -118,27 +97,24 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
               size="sm"
               variant="outline"
               className="inline-flex items-center gap-1"
-              // hook point for a chooser; for now it's just "intent"
               onClick={() => onOpenChannelPicker(plan.id)}
             >
               <Plus className="h-3 w-3" />
-              <span>Add from catalog</span>
+              <span>{'Add from catalog'}</span>
             </Button>
           )}
 
           {onDiscardPlan && dirtyChannels && (
             <Button variant="ghost" size="sm" onClick={() => onDiscardPlan(plan.id)}>
-              Discard Plan
+              {'Discard Plan'}
             </Button>
           )}
         </div>
       </div>
-
-      {/* Body: channels only */}
       {open && (
         <div className="border-t">
           <div className="px-4 py-2 text-sm text-slate-600 border-b bg-slate-50">
-            Channels associated with this plan
+            {'Channels associated with this plan'}
           </div>
 
           <div role="list" className="divide-y">
@@ -195,19 +171,19 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
 
                           {added && !removed && (
                             <span className="ml-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700">
-                              new
+                              {'new'}
                             </span>
                           )}
 
                           {removed && (
                             <span className="ml-1 rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-700">
-                              removed
+                              {'removed'}
                             </span>
                           )}
 
                           {isDirty && !removed && (
                             <span className="ml-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
-                              dirty
+                              {'edited'}
                             </span>
                           )}
                         </div>
@@ -221,12 +197,10 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                         onClick={() => onDiscardChannel?.(ch.id)}
                         className="shrink-0"
                       >
-                        Discard
+                        {'Discard'}
                       </Button>
                     )}
                   </div>
-
-                  {/* Editable fields for the channel */}
                   <div className="mt-3 grid gap-3 md:grid-cols-3">
                     {channelFieldsToShow.includes('name') && (
                       <Labeled label="Channel Name">
@@ -239,10 +213,10 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             isChannelFieldDirty(ch.id, 'name') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
+                          disabled={removed}
                         />
                       </Labeled>
                     )}
-
                     {channelFieldsToShow.includes('description') && (
                       <Labeled label="Channel Description">
                         <Input
@@ -256,10 +230,10 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             isChannelFieldDirty(ch.id, 'description') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
+                          disabled={removed}
                         />
                       </Labeled>
                     )}
-
                     {channelFieldsToShow.includes('price') && (
                       <Labeled label="Price">
                         <Input
@@ -275,10 +249,10 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             isChannelFieldDirty(ch.id, 'price') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
+                          disabled={removed}
                         />
                       </Labeled>
                     )}
-
                     {channelFieldsToShow.includes('category') && (
                       <Labeled label="Category">
                         <Input
@@ -292,10 +266,10 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             isChannelFieldDirty(ch.id, 'category') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
+                          disabled={removed}
                         />
                       </Labeled>
                     )}
-
                     {channelFieldsToShow.includes('isLocal') && (
                       <Labeled label="Local?">
                         <div
@@ -311,6 +285,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             labelRight="Yes"
                             checked={Boolean(ch.isLocal)}
                             onChange={(next) => onChangeChannel(ch.id, { isLocal: next })}
+                            disabled={removed}
                           />
                         </div>
                       </Labeled>

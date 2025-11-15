@@ -77,7 +77,6 @@ export const renderEditorsForJob = ({
     }
     case UpdateType.PlanBundles:
       const bundles = bundlesByPlanId?.[plan.id] ?? [];
-      const addedBundles = addedBundleIdsByPlanId?.[plan.id] ?? [];
       const dirtyBundles = dirtyBundlesByPlanId?.[plan.id] ?? {};
       return (
         <PlanBundlesRowCard

@@ -10,7 +10,6 @@ import { clearState } from './mocks/db';
 import { buildScenario } from './mocks/factories';
 import { registerMockResetRoute } from './mocks/reset';
 
-type PlanId = string;
 type JobId = string;
 
 const app = Fastify({
@@ -29,10 +28,10 @@ const app = Fastify({
 await app.register(cors, { origin: true });
 registerMockResetRoute(app);
 
-function parseIntParam(v: unknown, fallback: number) {
-  const n = Number(v);
-  return Number.isFinite(n) && n > 0 ? n : fallback;
-}
+const parseIntParam = (value: unknown, fallback: number) => {
+  const num = Number(value);
+  return Number.isFinite(num) && num > 0 ? num : fallback;
+};
 
 app.get('/api/mocks/fixtures', async () => {
   const [plans, bundles, channels, planBundles, bundleChannels, planChannels] = await Promise.all([
@@ -67,14 +66,13 @@ app.get('/api/mocks/generate', async (req, reply) => {
   const scenario = buildScenario(seed, counts);
   return scenario;
 });
-const N = (s: string) => s;
 
-export async function readJsonAt<T = unknown>(absPath: string): Promise<T> {
+export const readJsonAt = async <T = unknown>(absPath: string): Promise<T> => {
   const txt = await readFile(absPath, 'utf8');
   return JSON.parse(txt) as T;
-}
+};
 
-async function loadFixtures(mode: 'base' | 'alt' = 'base') {
+const loadFixtures = async (mode: 'base' | 'alt' = 'base') => {
   const fixturesDir = path.resolve(process.cwd(), 'src/server/mocks/fixtures');
   const files = {
     plans: path.join(fixturesDir, `plans.${mode}.json`),
@@ -84,7 +82,6 @@ async function loadFixtures(mode: 'base' | 'alt' = 'base') {
     planChannels: path.join(fixturesDir, `planChannels.${mode}.json`),
     bundleChannels: path.join(fixturesDir, `bundleChannels.${mode}.json`),
   };
-
   const [plans, bundles, channels, planBundles, planChannels, bundleChannels] = await Promise.all([
     readJsonAt(files.plans),
     readJsonAt(files.bundles),
@@ -102,108 +99,7 @@ async function loadFixtures(mode: 'base' | 'alt' = 'base') {
     bundleChannels: bundleChannels as any[],
     planChannels: planChannels as any[],
   };
-}
-
-// app.post('/api/mocks/reset', async (req, reply) => {
-//   try {
-//     const { mode = 'base' } = (req.body ?? {}) as { mode?: 'base' | 'alt' };
-
-//     const fixturesDir = path.resolve(process.cwd(), 'src/server/mocks/fixtures');
-//     const files = {
-//       plans: path.join(fixturesDir, `plans.${mode}.json`),
-//       bundles: path.join(fixturesDir, `bundles.${mode}.json`),
-//       channels: path.join(fixturesDir, `channels.${mode}.json`),
-//       planBundles: path.join(fixturesDir, `planBundles.${mode}.json`),
-//       planChannels: path.join(fixturesDir, `planChannels.${mode}.json`),
-//       bundleChannels: path.join(fixturesDir, `bundleChannels.${mode}.json`),
-//     };
-
-//     // Load everything
-//     const [plansRaw, bundlesRaw, channelsRaw, planBundlesRaw, planChannelsRaw, bundleChannelsRaw] =
-//       await Promise.all([
-//         readJsonAt<Plan[]>(files.plans),
-//         readJsonAt<Bundle[]>(files.bundles),
-//         readJsonAt<Channel[]>(files.channels),
-//         readJsonAt<PlanBundleLink[]>(files.planBundles).catch(() => []),
-//         readJsonAt<PlanChannelLink[]>(files.planChannels).catch(() => []),
-//         readJsonAt<BundleChannelLink[]>(files.bundleChannels).catch(() => []),
-//       ]);
-
-//     // Normalize entity ids (if needed)
-//     const plans = plansRaw.map((p) => ({ ...p, id: N(p.id) }));
-//     const bundles = bundlesRaw.map((b) => ({ ...b, id: N(b.id) }));
-//     const channels = channelsRaw.map((c) => ({ ...c, id: N(c.id) }));
-
-//     // Normalize FKs
-//     const planBundles = planBundlesRaw.map((r) => ({
-//       ...r,
-//       planId: N(r.planId),
-//       bundleId: N(r.bundleId),
-//     }));
-//     const planChannels = planChannelsRaw.map((r) => ({
-//       ...r,
-//       planId: N(r.planId),
-//       channelId: N(r.channelId),
-//     }));
-//     const bundleChannels = bundleChannelsRaw.map((r) => ({
-//       ...r,
-//       bundleId: N(r.bundleId),
-//       channelId: N(r.channelId),
-//     }));
-
-//     // Indexes
-//     const plansById = Object.fromEntries(plans.map((p) => [p.id, p]));
-//     const bundlesById = Object.fromEntries(bundles.map((b) => [b.id, b]));
-//     const channelsById = Object.fromEntries(channels.map((c) => [c.id, c]));
-
-//     // Validate referential integrity
-//     const errors: string[] = [];
-
-//     const missing = (label: string, id: string) => errors.push(`${label}: ${id}`);
-
-//     for (const r of planBundles) {
-//       if (!plansById[r.planId]) missing('planBundles.planId', r.planId);
-//       if (!bundlesById[r.bundleId]) missing('planBundles.bundleId', r.bundleId);
-//     }
-//     for (const r of planChannels) {
-//       if (!plansById[r.planId]) missing('planChannels.planId', r.planId);
-//       if (!channelsById[r.channelId]) missing('planChannels.channelId', r.channelId);
-//     }
-//     for (const r of bundleChannels) {
-//       if (!bundlesById[r.bundleId]) missing('bundleChannels.bundleId', r.bundleId);
-//       if (!channelsById[r.channelId]) missing('bundleChannels.channelId', r.channelId);
-//     }
-
-//     if (errors.length) {
-//       const uniq = Array.from(new Set(errors));
-//       const head = uniq.slice(0, 10).join(', ');
-//       throw new Error(`Fixture integrity error(s): ${head}${uniq.length > 10 ? ' …' : ''}`);
-//     }
-
-//     // All good → populate in-memory store atomically
-//     setState({ plans, bundles, channels, planBundles, bundleChannels, planChannels });
-
-//     // Optional: log counts for sanity
-//     req.log.info(
-//       {
-//         counts: {
-//           plans: plans.length,
-//           bundles: bundles.length,
-//           channels: channels.length,
-//           planBundles: planBundles.length,
-//           planChannels: planChannels.length,
-//           bundleChannels: bundleChannels.length,
-//         },
-//       },
-//       'mock state set',
-//     );
-
-//     return reply.send({ ok: true, mode });
-//   } catch (err) {
-//     req.log.error(err, 'reset failed');
-//     return reply.status(400).send({ error: (err as Error).message });
-//   }
-// });
+};
 
 app.get('/api/mocks/state', async (req, reply) => {
   if (!app.mockState) {
@@ -292,8 +188,6 @@ app.get<{
   if (!ids.length) return reply.code(400).send({ error: 'No valid planIds' });
 
   const scenario = await loadFixtures('base');
-
-  // Indexes
   const channelById = new Map(scenario.channels.map((c: Channel) => [c.id, c]));
 
   const planToDirect: Map<string, { channelId: string; sortIndex: number }[]> = new Map();
@@ -316,18 +210,14 @@ app.get<{
       .push({ channelId: bc.channelId, sortIndex: bc.sortIndex ?? 0 });
   }
 
-  // Build result
   const out: Record<string, Channel[]> = {};
-
   for (const pid of ids) {
-    // 1) Direct planChannels (preserve order)
     const direct = (planToDirect.get(pid) ?? [])
       .slice()
       .sort((a, b) => a.sortIndex - b.sortIndex)
       .map((x) => channelById.get(x.channelId))
       .filter(Boolean) as Channel[];
 
-    // 2) Fallback/augment via bundles → bundleChannels
     let viaBundles: Channel[] = [];
     if (!direct.length) {
       const bundleRefs = (planToBundles.get(pid) ?? [])
@@ -348,8 +238,6 @@ app.get<{
         }
       }
     }
-
-    // Prefer direct if present; otherwise bundle-derived
     out[pid] = direct.length ? direct : viaBundles;
   }
 
@@ -357,7 +245,6 @@ app.get<{
     { requestCount: ids.length, first: ids[0], foundForFirst: out[ids[0]]?.length ?? 0 },
     'planChannels lookup',
   );
-
   return reply.send(out);
 });
 
@@ -378,8 +265,6 @@ app.get<{
   if (!ids.length) return reply.code(400).send({ error: 'No valid planIds' });
 
   const scenario = await loadFixtures('base');
-
-  // Indexes
   const bundleById = new Map(scenario.bundles.map((bundle: Bundle) => [bundle.id, bundle]));
 
   const planToDirect: Map<string, { bundleId: string; sortIndex: number }[]> = new Map();
@@ -393,16 +278,6 @@ app.get<{
     if (!planToBundles.has(pb.planId)) planToBundles.set(pb.planId, []);
     planToBundles.get(pb.planId)!.push({ bundleId: pb.bundleId, sortIndex: pb.sortIndex ?? 0 });
   }
-
-  // const bundleToChannels: Map<string, { channelId: string; sortIndex: number }[]> = new Map();
-  // for (const bc of scenario.bundleChannels ?? []) {
-  //   if (!bundleToChannels.has(bc.bundleId)) bundleToChannels.set(bc.bundleId, []);
-  //   bundleToChannels
-  //     .get(bc.bundleId)!
-  //     .push({ channelId: bc.channelId, sortIndex: bc.sortIndex ?? 0 });
-  // }
-
-  // Build result
   const out: Record<string, Bundle[]> = {};
 
   for (const pid of ids) {
@@ -412,16 +287,15 @@ app.get<{
       .map((x) => bundleById.get(x.bundleId))
       .filter(Boolean) as Bundle[];
   }
-
   req.log.info(
     { requestCount: ids.length, first: ids[0], foundForFirst: out[ids[0]]?.length ?? 0 },
     'planBundles lookup',
   );
-
   return reply.send(out);
 });
 
 app.post('/jobs/master/create', async (req, reply) => {
+  // There is no spoon
   return true;
 });
 
@@ -490,12 +364,12 @@ app.get('/jobs/:jobId/stream', async (req, reply) => {
   return reply;
 });
 
-function broadcast(jobId: string, data: any) {
+const broadcast = (jobId: string, data: any) => {
   const j = jobs.get(jobId);
   if (!j) return;
   for (const ws of j.subscribers) {
     ws.write(`event: ${data.type}\ndata: ${JSON.stringify(data)}\n\n`);
   }
-}
+};
 
 app.listen({ port: 5175 }).then(() => console.log('Mock API on :5175'));

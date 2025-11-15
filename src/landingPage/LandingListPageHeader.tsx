@@ -31,20 +31,15 @@ const LandingListPageHeader = ({ selectedRows }: LandingListPageHeaderProps) => 
 
   return (
     <div className="grid grid-cols-1 items-center gap-3 sm:grid-cols-12">
-      {/* Title */}
       <div className="col-span-8 flex items-center">
         <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 ring-1 ring-slate-200">
           <LayoutList className="h-5 w-5 text-slate-700" />
         </span>
         <span className="ml-3 text-xl font-semibold text-slate-900">Plans</span>
-
-        {/* Selection count */}
         <span className="ml-3 inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200">
-          {selectedIds.length} selected
+          {selectedIds.length} {'selected'}
         </span>
       </div>
-
-      {/* Actions */}
       <div className="col-span-4 flex items-center justify-start sm:justify-end gap-2">
         {hasError ? (
           <span className="inline-flex items-center rounded-md bg-rose-50 px-2 py-1 text-xs font-medium text-rose-700 ring-1 ring-inset ring-rose-200">
@@ -66,12 +61,12 @@ const LandingListPageHeader = ({ selectedRows }: LandingListPageHeaderProps) => 
           {isPending ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              Launching…
+              {'Launching…'}
             </>
           ) : (
             <>
               <Play className="h-4 w-4" />
-              Bundle Composer
+              {'Bundle Composer'}
             </>
           )}
         </button>

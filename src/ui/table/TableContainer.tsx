@@ -16,9 +16,7 @@ export const TableContainer = forwardRef<HTMLDivElement, TableContainerProps>(
       <div
         ref={ref}
         className={cn(
-          // this is the one scroll host
           'h-full overflow-auto',
-          // subtle scroll shadows; no width overflow
           'relative isolate',
           'before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-4 before:bg-gradient-to-b before:from-black/5 before:to-transparent',
           'after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-4 after:bg-gradient-to-t after:from-black/5 after:to-transparent',

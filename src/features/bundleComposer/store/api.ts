@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Bundle } from '../types';
+import type { Bundle } from '../../../schema';
 
 export const storeApi = createApi({
   reducerPath: 'api',
@@ -37,5 +37,4 @@ export const storeApi = createApi({
     }),
   }),
 });
-
 export const { useGetBundlesQuery, useGetBundleQuery, useUpsertBundleMutation } = storeApi;

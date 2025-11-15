@@ -9,12 +9,16 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  type InputHTMLAttributes,
+  type SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { cn } from '../../lib/utils/cn';
 
-/** ──────────────────────────────────────────────────────────────
- * Props: either pass a built `table`, OR pass `data + columns`
- * ────────────────────────────────────────────────────────────── */
 type BaseProps<TData> = {
   loading?: boolean;
   height?: number | string;
@@ -22,7 +26,7 @@ type BaseProps<TData> = {
   onRowClick?: (row: TData) => void;
   className?: string;
   selectable?: boolean;
-  rowSelection?: RowSelectionState; // controlled
+  rowSelection?: RowSelectionState;
   setRowSelection?: (updater: React.SetStateAction<RowSelectionState>) => void;
 };
 
@@ -52,7 +56,6 @@ export function Table<TData>(props: TableProps<TData>) {
     setRowSelection,
   } = props;
 
-  // If an instance is provided, use it; otherwise build one from data/columns
   const table =
     'table' in props && props.table
       ? props.table
@@ -60,9 +63,7 @@ export function Table<TData>(props: TableProps<TData>) {
 
   const rows = table.getRowModel().rows;
   const isEmpty = !loading && rows.length === 0;
-
   const hasInjectedSelectCol = table.getAllLeafColumns().some((c) => c.id === '_select');
-
   const shouldRenderSelect = !!selectable && !hasInjectedSelectCol;
 
   const ColGroup = useMemo(
@@ -82,7 +83,6 @@ export function Table<TData>(props: TableProps<TData>) {
 
   return (
     <div className={cn('relative rounded-md border border-slate-200 bg-white', className)}>
-      {/* Header table */}
       <table className="w-full text-sm table-fixed border-separate [border-spacing:0]">
         <ColGroup />
         <thead className="bg-slate-200 border-b border-slate-300">
@@ -126,8 +126,6 @@ export function Table<TData>(props: TableProps<TData>) {
           ))}
         </thead>
       </table>
-
-      {/* Body table in scroll container */}
       <div
         className="max-h-[85vh] overflow-auto [scrollbar-gutter:stable_both-edges]"
         style={{ height: typeof height === 'number' ? height : undefined }}
@@ -180,14 +178,11 @@ export function Table<TData>(props: TableProps<TData>) {
   );
 }
 
-/** ──────────────────────────────────────────────────────────────
- * Internal table factory (used only when no instance is passed)
- * ────────────────────────────────────────────────────────────── */
 function useInternalTable<TData>(
   props: WithDef<TData>,
   selectable?: boolean,
   rowSelection?: RowSelectionState,
-  setRowSelection?: (updater: React.SetStateAction<RowSelectionState>) => void,
+  setRowSelection?: (updater: SetStateAction<RowSelectionState>) => void,
 ) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -228,13 +223,10 @@ function useInternalTable<TData>(
   });
 }
 
-/** ──────────────────────────────────────────────────────────────
- * Shared checkbox (fixed: removed stray sorting state duplication)
- * ────────────────────────────────────────────────────────────── */
 function IndeterminateCheckbox({
   indeterminate,
   ...props
-}: React.InputHTMLAttributes<HTMLInputElement> & { indeterminate?: boolean }) {
+}: InputHTMLAttributes<HTMLInputElement> & { indeterminate?: boolean }) {
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (ref.current) ref.current.indeterminate = Boolean(indeterminate);

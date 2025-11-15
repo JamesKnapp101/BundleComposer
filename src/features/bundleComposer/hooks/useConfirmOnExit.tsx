@@ -8,22 +8,21 @@ type ConfirmOnExitHandler = (
   onCancel: () => void,
 ) => void | Promise<void>;
 
-export function useConfirmOnExit(
+export const useConfirmOnExit = (
   navigate: NavigateFunction,
   confirmHandler: ConfirmOnExitHandler,
   defaultRoute?: string,
   bypassConfirmation?: { current: boolean },
-) {
+) => {
   const didConfirmRef = useRef(false);
   const inFlightRef = useRef(false);
   const targetHrefRef = useRef<string | null>(null);
   const navKeyRef = useRef<string | null>(null);
   const location = useLocation();
 
-  // When the location key changes, consider the navigation "committed".
   useEffect(() => {
     if (navKeyRef.current && navKeyRef.current !== location.key) {
-      // nav finished: disarm the blocker
+      // nav finished, so disarm the blocker
       didConfirmRef.current = false;
       inFlightRef.current = false;
       targetHrefRef.current = null;
@@ -36,7 +35,7 @@ export function useConfirmOnExit(
 
   useEffect(() => {
     if (blocker.state !== 'blocked') return;
-    if (inFlightRef.current) return; // avoid re-entrant prompts while a dialog is open
+    if (inFlightRef.current) return; // avoid prompts while a dialog is open
 
     inFlightRef.current = true;
     targetHrefRef.current = createPath(blocker.location);
@@ -83,4 +82,4 @@ export function useConfirmOnExit(
       inFlightRef.current = false; // Something blew up, reset
     }
   }, [blocker, confirmHandler, navigate, defaultRoute, bypassConfirmation, location.key]);
-}
+};

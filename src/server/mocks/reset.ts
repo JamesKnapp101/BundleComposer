@@ -11,12 +11,11 @@ import type {
 } from 'src/schema';
 import { readJsonAt } from '..';
 
-export function registerMockResetRoute(app: FastifyInstance) {
+export const registerMockResetRoute = (app: FastifyInstance) => {
   const N = (s: string) => s;
   app.post('/api/mocks/reset', async (req, reply) => {
     try {
       const { mode = 'base' } = (req.body ?? {}) as { mode?: 'base' | 'alt' };
-
       const fixturesDir = path.resolve(process.cwd(), 'src/server/mocks/fixtures');
       const files = {
         plans: path.join(fixturesDir, `plans.${mode}.json`),
@@ -26,8 +25,6 @@ export function registerMockResetRoute(app: FastifyInstance) {
         planChannels: path.join(fixturesDir, `planChannels.${mode}.json`),
         bundleChannels: path.join(fixturesDir, `bundleChannels.${mode}.json`),
       };
-
-      // Load everything
       const [
         plansRaw,
         bundlesRaw,
@@ -43,13 +40,9 @@ export function registerMockResetRoute(app: FastifyInstance) {
         readJsonAt<PlanChannelLink[]>(files.planChannels).catch(() => []),
         readJsonAt<BundleChannelLink[]>(files.bundleChannels).catch(() => []),
       ]);
-
-      // Normalize entity ids (if needed)
       const plans = plansRaw.map((p: { id: any }) => ({ ...p, id: N(p.id) }));
       const bundles = bundlesRaw.map((b: { id: any }) => ({ ...b, id: N(b.id) }));
       const channels = channelsRaw.map((c: { id: any }) => ({ ...c, id: N(c.id) }));
-
-      // Normalize FKs
       const planBundles = planBundlesRaw.map((r: { planId: any; bundleId: any }) => ({
         ...r,
         planId: N(r.planId),
@@ -66,14 +59,10 @@ export function registerMockResetRoute(app: FastifyInstance) {
         channelId: N(r.channelId),
       }));
 
-      // Indexes
       const plansById = Object.fromEntries(plans.map((p: { id: any }) => [p.id, p]));
       const bundlesById = Object.fromEntries(bundles.map((b: { id: any }) => [b.id, b]));
       const channelsById = Object.fromEntries(channels.map((c: { id: any }) => [c.id, c]));
-
-      // Validate referential integrity
       const errors: string[] = [];
-
       const missing = (label: string, id: string) => errors.push(`${label}: ${id}`);
 
       for (const r of planBundles) {
@@ -94,13 +83,7 @@ export function registerMockResetRoute(app: FastifyInstance) {
         const head = uniq.slice(0, 10).join(', ');
         throw new Error(`Fixture integrity error(s): ${head}${uniq.length > 10 ? ' …' : ''}`);
       }
-
-      // All good → populate in-memory store atomically
-      //   setState({ plans, bundles, channels, planBundles, bundleChannels, planChannels });
-
-      // After validation passes:
       app.mockState = { plans, bundles, channels, planBundles, bundleChannels, planChannels };
-
       req.log.info(
         {
           counts: {
@@ -114,11 +97,10 @@ export function registerMockResetRoute(app: FastifyInstance) {
         },
         'mock state set',
       );
-
       return reply.send({ ok: true, mode });
     } catch (err) {
       req.log.error(err, 'reset failed');
       return reply.status(400).send({ error: (err as Error).message });
     }
   });
-}
+};

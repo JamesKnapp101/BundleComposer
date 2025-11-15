@@ -9,14 +9,14 @@ export type AppState = {
 
 let state: AppState | null = null;
 
-export function getState(): AppState | null {
+export const getState = (): AppState | null => {
   return state;
-}
+};
 
-export function setState(next: AppState): void {
+export const setState = (next: AppState): void => {
   state = next;
-}
+};
 
-export function clearState(): void {
+export const clearState = (): void => {
   state = null;
-}
+};

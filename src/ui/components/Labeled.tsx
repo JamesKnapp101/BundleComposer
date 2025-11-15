@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export const Labeled = ({
   children,
   label,
@@ -5,7 +7,7 @@ export const Labeled = ({
   required,
   className,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   label: string;
   hint?: string;
   required?: boolean;
@@ -24,15 +26,12 @@ export const Labeled = ({
           {label}
           {required && <span className="ml-1 text-rose-600">*</span>}
         </label>
-
         {hint && (
           <span className="text-[11px] text-slate-500 group-focus-within:text-slate-600">
             {hint}
           </span>
         )}
       </div>
-
-      {/* Field */}
       <div className="min-h-[2.25rem]">{children}</div>
     </div>
   );

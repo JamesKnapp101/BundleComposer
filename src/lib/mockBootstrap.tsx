@@ -38,8 +38,6 @@ export const ensureScenarioInitialized = async () => {
   const { resetToBase, resetToGenerated } = await import('../lib/api/scenarioClient');
   const urlChoice = getUrlChoice();
   const cached = getCachedChoice();
-
-  // If URL specifies a choice different from cache, obey URL.
   const choice = urlChoice ?? cached ?? { mode: 'base' as const };
 
   if (!cached || JSON.stringify(choice) !== JSON.stringify(cached)) {

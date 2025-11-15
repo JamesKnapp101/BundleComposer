@@ -8,7 +8,6 @@ import { fetchState, QUERY_KEYS } from '../api/scenarioClient';
 
 type PlansNormalized = { byId: Record<string, Plan>; allIds: string[] };
 
-// Prepare and gather the mock data scenario
 export const useSelectedPlansQuery = (ids: string[]) => {
   const sortedIds = useMemo(() => [...ids].sort(), [ids]);
   const idSet = useMemo(() => new Set(sortedIds), [sortedIds]);

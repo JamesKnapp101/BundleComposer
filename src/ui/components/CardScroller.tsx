@@ -1,11 +1,10 @@
 type CardScrollerProps = {
   children: React.ReactNode;
-  /** exact height; use px or vh. Defaults to 46vh to mirror the list page feel */
   height?: string;
   className?: string;
 };
 
-export function CardScroller({ children, height = '46vh', className }: CardScrollerProps) {
+export const CardScroller = ({ children, height = '46vh', className }: CardScrollerProps) => {
   return (
     <div
       className={[
@@ -18,4 +17,4 @@ export function CardScroller({ children, height = '46vh', className }: CardScrol
       {children}
     </div>
   );
-}
+};
