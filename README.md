@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+# BundleComposer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight demo application that explores editing complex, interrelated data structures for a ficticious streaming service (Plans, Bundles, Channels) using a modern React toolchain. The user selects a series of streaming Plans for bulk editing, which are then opened in an editor that allows changing of Plan, Bundle, and Channel properties, as well as add or remove Bundles to and from Plans, as well as add or remove Channels from both Plans or Bundles. Users can make structured updates across multiple pages with validation and diff-tracking.
 
-Currently, two official plugins are available:
+This project exists as an example of building maintainable, data-heavy UIs with strong patterns and modern tooling.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 18**
+- **TypeScript**
+- **Vite** for fast local dev
+- **pnpm** for workspace / dependency management
+- **Redux Toolkit** for draft/patch state
+- **React Query** for data fetching + caching
+- **@tanstack/virtual** for virtualized lists
+- **Tailwind CSS** for utility-first styling
+- **shadcn/ui + Radix UI** for accessible components
+- **Fastify** (mock API server) for data simulation
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## What This Demo Shows
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 1. Multi-page editing flow
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Plans have multiple “update pages” (properties, channels, bundles, etc.). Each page tracks its own dirty state and validates before allowing navigation.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Structured diff-based state management
+
+Edits don’t mutate the original data. Instead, the UI captures _patches_ per entity type (plan, bundle, channel) and merges them live into the display. This keeps the UI predictable, undoable, and easy to inspect.
+
+### 3. Virtualized list rendering
+
+Large lists of plans render smoothly via `@tanstack/virtual`, with custom row cards, row-spanning cells, and dynamic resizing.
+
+### 4. Radix-powered UI with custom select menus
+
+Reusable components (`Select`, row cards, picklists, etc.) are styled to float above virtualized content and behave consistently.
+
+### 5. Mock API and data generation
+
+The built-in Fastify server generates mock plans, bundles, and channels on the fly. The front end reads these via React Query hooks and merges local draft edits.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node 20+
+- pnpm 9+
+
+### Install
+
+```bash
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Run Dev
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Run API and web together:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm dev
 ```
+
+or separately:
+
+```bash
+pnpm dev:api     # Fastify mock server on 5175
+pnpm dev:web     # React app on 3000 (Vite)
+```
+
+### Build
+
+```bash
+pnpm build
+```
+
+### Project Structure
+
+```bash
+/src
+  /app         # React app, routing, layouts, components
+  /server      # Fastify mock API
+  /features    # Plan/Bundle/Channel editing logic
+  /components  # Shared UI components
+  /hooks       # Custom hooks (query, memoized logic, etc.)
+  /styles      # Tailwind / global CSS
+  /types       # Zod schemas & TS types
+```
+
+### Why This Project Exists
+
+### This project showcases:
+
+- **clean state modeling**
+- **predictable diff-based editing**
+- **reusable UI primitives**
+- **separation of concerns**
+- **virtualized, data-intensive UI patterns**
+- **a well-structured React + TypeScript architecture**
+
+### License
+
+MIT
