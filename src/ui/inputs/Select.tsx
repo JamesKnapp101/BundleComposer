@@ -96,7 +96,8 @@ export const BCSelect = ({
     if (!btn) return;
     const r = btn.getBoundingClientRect();
     const viewportH = window.innerHeight || document.documentElement.clientHeight;
-    const estimatedH = Math.min(maxMenuHeight, 320) + (searchable ? 48 : 0);
+    const headerHeight = searchable ? 48 : 0;
+    const estimatedH = Math.min(maxMenuHeight + headerHeight, 360);
     const fitsBelow = r.bottom + estimatedH <= viewportH;
     setMenuStyle({
       position: 'fixed',
@@ -104,7 +105,7 @@ export const BCSelect = ({
       left: Math.round(r.left),
       width: Math.round(r.width),
       zIndex: 60_000,
-      maxHeight: maxMenuHeight,
+      maxHeight: estimatedH,
     } as React.CSSProperties);
   };
 
@@ -230,10 +231,10 @@ export const BCSelect = ({
           createPortal(
             <div
               style={menuStyle}
-              className="rounded-xl border border-slate-200 bg-white shadow-xl"
+              className="rounded-xl border border-slate-200 bg-white shadow-xl overflow-hidden flex flex-col"
             >
               {searchable && (
-                <div className="border-b border-slate-200 p-2">
+                <div className="border-b border-slate-200 p-2 flex-shrink-0">
                   <input
                     autoFocus
                     type="text"
@@ -255,7 +256,7 @@ export const BCSelect = ({
                 role="listbox"
                 aria-multiselectable={multiple || undefined}
                 ref={listRef}
-                className="max-h-[inherit] overflow-auto py-1"
+                className="max-h-[inherit] overflow-auto py-1 flex-1"
                 onKeyDown={onKeyDown}
               >
                 {filtered.length === 0 && (
@@ -269,7 +270,7 @@ export const BCSelect = ({
                       <button
                         type="button"
                         className={[
-                          'w-full flex items-center gap-2 px-3 py-2 text-left text-sm',
+                          'w-full flex items-center gap-2 px-3 py-2 text-left text-md text-[14px] antialiased tracking-wide',
                           active ? 'bg-indigo-50' : '',
                           selected ? 'text-slate-900' : 'text-slate-700',
                           'hover:bg-indigo-50 focus:outline-none',

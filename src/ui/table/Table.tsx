@@ -127,7 +127,7 @@ export function Table<TData>(props: TableProps<TData>) {
         </thead>
       </table>
       <div
-        className="max-h-[85vh] overflow-auto [scrollbar-gutter:stable_both-edges]"
+        className="max-h-[80vh] overflow-auto [scrollbar-gutter:stable_both-edges]"
         style={{ height: typeof height === 'number' ? height : undefined }}
       >
         <table className="w-full text-sm table-fixed border-separate [border-spacing:0]">
@@ -223,21 +223,33 @@ function useInternalTable<TData>(
   });
 }
 
-function IndeterminateCheckbox({
+const IndeterminateCheckbox = ({
   indeterminate,
+  className,
   ...props
-}: InputHTMLAttributes<HTMLInputElement> & { indeterminate?: boolean }) {
+}: InputHTMLAttributes<HTMLInputElement> & { indeterminate?: boolean }) => {
   const ref = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
-    if (ref.current) ref.current.indeterminate = Boolean(indeterminate);
+    if (ref.current) {
+      ref.current.indeterminate = Boolean(indeterminate);
+    }
   }, [indeterminate]);
+
   return (
-    <input
-      ref={ref}
-      className="ml-1 accent-indigo-500"
-      type="checkbox"
-      {...props}
-      aria-checked={indeterminate ? 'mixed' : props.checked ? 'true' : 'false'}
-    />
+    <label className="inline-flex items-center justify-center px-1 py-1 cursor-pointer">
+      <input
+        ref={ref}
+        type="checkbox"
+        className={[
+          'h-3 w-3 md:h-3 md:w-3 lg:h-4 lg:w-4',
+          'accent-indigo-500 rounded border-slate-300',
+          'cursor-pointer',
+          className ?? '',
+        ].join(' ')}
+        aria-checked={indeterminate ? 'mixed' : props.checked ? 'true' : 'false'}
+        {...props}
+      />
+    </label>
   );
-}
+};

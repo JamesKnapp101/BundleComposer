@@ -1,3 +1,4 @@
+// check-plan-bands.ts
 import fs from "node:fs/promises";
 const PRICE_BANDS = {
   Nickel: [3, 6],

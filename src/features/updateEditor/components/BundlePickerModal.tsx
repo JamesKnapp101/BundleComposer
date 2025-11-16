@@ -64,7 +64,7 @@ export const BundlePickerModal: React.FC<BundlePickerModalProps> = ({
                       <span className="text-xs text-slate-500">#{String(b.id).slice(0, 8)}</span>
                     </div>
                     <span className="text-xs text-slate-500">
-                      ${typeof b.basePrice === 'number' ? b.basePrice.toFixed(2) : '0.00'}
+                      ${typeof b.addOnPrice === 'number' ? b.addOnPrice.toFixed(2) : '0.00'}
                     </span>
                   </label>
                 );

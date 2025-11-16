@@ -25,6 +25,22 @@ export const useLandingListPageColumns = (): ColumnDef<PlanRow, any>[] => [
     },
   },
   {
+    accessorKey: 'description',
+    header: 'Description',
+    size: 200,
+    cell: (info) => {
+      return <div className="text-start">{info.getValue()}</div>;
+    },
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    size: 200,
+    cell: (info) => {
+      return <div className="text-start">{info.getValue()}</div>;
+    },
+  },
+  {
     accessorKey: 'planTier',
     header: 'Tier',
     cell: (info) => {
@@ -39,17 +55,10 @@ export const useLandingListPageColumns = (): ColumnDef<PlanRow, any>[] => [
     },
   },
   {
-    accessorKey: 'basePrice',
-    header: 'Base Price',
+    accessorKey: 'monthlyPrice',
+    header: 'Monthly Price',
     cell: (info) => {
       return <div className="text-start">{cashify(info.getValue())}</div>;
-    },
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: (info) => {
-      return <div className="text-start">{info.getValue()}</div>;
     },
   },
 ];

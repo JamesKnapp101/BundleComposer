@@ -34,7 +34,7 @@ export const buildScenario = (
   ];
   const categories = [
     'Sports',
-    'News & Politics',
+    'News',
     'Movies',
     'Kids',
     'Lifestyle',
@@ -43,35 +43,62 @@ export const buildScenario = (
     'Horror',
     'Animation',
     'Family',
-    'Food & Drink',
+    'Music',
+    'General',
   ] as const;
 
   const plans: Plan[] = Array.from({ length: counts.plans }, (_, i) => ({
     id: nextId('p'),
     name: `Plan ${i + 1}`,
+    description: 'placeholder description',
     status: 'Active',
     versionId: nanoid(),
     planTier: pick(tiers),
     pricingModel: 'Hybrid',
-    basePrice: Math.floor(rng() * 10),
+    monthlyPrice: 0,
+    currency: 'USD',
+    maxProfiles: 0,
+    maxConcurrentStreams: 0,
+    maxResolution: 'HD',
+    includesAds: false,
+    includesCloudDvr: false,
+    allowsOfflineDownloads: false,
+    supportsMultipleHouseholds: false,
+    trialDays: 0,
   }));
 
   const bundles: Bundle[] = Array.from({ length: counts.bundles }, (_, i) => ({
     id: nextId('b'),
     name: `Bundle ${i + 1}`,
     description: '',
-    basePrice: Math.floor(rng() * 20) + 5,
-    isActive: true,
-    tags: [],
+    bundleType: 'Custom',
+    isAddOn: false,
+    isExclusive: false,
+    addOnPrice: 0,
+    currency: 'USD',
+    primaryGenre: 'Mixed',
+    iconKey: '',
+    sortOrder: 0,
+    promoLabel: '',
+    promoExpiresAt: '',
   }));
 
   const channels: Channel[] = Array.from({ length: counts.channels }, (_, i) => ({
     id: nextId('c'),
     name: `Channel ${i + 1}`,
     description: '',
-    price: Math.floor(rng() * 6) + 1,
+    shortCode: 'HBO',
     category: pick(categories),
-    isLocal: rng() < 0.1,
+    language: 'en',
+    region: 'US',
+    isLocal: false,
+    isHd: false,
+    isUhd: false,
+    supportsDvr: false,
+    hasOnDemandLibrary: false,
+    aLaCartePrice: 0,
+    currency: 'USD',
+    parentalRating: 'Unrated',
     tags: [],
   }));
 

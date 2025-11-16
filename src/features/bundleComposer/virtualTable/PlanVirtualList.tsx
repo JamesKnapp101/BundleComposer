@@ -28,7 +28,6 @@ interface Props {
   onRemoveChannelFromBundle?: (bundleLinkKey: string, channelId: string) => void;
   onOpenBundlePicker?: (planId: string) => void;
   onOpenChannelPicker?: (planId: string) => void;
-
   fieldsToShow?: string[];
 }
 
@@ -110,14 +109,13 @@ export const PlanVirtualList = ({
 
   const catalogChannelsById = useMemo(() => {
     const map: Record<string, Channel> = {};
-
     for (const channel of catalogChannels.data ?? []) {
       if (!map[channel.id]) {
         map[channel.id] = channel;
       }
     }
     return map;
-  }, [catalogBundles.data]);
+  }, [catalogChannels.data]);
 
   const allBundlesById = useMemo(() => {
     const map: Record<string, Bundle> = {};
@@ -142,7 +140,7 @@ export const PlanVirtualList = ({
       }
     }
     return map;
-  }, [bundlesByPlanId]);
+  }, [channelsByPlanId]);
 
   const mergedChannelsByPlanId = useMemo(() => {
     const out: Record<string, Channel[]> = {};
@@ -198,23 +196,27 @@ export const PlanVirtualList = ({
 
     for (const [pid, list] of Object.entries(mergedChannelsByPlanId)) {
       const removedIds = new Set(channelsToRemoveByPlanId[pid] ?? []);
+      const addedIds = new Set(channelsToAddByPlanId[pid] ?? []);
+
       out[pid] = Object.fromEntries(
-        (list as Channel[]).map((ch) => {
-          const isPatched = Boolean(channelPatches[ch.id]);
-          const isRemoved = removedIds.has(ch.id);
-          return [ch.id, isPatched || isRemoved];
+        (list as Channel[]).map((channel, sortIndex) => {
+          const linkKey = `${pid}:${channel.id}:${sortIndex}`;
+          const isPatched = Boolean(channelPatches[linkKey]);
+          const isRemoved = removedIds.has(channel.id);
+          const isAdded = addedIds.has(channel.id);
+          return [linkKey, isPatched || isRemoved || isAdded];
         }),
       );
     }
+
     return out;
-  }, [mergedChannelsByPlanId, channelPatches, channelsToRemoveByPlanId]);
+  }, [mergedChannelsByPlanId, channelPatches, channelsToRemoveByPlanId, channelsToAddByPlanId]);
 
   const mergedBundlesByPlanId = useMemo(() => {
     const out: Record<string, Bundle[]> = {};
 
     for (const plan of plans) {
       const pid = plan.id;
-
       const baseList = (bundlesByPlanId?.[pid] as unknown as Bundle[] | undefined) ?? [];
       const removedIds = new Set(bundlesToRemoveByPlanId[pid] ?? []);
       const addedIds = bundlesToAddByPlanId[pid] ?? [];
@@ -294,6 +296,16 @@ export const PlanVirtualList = ({
     if (currentJob.type === UpdateType.PlanChannels) {
       // @ts-expect-error
       const keys: string[] | undefined = currentJob.args.channelPropertyKeys;
+      return keys && keys.length ? keys : undefined;
+    }
+    return undefined;
+  }, [fieldsToShow, currentJob]);
+
+  const derivedBundleFieldsToShow = useMemo(() => {
+    if (fieldsToShow && fieldsToShow.length) return fieldsToShow;
+    if (currentJob.type === UpdateType.PlanBundles) {
+      // @ts-expect-error
+      const keys: string[] | undefined = currentJob.args.bundlePropertyKeys;
       return keys && keys.length ? keys : undefined;
     }
     return undefined;
@@ -465,7 +477,9 @@ export const PlanVirtualList = ({
                 fieldsToShow:
                   currentJob.type === UpdateType.PlanChannels
                     ? derivedChannelFieldsToShow
-                    : derivedFieldsToShow,
+                    : currentJob.type === UpdateType.PlanBundles
+                      ? derivedBundleFieldsToShow
+                      : derivedFieldsToShow,
                 channelsByPlanId: mergedChannelsByPlanId,
                 dirtyChannelsByPlanId,
                 bundlesByPlanId: mergedBundlesByPlanId,

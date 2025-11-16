@@ -1,11 +1,26 @@
 import { ChevronDown, ChevronRight, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import * as React from 'react';
 import { useState } from 'react';
-import type { Channel, Dict, Plan } from 'src/schema';
 import { cn } from '../../../../lib/utils/cn';
+import {
+  ChannelCategorySchema,
+  CurrencySchema,
+  LanguageSchema,
+  RatingsSchema,
+  RegionSchema,
+  type Channel,
+  type ChannelCategory,
+  type Currency,
+  type Dict,
+  type Language,
+  type Plan,
+  type Ratings,
+  type Region,
+} from '../../../../schema';
 import { Labeled } from '../../../../ui/components/Labeled';
 import { Button } from '../../../../ui/inputs/Button';
 import { Input } from '../../../../ui/inputs/Input';
+import { BCSelect } from '../../../../ui/inputs/Select';
 import { Toggle } from '../../../../ui/inputs/Toggle';
 
 type ID = string;
@@ -65,7 +80,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
   const isChannelAdded = (channelId: string) => addedIdsForPlan.includes(channelId);
   const anyDirty = dirtyChannels && Object.values(dirtyChannels).some(Boolean);
   const anyRemoved = channels.some((ch) => isChannelRemoved(ch.id));
-
+  console.log('anyDirty ', anyDirty);
   return (
     <div
       className={cn(
@@ -122,13 +137,15 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
               <div className="px-4 py-6 text-sm text-slate-500">No channels linked.</div>
             )}
 
-            {channels.map((ch) => {
-              const isDirty = !!dirtyChannels[ch.id];
+            {channels.map((ch, sortIndex) => {
+              const linkKey = `${plan.id}:${ch.id}:${sortIndex}`;
+              const isDirty = !!dirtyChannels[linkKey];
               const removed = isChannelRemoved(ch.id);
               const added = isChannelAdded(ch.id);
+              console.log('isDirty? ', isDirty, removed);
               return (
                 <div
-                  key={ch.id}
+                  key={linkKey}
                   role="listitem"
                   className={cn(
                     'px-4 py-3 rounded-md',
@@ -138,7 +155,6 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-2">
-                      {/* Trash / Undo toggle, same as bundles */}
                       {(onRemoveChannelFromPlan || onAddChannelToPlan) && (
                         <button
                           type="button"
@@ -180,8 +196,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                               {'removed'}
                             </span>
                           )}
-
-                          {isDirty && !removed && (
+                          {isDirty && !added && !removed && (
                             <span className="ml-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
                               {'edited'}
                             </span>
@@ -194,7 +209,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => onDiscardChannel?.(ch.id)}
+                        onClick={() => onDiscardChannel?.(linkKey)}
                         className="shrink-0"
                       >
                         {'Discard'}
@@ -207,10 +222,10 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                         <Input
                           type="text"
                           value={(ch.name as string | undefined) ?? ''}
-                          onChange={(e) => onChangeChannel(ch.id, { name: e.target.value || '' })}
+                          onChange={(e) => onChangeChannel(linkKey, { name: e.target.value || '' })}
                           placeholder="Channel Name"
                           className={cn(
-                            isChannelFieldDirty(ch.id, 'name') &&
+                            isChannelFieldDirty(linkKey, 'name') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
                           disabled={removed}
@@ -223,30 +238,28 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                           type="text"
                           value={(ch.description as string | undefined) ?? ''}
                           onChange={(e) =>
-                            onChangeChannel(ch.id, { description: e.target.value || '' })
+                            onChangeChannel(linkKey, { description: e.target.value || '' })
                           }
                           placeholder="Channel Description"
                           className={cn(
-                            isChannelFieldDirty(ch.id, 'description') &&
+                            isChannelFieldDirty(linkKey, 'description') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
                           disabled={removed}
                         />
                       </Labeled>
                     )}
-                    {channelFieldsToShow.includes('price') && (
-                      <Labeled label="Price">
+                    {channelFieldsToShow.includes('shortCode') && (
+                      <Labeled label="Short Code">
                         <Input
-                          type="number"
-                          value={(ch.price as number | undefined) ?? 0}
+                          type="text"
+                          value={(ch.shortCode as string | undefined) ?? ''}
                           onChange={(e) =>
-                            onChangeChannel(ch.id, {
-                              price: Number((e.target.value ?? '0') || 0),
-                            })
+                            onChangeChannel(linkKey, { shortCode: e.target.value || '' })
                           }
-                          placeholder="Price"
+                          placeholder="Short Code"
                           className={cn(
-                            isChannelFieldDirty(ch.id, 'price') &&
+                            isChannelFieldDirty(linkKey, 'shortCode') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
                           disabled={removed}
@@ -254,27 +267,74 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                       </Labeled>
                     )}
                     {channelFieldsToShow.includes('category') && (
-                      <Labeled label="Category">
-                        <Input
-                          type="text"
-                          value={(ch.category as string | undefined) ?? ''}
-                          onChange={(e) =>
-                            onChangeChannel(ch.id, { category: e.target.value || '' })
+                      <Labeled label={'Category'}>
+                        <BCSelect
+                          options={ChannelCategorySchema.options.map((cc) => ({
+                            label: cc,
+                            value: cc,
+                          }))}
+                          value={ch.category as ChannelCategory | undefined}
+                          onChange={(next) =>
+                            onChangeChannel(linkKey, {
+                              category: next as ChannelCategory | undefined,
+                            })
                           }
-                          placeholder="Category"
                           className={cn(
-                            isChannelFieldDirty(ch.id, 'category') &&
-                              'ring-2 ring-amber-400/80 ring-offset-1',
+                            isChannelFieldDirty(linkKey, 'category') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
                           )}
                           disabled={removed}
                         />
                       </Labeled>
                     )}
+                    {channelFieldsToShow.includes('language') && (
+                      <Labeled label={'Language'}>
+                        <BCSelect
+                          options={LanguageSchema.options.map((l) => ({
+                            label: l,
+                            value: l,
+                          }))}
+                          value={ch.language as Language | undefined}
+                          onChange={(next) =>
+                            onChangeChannel(linkKey, {
+                              language: next as Language | undefined,
+                            })
+                          }
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'language') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                          )}
+                          disabled={removed}
+                        />
+                      </Labeled>
+                    )}
+                    {channelFieldsToShow.includes('region') && (
+                      <Labeled label={'Region'}>
+                        <BCSelect
+                          options={RegionSchema.options.map((r) => ({
+                            label: r,
+                            value: r,
+                          }))}
+                          value={ch.region as Region | undefined}
+                          onChange={(next) =>
+                            onChangeChannel(linkKey, {
+                              region: next as Region | undefined,
+                            })
+                          }
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'region') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                          )}
+                          disabled={removed}
+                        />
+                      </Labeled>
+                    )}
+
                     {channelFieldsToShow.includes('isLocal') && (
                       <Labeled label="Local?">
                         <div
                           className={cn(
-                            isChannelFieldDirty(ch.id, 'isLocal') &&
+                            isChannelFieldDirty(linkKey, 'isLocal') &&
                               'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
                           )}
                         >
@@ -284,10 +344,153 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             labelLeft="No"
                             labelRight="Yes"
                             checked={Boolean(ch.isLocal)}
-                            onChange={(next) => onChangeChannel(ch.id, { isLocal: next })}
+                            onChange={(next) => onChangeChannel(linkKey, { isLocal: next })}
                             disabled={removed}
                           />
                         </div>
+                      </Labeled>
+                    )}
+                    {channelFieldsToShow.includes('isHd') && (
+                      <Labeled label="Is HD?">
+                        <div
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'isHd') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                          )}
+                        >
+                          <Toggle
+                            id={`is-hd-${ch.id}`}
+                            size="md"
+                            labelLeft="No"
+                            labelRight="Yes"
+                            checked={Boolean(ch.isHd)}
+                            onChange={(next) => onChangeChannel(linkKey, { isHd: next })}
+                            disabled={removed}
+                          />
+                        </div>
+                      </Labeled>
+                    )}
+                    {channelFieldsToShow.includes('isUhd') && (
+                      <Labeled label="Is UHD?">
+                        <div
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'isUhd') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                          )}
+                        >
+                          <Toggle
+                            id={`is-uhd-${ch.id}`}
+                            size="md"
+                            labelLeft="No"
+                            labelRight="Yes"
+                            checked={Boolean(ch.isUhd)}
+                            onChange={(next) => onChangeChannel(linkKey, { isUhd: next })}
+                            disabled={removed}
+                          />
+                        </div>
+                      </Labeled>
+                    )}
+                    {channelFieldsToShow.includes('supportsDvr') && (
+                      <Labeled label="Supports DVR?">
+                        <div
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'supportsDvr') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                          )}
+                        >
+                          <Toggle
+                            id={`is-dvr-${ch.id}`}
+                            size="md"
+                            labelLeft="No"
+                            labelRight="Yes"
+                            checked={Boolean(ch.supportsDvr)}
+                            onChange={(next) => onChangeChannel(linkKey, { supportsDvr: next })}
+                            disabled={removed}
+                          />
+                        </div>
+                      </Labeled>
+                    )}
+                    {channelFieldsToShow.includes('hasOnDemandLibrary') && (
+                      <Labeled label="On Demand Library?">
+                        <div
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'hasOnDemandLibrary') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                          )}
+                        >
+                          <Toggle
+                            id={`hasOnDemandLibrary-${ch.id}`}
+                            size="md"
+                            labelLeft="No"
+                            labelRight="Yes"
+                            checked={Boolean(ch.hasOnDemandLibrary)}
+                            onChange={(next) =>
+                              onChangeChannel(linkKey, { hasOnDemandLibrary: next })
+                            }
+                            disabled={removed}
+                          />
+                        </div>
+                      </Labeled>
+                    )}
+                    {channelFieldsToShow.includes('aLaCartePrice') && (
+                      <Labeled label="A la Carte Price">
+                        <Input
+                          type="number"
+                          value={(ch.aLaCartePrice as number | undefined) ?? 0}
+                          onChange={(e) =>
+                            onChangeChannel(linkKey, {
+                              aLaCartePrice: Number((e.target.value ?? '0') || 0),
+                            })
+                          }
+                          placeholder="A-La-Carte Price"
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'aLaCartePrice') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1',
+                          )}
+                          disabled={removed}
+                        />
+                      </Labeled>
+                    )}
+                    {channelFieldsToShow.includes('currency') && (
+                      <Labeled label={'Currency'}>
+                        <BCSelect
+                          options={CurrencySchema.options.map((c) => ({
+                            label: c,
+                            value: c,
+                          }))}
+                          value={ch.currency as Currency | undefined}
+                          onChange={(next) =>
+                            onChangeChannel(linkKey, {
+                              currency: next as Currency | undefined,
+                            })
+                          }
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'currency') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                          )}
+                          disabled={removed}
+                        />
+                      </Labeled>
+                    )}
+                    {channelFieldsToShow.includes('parentalRating') && (
+                      <Labeled label={'Parental Rating'}>
+                        <BCSelect
+                          options={RatingsSchema.options.map((c) => ({
+                            label: c,
+                            value: c,
+                          }))}
+                          value={ch.parentalRating as Ratings | undefined}
+                          onChange={(next) =>
+                            onChangeChannel(linkKey, {
+                              parentalRating: next as Ratings | undefined,
+                            })
+                          }
+                          className={cn(
+                            isChannelFieldDirty(linkKey, 'parentalRating') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                          )}
+                          disabled={removed}
+                        />
                       </Labeled>
                     )}
                   </div>

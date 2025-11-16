@@ -2,18 +2,23 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '../../../../lib/utils/cn';
 import {
+  CurrencySchema,
   PlanStatusSchema,
   PriceModelSchema,
+  ResolutionSchema,
   TierSchema,
+  type Currency,
   type Plan,
   type PlanStatus,
   type PriceModel,
+  type Resolution,
   type Tier,
 } from '../../../../schema';
 import { Labeled } from '../../../../ui/components/Labeled';
 import { Button } from '../../../../ui/inputs/Button';
 import { Input } from '../../../../ui/inputs/Input';
 import { BCSelect } from '../../../../ui/inputs/Select';
+import { Toggle } from '../../../../ui/inputs/Toggle';
 
 interface Props {
   plan: Plan & Record<string, unknown>;
@@ -75,6 +80,31 @@ export const PlanRowCard = ({
               />
             </Labeled>
           )}
+          {fieldsToShow.includes('description') && (
+            <Labeled label={'Plan Description'}>
+              <Input
+                type="text"
+                value={(plan.description as string | undefined) ?? ''}
+                onChange={(e) => onChange({ description: e.target.value || '' })}
+                placeholder="Plan Description"
+                className={cn(
+                  isFieldDirty('description') && 'ring-2 ring-amber-400/80 ring-offset-1',
+                )}
+              />
+            </Labeled>
+          )}
+          {fieldsToShow.includes('status') && (
+            <Labeled label={'status'}>
+              <BCSelect
+                options={PlanStatusSchema.options.map((s) => ({ label: s, value: s }))}
+                value={plan.status as PlanStatus | undefined}
+                onChange={(next) => onChange({ status: next as PlanStatus | undefined })}
+                className={cn(
+                  isFieldDirty('status') && 'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                )}
+              />
+            </Labeled>
+          )}
           {fieldsToShow.includes('planTier') && (
             <Labeled label={'Plan Tier'}>
               <BCSelect
@@ -100,27 +130,155 @@ export const PlanRowCard = ({
               />
             </Labeled>
           )}
-          {fieldsToShow.includes('basePrice') && (
-            <Labeled label={'Base Price'}>
+          {fieldsToShow.includes('monthlyPrice') && (
+            <Labeled label={'Monthly Price'}>
               <Input
                 type="number"
-                value={(plan.basePrice as number | undefined) ?? 0}
-                onChange={(e) => onChange({ basePrice: Number(e.target.value || 0) })}
+                value={(plan.monthlyPrice as number | undefined) ?? 0}
+                onChange={(e) => onChange({ monthlyPrice: Number(e.target.value || 0) })}
                 placeholder="Base price"
                 className={cn(
-                  isFieldDirty('basePrice') && 'ring-2 ring-amber-400/80 ring-offset-1',
+                  isFieldDirty('monthlyPrice') && 'ring-2 ring-amber-400/80 ring-offset-1',
                 )}
               />
             </Labeled>
           )}
-          {fieldsToShow.includes('status') && (
-            <Labeled label={'status'}>
+          {fieldsToShow.includes('currency') && (
+            <Labeled label={'Currency'}>
               <BCSelect
-                options={PlanStatusSchema.options.map((s) => ({ label: s, value: s }))}
-                value={plan.status as PlanStatus | undefined}
-                onChange={(next) => onChange({ status: next as PlanStatus | undefined })}
+                options={CurrencySchema.options.map((cur) => ({ label: cur, value: cur }))}
+                value={plan.currency as Currency | undefined}
+                onChange={(next) => onChange({ currency: next as Currency | undefined })}
                 className={cn(
-                  isFieldDirty('status') && 'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                  isFieldDirty('currency') && 'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                )}
+              />
+            </Labeled>
+          )}
+          {fieldsToShow.includes('maxProfiles') && (
+            <Labeled label={'Max Profiles'}>
+              <Input
+                type="number"
+                value={(plan.maxProfiles as number | undefined) ?? 0}
+                onChange={(e) => onChange({ maxProfiles: Number(e.target.value || 0) })}
+                placeholder="Max Profiles"
+                className={cn(
+                  isFieldDirty('maxProfiles') && 'ring-2 ring-amber-400/80 ring-offset-1',
+                )}
+              />
+            </Labeled>
+          )}
+          {fieldsToShow.includes('maxConcurrentStreams') && (
+            <Labeled label={'Max Concurrent Streams'}>
+              <Input
+                type="number"
+                value={(plan.maxConcurrentStreams as number | undefined) ?? 0}
+                onChange={(e) => onChange({ maxConcurrentStreams: Number(e.target.value || 0) })}
+                placeholder="Max Concurrent Streams"
+                className={cn(
+                  isFieldDirty('maxConcurrentStreams') && 'ring-2 ring-amber-400/80 ring-offset-1',
+                )}
+              />
+            </Labeled>
+          )}
+          {fieldsToShow.includes('maxResolution') && (
+            <Labeled label={'Max Resolution'}>
+              <BCSelect
+                options={ResolutionSchema.options.map((res) => ({ label: res, value: res }))}
+                value={plan.maxResolution as Resolution | undefined}
+                onChange={(next) => onChange({ maxResolution: next as Resolution | undefined })}
+                className={cn(
+                  isFieldDirty('maxResolution') &&
+                    'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                )}
+              />
+            </Labeled>
+          )}
+          {fieldsToShow.includes('includesAds') && (
+            <Labeled label="Includes Ads?">
+              <div
+                className={cn(
+                  isFieldDirty('includesAds') &&
+                    'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                )}
+              >
+                <Toggle
+                  id={`is-includesAds-${plan.id}`}
+                  size="md"
+                  labelLeft="No"
+                  labelRight="Yes"
+                  checked={Boolean(plan.includesAds)}
+                  onChange={(next) => onChange({ includesAds: next })}
+                />
+              </div>
+            </Labeled>
+          )}
+          {fieldsToShow.includes('includesCloudDvr') && (
+            <Labeled label="Includes Cloud DVR?">
+              <div
+                className={cn(
+                  isFieldDirty('includesCloudDvr') &&
+                    'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                )}
+              >
+                <Toggle
+                  id={`is-includesCloudDvr-${plan.id}`}
+                  size="md"
+                  labelLeft="No"
+                  labelRight="Yes"
+                  checked={Boolean(plan.includesCloudDvr)}
+                  onChange={(next) => onChange({ includesCloudDvr: next })}
+                />
+              </div>
+            </Labeled>
+          )}
+          {fieldsToShow.includes('allowsOfflineDownloads') && (
+            <Labeled label="Allows Offline Downloads?">
+              <div
+                className={cn(
+                  isFieldDirty('allowsOfflineDownloads') &&
+                    'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                )}
+              >
+                <Toggle
+                  id={`is-active-${plan.id}`}
+                  size="md"
+                  labelLeft="No"
+                  labelRight="Yes"
+                  checked={Boolean(plan.allowsOfflineDownloads)}
+                  onChange={(next) => onChange({ allowsOfflineDownloads: next })}
+                />
+              </div>
+            </Labeled>
+          )}
+          {fieldsToShow.includes('supportsMultipleHouseholds') && (
+            <Labeled label="Supports Multiple Housolds?">
+              <div
+                className={cn(
+                  isFieldDirty('supportsMultipleHouseholds') &&
+                    'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                )}
+              >
+                <Toggle
+                  id={`is-supportsMultipleHouseholds-${plan.id}`}
+                  size="md"
+                  labelLeft="No"
+                  labelRight="Yes"
+                  checked={Boolean(plan.supportsMultipleHouseholds)}
+                  onChange={(next) => onChange({ supportsMultipleHouseholds: next })}
+                />
+              </div>
+            </Labeled>
+          )}
+          {fieldsToShow.includes('trialDays') && (
+            <Labeled label={'Trial Days'}>
+              <Input
+                type="number"
+                value={(plan.trialDays as number | undefined) ?? 0}
+                onChange={(e) => onChange({ trialDays: Number(e.target.value || 0) })}
+                placeholder="Trial Days"
+                className={cn(
+                  isFieldDirty('trialDays') && 'ring-2 ring-amber-400/80 ring-offset-1',
                 )}
               />
             </Labeled>

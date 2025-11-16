@@ -21,11 +21,13 @@ export const TableContainer = forwardRef<HTMLDivElement, TableContainerProps>(
           'before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-4 before:bg-gradient-to-b before:from-black/5 before:to-transparent',
           'after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-4 after:bg-gradient-to-t after:from-black/5 after:to-transparent',
           'rounded-xl bg-white',
+          'overflow-y-hidden',
           className,
         )}
       >
         <div
           className={cn(
+            'overflow-y-visible',
             '[&>table]:w-full [&>table]:table-fixed',
             stickyHeader &&
               '[&>table>thead>tr>th]:sticky [&>table>thead>tr>th]:top-0 [&>table>thead>tr>th]:z-10 [&>table>thead>tr>th]:bg-white',

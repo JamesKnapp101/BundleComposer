@@ -77,6 +77,11 @@ export const selectCurrentJobDrafts = createSelector(
       : { plan: {}, bundle: {}, channel: {} },
 );
 
+export const selectAllDrafts = createSelector(
+  [selectUpdateEditor, selectCurrentJob],
+  (ue) => ue.drafts,
+);
+
 export const selectIsCurrentJobDirty = createSelector(
   [selectCurrentJobDrafts],
   (d) =>

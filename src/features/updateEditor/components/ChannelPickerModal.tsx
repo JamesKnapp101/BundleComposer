@@ -70,7 +70,7 @@ export const ChannelPickerModal: React.FC<ChannelPickerModalProps> = ({
                       <span className="text-xs text-slate-500">#{String(c.id).slice(0, 8)}</span>
                     </div>
                     <span className="text-xs text-slate-500">
-                      ${typeof c.price === 'number' ? c.price.toFixed(2) : '0.00'}
+                      ${typeof c.aLaCartePrice === 'number' ? c.aLaCartePrice.toFixed(2) : '0.00'}
                     </span>
                   </label>
                 );

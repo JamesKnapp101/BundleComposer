@@ -90,7 +90,6 @@ export const UpdateEditor = ({
     setSelectedChannelIds([]);
   }, []);
 
-  // Memoize a factory selector for the current job’s dirty flag
   const isCurrentJobDirty = useAppSelector(
     useMemo(() => {
       if (!currentJob) return () => false;
@@ -98,11 +97,9 @@ export const UpdateEditor = ({
     }, [currentJob]),
   );
 
-  // Local pre-commit state during select/config
   const [phase, setPhase] = useState<EditorPhase>('select');
   const [job, setJob] = useState<UpdateJob | null>(null);
 
-  // Default validator: allow if none provided
   const validate = useCallback(async () => {
     if (onSubmitWithValidation) return onSubmitWithValidation();
     return true;
@@ -112,7 +109,6 @@ export const UpdateEditor = ({
     if (!initialJobs?.length) return;
     // Push each job to the slice (id, type, args, planIds are assumed valid)
     for (const j of initialJobs) dispatch(addJob(j));
-    // After hydration, we’re in edit phase if there’s at least one job
     if (initialJobs.length > 0) setPhase('edit');
   }, [dispatch, initialJobs]);
 
@@ -142,7 +138,6 @@ export const UpdateEditor = ({
 
   const onConfirmConfig = () => {
     if (!job) return;
-    // Commit job into the slice; slice will set it as current
     dispatch(addJob(job));
     setPhase('edit');
   };
@@ -150,7 +145,6 @@ export const UpdateEditor = ({
   const onChangeJob = async () => {
     const ok = await validate();
     if (!ok) return;
-    // Return to selection to create another job
     setPhase('select');
     setJob(null);
   };
@@ -252,7 +246,6 @@ export const UpdateEditor = ({
               onDiscardChannel={(channelId) => {
                 dispatch(clearChannelDraft({ jobId: currentJob.id, channelId }));
               }}
-              // --- NEW relationship actions wired to slice ---
               onAddBundleToPlan={(planId, bundleId) => {
                 dispatch(
                   addBundleToPlan({

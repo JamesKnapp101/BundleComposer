@@ -1,11 +1,22 @@
 import { ChevronDown, ChevronRight, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import * as React from 'react';
 import { useState } from 'react';
-import type { Bundle, Dict, Plan } from 'src/schema';
 import { cn } from '../../../../lib/utils/cn';
+import {
+  BundleTypeSchema,
+  CurrencySchema,
+  GenreSchema,
+  type Bundle,
+  type BundleType,
+  type Currency,
+  type Dict,
+  type Genre,
+  type Plan,
+} from '../../../../schema';
 import { Labeled } from '../../../../ui/components/Labeled';
 import { Button } from '../../../../ui/inputs/Button';
 import { Input } from '../../../../ui/inputs/Input';
+import { BCSelect } from '../../../../ui/inputs/Select';
 import { Toggle } from '../../../../ui/inputs/Toggle';
 
 type ID = string;
@@ -51,6 +62,8 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
   const isBundleAdded = (bundleId: string) => addedIdsForPlan.includes(bundleId);
   const anyDirty = dirtyBundles && Object.values(dirtyBundles).some(Boolean);
   const anyRemoved = bundles.some((b) => isBundleRemoved(b.id));
+
+  console.log('anyDirty ', anyDirty);
 
   return (
     <div
@@ -182,8 +195,6 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                       </Button>
                     )}
                   </div>
-
-                  {/* Editable fields */}
                   <div className="mt-3 grid gap-3 md:grid-cols-3">
                     {bundleFieldsToShow.includes('name') && (
                       <Labeled label="Bundle Name">
@@ -217,43 +228,124 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                         />
                       </Labeled>
                     )}
-                    {bundleFieldsToShow.includes('basePrice') && (
-                      <Labeled label="Base Price">
-                        <Input
-                          type="number"
-                          value={(bundle.basePrice as number | undefined) ?? 0}
-                          onChange={(e) =>
+                    {bundleFieldsToShow.includes('bundleType') && (
+                      <Labeled label={'Bundle Type'}>
+                        <BCSelect
+                          options={BundleTypeSchema.options.map((bt) => ({
+                            label: bt,
+                            value: bt,
+                          }))}
+                          value={bundle.bundleType as BundleType | undefined}
+                          onChange={(next) =>
                             onChangeBundle(linkKey, {
-                              basePrice: Number((e.target.value ?? '0') || 0),
+                              bundleType: next as BundleType | undefined,
                             })
                           }
-                          placeholder="Base Price"
                           className={cn(
-                            isBundleFieldDirty(linkKey, 'basePrice') &&
+                            isBundleFieldDirty(linkKey, 'bundleType') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                          )}
+                        />
+                      </Labeled>
+                    )}
+                    {bundleFieldsToShow.includes('isAddOn') && (
+                      <Labeled label="Is Add On?">
+                        <div
+                          className={cn(
+                            isBundleFieldDirty(linkKey, 'isAddOn') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                          )}
+                        >
+                          <Toggle
+                            id={`is-isAddOn-${linkKey}`}
+                            size="md"
+                            labelLeft="No"
+                            labelRight="Yes"
+                            checked={Boolean(bundle.isAddOn)}
+                            onChange={(next) => onChangeBundle(linkKey, { isAddOn: next })}
+                            disabled={removed}
+                          />
+                        </div>
+                      </Labeled>
+                    )}
+                    {bundleFieldsToShow.includes('isExclusive') && (
+                      <Labeled label="Is Exclusive?">
+                        <div
+                          className={cn(
+                            isBundleFieldDirty(linkKey, 'isExclusive') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                          )}
+                        >
+                          <Toggle
+                            id={`is-isExclusive-${linkKey}`}
+                            size="md"
+                            labelLeft="No"
+                            labelRight="Yes"
+                            checked={Boolean(bundle.isExclusive)}
+                            onChange={(next) => onChangeBundle(linkKey, { isExclusive: next })}
+                            disabled={removed}
+                          />
+                        </div>
+                      </Labeled>
+                    )}
+
+                    {bundleFieldsToShow.includes('addOnPrice') && (
+                      <Labeled label="Add On Price">
+                        <Input
+                          type="number"
+                          value={(bundle.addOnPrice as number | undefined) ?? 0}
+                          onChange={(e) =>
+                            onChangeBundle(linkKey, {
+                              addOnPrice: Number((e.target.value ?? '0') || 0),
+                            })
+                          }
+                          placeholder="Add On Price"
+                          className={cn(
+                            isBundleFieldDirty(linkKey, 'addOnPrice') &&
                               'ring-2 ring-amber-400/80 ring-offset-1',
                           )}
                           disabled={removed}
                         />
                       </Labeled>
                     )}
-                    {bundleFieldsToShow.includes('isActive') && (
-                      <Labeled label="Active?">
-                        <div
+                    {bundleFieldsToShow.includes('currency') && (
+                      <Labeled label={'Currency'}>
+                        <BCSelect
+                          options={CurrencySchema.options.map((bc) => ({
+                            label: bc,
+                            value: bc,
+                          }))}
+                          value={bundle.currency as Currency | undefined}
+                          onChange={(next) =>
+                            onChangeBundle(linkKey, {
+                              currency: next as Currency | undefined,
+                            })
+                          }
                           className={cn(
-                            isBundleFieldDirty(linkKey, 'isActive') &&
-                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl p-1',
+                            isBundleFieldDirty(linkKey, 'currency') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
                           )}
-                        >
-                          <Toggle
-                            id={`is-active-${linkKey}`}
-                            size="md"
-                            labelLeft="No"
-                            labelRight="Yes"
-                            checked={Boolean(bundle.isActive)}
-                            onChange={(next) => onChangeBundle(linkKey, { isActive: next })}
-                            disabled={removed}
-                          />
-                        </div>
+                        />
+                      </Labeled>
+                    )}
+                    {bundleFieldsToShow.includes('primaryGenre') && (
+                      <Labeled label={'Bundle Type'}>
+                        <BCSelect
+                          options={GenreSchema.options.map((g) => ({
+                            label: g,
+                            value: g,
+                          }))}
+                          value={bundle.primaryGenre as Genre | undefined}
+                          onChange={(next) =>
+                            onChangeBundle(linkKey, {
+                              primaryGenre: next as Genre | undefined,
+                            })
+                          }
+                          className={cn(
+                            isBundleFieldDirty(linkKey, 'primaryGenre') &&
+                              'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
+                          )}
+                        />
                       </Labeled>
                     )}
                   </div>

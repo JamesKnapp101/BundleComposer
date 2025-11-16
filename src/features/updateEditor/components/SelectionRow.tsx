@@ -61,7 +61,15 @@ export const SelectionRow: React.FC<Props> = ({
     e.preventDefault();
     if (isConfigValid(args!)) onConfirmConfig();
   };
-  const EXCLUDE = new Set(['id', 'createdAt', 'updatedAt']);
+  const EXCLUDE = new Set([
+    'id',
+    'versionId',
+    'iconKey',
+    'sortOrder',
+    'promoLabel',
+    'promoExpiresAt',
+    'tags',
+  ]);
   const disabled = !isConfigValid(args);
   const showArgs = job?.type && phase !== 'edit' && phase !== 'submitted';
 
@@ -89,7 +97,7 @@ export const SelectionRow: React.FC<Props> = ({
         </div>
         {/* Conditional Args */}
         {showArgs && args?.type === UpdateType.PlanProperties && (
-          <div className="md:col-span-2">
+          <div>
             <label className="text-sm font-medium text-slate-900">Properties (optional)</label>
             <BCSelect
               multiple
@@ -120,7 +128,7 @@ export const SelectionRow: React.FC<Props> = ({
         {showArgs && args?.type === UpdateType.PlanChannels && (
           <>
             <div>
-              <label className="text-sm font-medium text-slate-900">Scope</label>
+              <label className="text-sm font-medium text-slate-900">Properties (optional)</label>
               <BCSelect
                 multiple
                 options={(ChannelSchema.keyof().options as string[])
@@ -138,25 +146,10 @@ export const SelectionRow: React.FC<Props> = ({
                 clearable
                 //@ts-ignore
                 buttonProps={{ 'data-testid': 'plan-properties-input' }}
-                ariaLabel="Plan properties"
+                ariaLabel="Channel properties"
               />
-            </div>
-            <div className="md:col-span-1 md:col-start-3">
-              <label className="text-sm font-medium text-slate-900">Channel IDs (optional)</label>
-              <input
-                className="mt-1 w-full rounded-lg border-slate-300 bg-white px-3 py-2 text-sm shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="c1,c7,c12"
-                onChange={(e) =>
-                  onArgsChange({
-                    type: UpdateType.PlanChannels,
-                    channelIds: parseCSV(e.target.value),
-                  })
-                }
-                data-testid="channels-ids-input"
-                aria-describedby="channels-ids-hint"
-              />
-              <p id="channels-ids-hint" className="mt-1 text-xs text-slate-500">
-                Blank = all channels in selected scope.
+              <p id="channel-properties-hint" className="mt-1 text-xs text-slate-500">
+                {'Select fields to edit. Leave blank to show all common channel fields.'}
               </p>
             </div>
           </>
@@ -165,7 +158,7 @@ export const SelectionRow: React.FC<Props> = ({
         {showArgs && args?.type === UpdateType.PlanBundles && (
           <>
             <div>
-              <label className="text-sm font-medium text-slate-900">Scope</label>
+              <label className="text-sm font-medium text-slate-900">Properties (optional)</label>
               <BCSelect
                 multiple
                 options={(BundleSchema.keyof().options as string[])
@@ -185,6 +178,9 @@ export const SelectionRow: React.FC<Props> = ({
                 buttonProps={{ 'data-testid': 'plan-properties-input' }}
                 ariaLabel="Bundle properties"
               />
+              <p id="bundle-properties-hint" className="mt-1 text-xs text-slate-500">
+                {'Select fields to edit. Leave blank to show all common bundle fields.'}
+              </p>
             </div>
           </>
         )}

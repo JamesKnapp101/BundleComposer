@@ -5,7 +5,7 @@ export const EDITOR_SLICE_KEY = 'editor' as const;
 
 type PlanKey = keyof Plan;
 type BundleKey = keyof Bundle;
-type ChannelEditable = Omit<AppChannel, 'id'>; // don't patch id
+type ChannelEditable = Omit<AppChannel, 'id'>;
 type ChannelKey = keyof ChannelEditable;
 
 const initialState: EditorState = {
@@ -186,8 +186,6 @@ const updateEditorReducer = createSlice({
       const isCurrentlyRemoved = removedForPlan.includes(channelId);
 
       if (isCurrentlyRemoved) {
-        // Case 1: this was an existing bundle that had been marked removed.
-        // Undo: just clear the removed flag, don't mark as "added".
         const nextRemoved = removedForPlan.filter((id) => id !== channelId);
         if (nextRemoved.length) {
           removeMap[planId] = nextRemoved;
@@ -195,7 +193,6 @@ const updateEditorReducer = createSlice({
           delete removeMap[planId];
         }
       } else {
-        // Case 2: true new bundle being added to this plan.
         const addedForPlan = addMap[planId] ?? [];
         if (!addedForPlan.includes(channelId)) {
           addMap[planId] = [...addedForPlan, channelId];
