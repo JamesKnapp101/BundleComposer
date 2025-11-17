@@ -1,18 +1,21 @@
 import type { UseMutationResult } from '@tanstack/react-query';
+import type { User } from 'src/schema';
 import { useConfirm } from '../../../../ui/modal/useConfirm';
 
 type MutationVars = {
   planIds: string[];
+  user: User | null;
   lockOwner?: string;
   force?: boolean;
   skipUnlock?: boolean;
   metadata?: Record<string, unknown>;
 };
 
-type UnlockAndCancelMutation = UseMutationResult<any, unknown, MutationVars, unknown>;
+type UnlockAndCancelMutation = UseMutationResult<unknown, unknown, MutationVars, unknown>;
 
 type Args = {
   planIds: string[];
+  user: User | null;
   unlockPlansAndCancelMasterJob: UnlockAndCancelMutation;
   proceed: () => void;
   reset?: () => void;
@@ -22,7 +25,14 @@ type Args = {
 export const useDispatchConfirmCancelJob = () => {
   const confirm = useConfirm();
 
-  return async ({ planIds, unlockPlansAndCancelMasterJob, proceed, reset, onError }: Args) => {
+  return async ({
+    planIds,
+    user,
+    unlockPlansAndCancelMasterJob,
+    proceed,
+    reset,
+    onError,
+  }: Args) => {
     const ok = await confirm({
       title: 'Warning',
       message:
@@ -40,7 +50,7 @@ export const useDispatchConfirmCancelJob = () => {
     try {
       await unlockPlansAndCancelMasterJob.mutateAsync({
         planIds,
-        lockOwner: 'mr.bulldops',
+        user,
         force: false,
       });
       proceed();

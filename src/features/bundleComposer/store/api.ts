@@ -12,14 +12,14 @@ export const storeApi = createApi({
         res
           ? [
               { type: 'Bundles', id: 'LIST' },
-              ...res.map((x) => ({ type: 'Bundle' as const, id: (x as any).id })),
+              ...res.map((x) => ({ type: 'Bundle' as const, id: (x as Bundle).id })),
             ]
           : [{ type: 'Bundles', id: 'LIST' }],
     }),
     getBundle: b.query<Bundle, string>({
       query: (id: string) => `/bundles/${id}`,
       providesTags: (res: Bundle | undefined) =>
-        res ? [{ type: 'Bundle', id: (res as any).id }] : [],
+        res ? [{ type: 'Bundle', id: (res as Bundle).id }] : [],
     }),
     upsertBundle: b.mutation<Bundle, Partial<Bundle> & { id?: string }>({
       query: (body: Partial<Bundle> & { id?: string }) => ({
@@ -30,7 +30,7 @@ export const storeApi = createApi({
       invalidatesTags: (res: Bundle | undefined) =>
         res
           ? [
-              { type: 'Bundle', id: (res as any).id },
+              { type: 'Bundle', id: (res as Bundle).id },
               { type: 'Bundles', id: 'LIST' },
             ]
           : [{ type: 'Bundles', id: 'LIST' }],

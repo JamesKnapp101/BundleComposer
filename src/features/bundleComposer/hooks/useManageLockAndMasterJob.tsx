@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { User } from 'src/schema';
 import { createDataService } from '../../../ui/api/dataService';
 import { notify } from '../../../ui/notify';
-
-type LockPlansInput = { planIds: string[]; lockOwner?: string };
-type CreateMasterJobInput = { planIds: string[]; metadata?: Record<string, unknown> };
 
 export type MasterJob = {
   id: string;
@@ -12,6 +10,7 @@ export type MasterJob = {
 
 export type MutationVars = {
   planIds: string[];
+  user: User | null;
   lockOwner?: string;
   force?: boolean;
   metadata?: Record<string, unknown>;
@@ -48,17 +47,17 @@ export const useLockAndCreateMasterJob = (opts: UseLockAndCreateMasterJobOpts = 
 
       if (!vars.skipLock) {
         try {
-          await api.lockPlans(planIds, 'mr.bulldops');
+          await api.lockPlans(planIds, 'testUser');
           notify.success(LOCK_PLANS, 'Success', 'Plan(s) successfully locked.');
         } catch (err) {
-          notify.error(LOCK_PLANS, 'Error', 'Failed to lock selected plans.');
+          notify.error(LOCK_PLANS, 'Error', (err as Error).message ?? 'Failed to lock plans');
         }
       }
       try {
-        masterJobId = await api.createMasterJob(['1', '2'], 'mr.bulldops');
+        masterJobId = await api.createMasterJob(planIds, 'testUser');
         notify.success(MASTER_JOB, 'Success', 'Created Master Job.');
       } catch (err) {
-        notify.error(MASTER_JOB, 'Error', 'Failed to create master job.');
+        notify.error(MASTER_JOB, 'Error', (err as Error).message ?? 'Failed to Create Master Job');
       }
       return masterJobId;
     },
@@ -81,24 +80,28 @@ export const useUnlockPlansAndCancelMasterJob = (opts: UseUnlockAndCancelMasterJ
   return useMutation({
     mutationKey: ['unlock-and-create-master-job'],
     mutationFn: async (vars: MutationVars) => {
-      const { planIds, lockOwner, metadata, skipUnlock } = vars;
+      const { planIds, user, skipUnlock } = vars;
       if (![...planIds, '1']?.length) {
         throw new Error('No planIds provided.');
       }
 
       if (!skipUnlock) {
         try {
-          await api.unlockPlans(planIds, 'mr.bulldops');
+          await api.unlockPlans(planIds, user?.name ?? '');
           notify.success(UNLOCK_PLANS, 'Success', 'Plan(s) successfully unlocked.');
         } catch (err) {
-          notify.error(UNLOCK_PLANS, 'Error', 'Failed to unlock selected plans.');
+          notify.error(UNLOCK_PLANS, 'Error', (err as Error).message ?? 'Failed to unlock plan(s)');
         }
       }
       try {
-        const job = await api.cancelMasterJob('masterJobId');
+        await api.cancelMasterJob('masterJobId');
         notify.success(X_MASTER_JOB, 'Success', 'Master Job cancelled.');
       } catch (err) {
-        notify.error(X_MASTER_JOB, 'Error', 'Failed to cancel master job.');
+        notify.error(
+          X_MASTER_JOB,
+          'Error',
+          (err as Error).message ?? 'Failed to cancel master job',
+        );
       }
       return { id: '', name: '' };
     },

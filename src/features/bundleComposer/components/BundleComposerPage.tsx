@@ -52,7 +52,7 @@ export const BundleComposerPage = () => {
   }, [dispatch, dirtyIds]);
 
   const saveAll = useCallback(async () => {
-    // Still need to do all the submit stuff...
+    console.log('This will be the save function ', dispatch, dirtyIds);
   }, [dispatch, dirtyIds /*, patches*/]);
 
   return (

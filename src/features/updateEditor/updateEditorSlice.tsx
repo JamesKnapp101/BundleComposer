@@ -1,6 +1,13 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction, type WritableDraft } from '@reduxjs/toolkit';
 import type { Channel as AppChannel, Bundle, Plan } from '../../schema'; // <-- FIX
-import type { EditorState, RelationshipDiffs, UpdateArgs, UpdateJob } from './types';
+import type {
+  EditorState,
+  PlanBundlesArgs,
+  PlanChannelsArgs,
+  RelationshipDiffs,
+  UpdateArgs,
+  UpdateJob,
+} from './types';
 export const EDITOR_SLICE_KEY = 'editor' as const;
 
 type PlanKey = keyof Plan;
@@ -11,7 +18,12 @@ type ChannelKey = keyof ChannelEditable;
 const initialState: EditorState = {
   jobs: [],
   currentJobIndex: 0,
-  drafts: { byJobId: {} },
+  drafts: {
+    byJobId: {},
+    plan: {},
+    bundle: {},
+    channel: {},
+  },
 };
 
 const spaceForJob = (state: EditorState, jobId: string) => {
@@ -43,8 +55,6 @@ const updateEditorReducer = createSlice({
       const j = state.jobs.find((j) => j.id === action.payload.jobId);
       if (j) j.args = action.payload.args;
     },
-
-    // --- Plan patches (unchanged shape) ---
     patchPlanField(
       state,
       action: PayloadAction<{
@@ -52,13 +62,32 @@ const updateEditorReducer = createSlice({
         planId: string;
         field: PlanKey;
         value: Plan[PlanKey];
+        original: Plan[PlanKey];
       }>,
     ) {
-      const { jobId, planId, field, value } = action.payload;
+      const { jobId, planId, field, value, original } = action.payload;
       const space = spaceForJob(state, jobId);
-      space.plan[planId] = { ...(space.plan[planId] ?? {}), [field]: value };
-    },
+      const bucket = space.plan;
+      const patch = bucket[planId] ?? {};
 
+      const isSame =
+        value === original ||
+        (typeof value === 'number' &&
+          typeof original === 'number' &&
+          Number.isNaN(value) &&
+          Number.isNaN(original));
+
+      if (isSame) {
+        const { [field]: _removed, ...rest } = patch;
+        if (Object.keys(rest).length === 0) {
+          delete bucket[planId];
+        } else {
+          bucket[planId] = rest;
+        }
+      } else {
+        bucket[planId] = { ...patch, [field]: value };
+      }
+    },
     patchBundleField(
       state,
       action: PayloadAction<{
@@ -66,12 +95,47 @@ const updateEditorReducer = createSlice({
         linkKey: string;
         field: BundleKey;
         value: Bundle[BundleKey];
+        original: Bundle[BundleKey];
       }>,
     ) {
-      const { jobId, linkKey, field, value } = action.payload;
+      const { jobId, linkKey, field, value, original } = action.payload;
       const space = spaceForJob(state, jobId);
-      space.bundle[linkKey] = { ...(space.bundle[linkKey] ?? {}), [field]: value };
+      const bucket = space.bundle;
+      const patch = bucket[linkKey] ?? {};
+
+      const isSame =
+        value === original ||
+        (value === false && original === undefined) ||
+        (typeof value === 'number' &&
+          typeof original === 'number' &&
+          Number.isNaN(value) &&
+          Number.isNaN(original));
+
+      if (isSame) {
+        const { [field]: _removed, ...rest } = patch;
+        if (Object.keys(rest).length === 0) {
+          delete bucket[linkKey];
+        } else {
+          bucket[linkKey] = rest;
+        }
+      } else {
+        bucket[linkKey] = { ...patch, [field]: value };
+      }
     },
+
+    // patchBundleField(
+    //   state,
+    //   action: PayloadAction<{
+    //     jobId: string;
+    //     linkKey: string;
+    //     field: BundleKey;
+    //     value: Bundle[BundleKey];
+    //   }>,
+    // ) {
+    //   const { jobId, linkKey, field, value } = action.payload;
+    //   const space = spaceForJob(state, jobId);
+    //   space.bundle[linkKey] = { ...(space.bundle[linkKey] ?? {}), [field]: value };
+    // },
 
     // --- Channel patches (correct type & key) ---
     patchChannelField(
@@ -175,7 +239,7 @@ const updateEditorReducer = createSlice({
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
 
-      const args = (job.args ??= {} as any);
+      const args = (job.args ??= {} as WritableDraft<PlanChannelsArgs>);
 
       const addMap: Record<string, string[]> =
         (args.channelsToAddByPlanId as Record<string, string[]>) ?? {};
@@ -251,7 +315,7 @@ const updateEditorReducer = createSlice({
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
 
-      const args = (job.args ??= {} as any);
+      const args = (job.args ??= {} as WritableDraft<PlanBundlesArgs>);
 
       const addMap: Record<string, string[]> =
         (args.channelsToAddByBundleKey as Record<string, string[]>) ?? {};
@@ -279,7 +343,7 @@ const updateEditorReducer = createSlice({
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
 
-      const args = (job.args ??= {} as any);
+      const args = (job.args ??= {} as WritableDraft<PlanBundlesArgs>);
 
       const addMap: Record<string, string[]> =
         (args.channelsToAddByBundleKey as Record<string, string[]>) ?? {};

@@ -6,7 +6,7 @@ const jsxA11y = require('eslint-plugin-jsx-a11y');
 const globals = require('globals');
 
 module.exports = [
-  { ignores: ['dist/**','build/**','coverage/**','node_modules/**'] },
+  { ignores: ['dist/**','build/**','coverage/**','node_modules/**','scripts/**', 'eslint.config.cjs', ] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

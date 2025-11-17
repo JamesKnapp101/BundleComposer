@@ -8,7 +8,6 @@ import {
 } from '../../../features/updateEditor/selectors';
 import {
   UpdateType,
-  type DraftsByJob,
   type EditorPhase,
   type UpdateArgs,
   type UpdateJob,
@@ -47,7 +46,7 @@ interface UpdateEditorProps {
   initialJobs?: UpdateJob[];
   onChangeActiveJob?: (index: number) => void;
   onJobsChange?: (jobs: UpdateJob[]) => void;
-  onBuildPayloads?: (jobs: UpdateJob[], drafts: DraftsByJob) => unknown;
+  // onBuildPayloads?: (jobs: UpdateJob[], drafts: DraftsByJob) => unknown;
   onSubmitWithValidation?: () => Promise<boolean>;
 }
 
@@ -56,7 +55,7 @@ export const UpdateEditor = ({
   initialJobs,
   onChangeActiveJob,
   onJobsChange,
-  onBuildPayloads,
+  //  onBuildPayloads,
   onSubmitWithValidation,
 }: UpdateEditorProps) => {
   const plansArray: Plan[] = Array.isArray(selectedPlans) ? selectedPlans : selectedPlans.plans;

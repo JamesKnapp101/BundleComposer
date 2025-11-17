@@ -2,9 +2,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { Button } from '../../../ui/inputs/Button';
 
-interface BCCancelJobButtonProps {}
-
-const BCCancelJobButton: React.FC<BCCancelJobButtonProps> = () => {
+const BCCancelJobButton: React.FC = () => {
   const navigate = useNavigate();
 
   return (

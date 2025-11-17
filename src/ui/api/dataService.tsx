@@ -46,25 +46,29 @@ export const createDataService = (opts: DataServiceOptions) => {
         throw new ApiError(`Request failed: ${res.status} ${res.statusText}`, res.status, body);
       }
       return body as T;
-    } catch (err: any) {
-      if (err?.name === 'AbortError') {
+    } catch (err) {
+      if ((err as Error)?.name === 'AbortError') {
         throw new ApiError(`Request timed out after ${timeoutMs}ms`);
       }
       if (err instanceof ApiError) throw err;
-      throw new ApiError(err?.message ?? 'Unknown request error');
+      throw new ApiError((err as Error)?.message ?? 'Unknown request error');
     } finally {
       clearTimeout(id);
     }
   }
 
   async function getUser(id: string) {
-    return request<{ id: string; name: string; email: string }>(`/users/${id}`, {
+    return request<{
+      id: string;
+      name: string;
+      email: string;
+    }>(`/users/${id}`, {
       method: 'GET',
     });
   }
 
   async function getPlansByIds(ids: string[]) {
-    return request<any[]>('/plans/query', {
+    return request<Request[]>('/plans/query', {
       method: 'POST',
       body: JSON.stringify({ ids }),
     });

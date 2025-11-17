@@ -2,6 +2,12 @@ import { z } from 'zod';
 
 export type Dict = Record<string, unknown>;
 
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+};
+
 export const TierSchema = z.enum([
   'Nickel',
   'Copper',

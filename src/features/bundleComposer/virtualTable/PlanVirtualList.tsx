@@ -6,7 +6,14 @@ import { useBundles } from '../../../lib/hooks/useBundles';
 import { useChannels } from '../../../lib/hooks/useChannels';
 import { type Bundle, type Channel, type Plan } from '../../../schema';
 import { makeSelectDraftsForJob } from '../../updateEditor/selectors';
-import { UpdateType, type UpdateArgs, type UpdateJob } from '../../updateEditor/types';
+import {
+  UpdateType,
+  type PlanBundlesArgs,
+  type PlanChannelsArgs,
+  type PlanPropertiesArgs,
+  type UpdateArgs,
+  type UpdateJob,
+} from '../../updateEditor/types';
 import { useAppSelector } from '../store/hooks';
 import { renderEditorsForJob } from './utils/renderEditorsForJob';
 
@@ -51,10 +58,22 @@ export const PlanVirtualList = ({
   fieldsToShow,
 }: Props) => {
   const args = (currentJob.args ?? {}) as UpdateArgs;
-  const bundlesToAddByPlanId = args.bundlesToAddByPlanId ?? {};
-  const bundlesToRemoveByPlanId = args.bundlesToRemoveByPlanId ?? {};
-  const channelsToAddByPlanId = args.channelsToAddByPlanId ?? {};
-  const channelsToRemoveByPlanId = args.channelsToRemoveByPlanId ?? {};
+  const bundlesToAddByPlanId = useMemo(
+    () => args.bundlesToAddByPlanId ?? {},
+    [args.bundlesToAddByPlanId],
+  );
+  const bundlesToRemoveByPlanId = useMemo(
+    () => args.bundlesToRemoveByPlanId ?? {},
+    [args.bundlesToRemoveByPlanId],
+  );
+  const channelsToAddByPlanId = useMemo(
+    () => args.channelsToAddByPlanId ?? {},
+    [args.channelsToAddByPlanId],
+  );
+  const channelsToRemoveByPlanId = useMemo(
+    () => args.channelsToRemoveByPlanId ?? {},
+    [args.channelsToRemoveByPlanId],
+  );
   const parentRef = useRef<HTMLDivElement>(null);
 
   const draftsForJob = useAppSelector(
@@ -90,11 +109,20 @@ export const PlanVirtualList = ({
 
   const catalogBundles = useBundles();
   const catalogChannels = useChannels();
-  const planPatches: Record<string, Partial<Plan>> = draftsForJob?.plan ?? {};
+  const planPatches: Record<string, Partial<Plan>> = useMemo(
+    () => draftsForJob?.plan ?? {},
+    [draftsForJob?.plan],
+  );
   const { channelsByPlanId } = useSelectedPlansWithChannels(plans.map((plan) => plan.id));
-  const channelPatches: Record<string, Partial<Channel>> = draftsForJob?.channel ?? {};
+  const channelPatches: Record<string, Partial<Channel>> = useMemo(
+    () => draftsForJob?.channel ?? {},
+    [draftsForJob?.channel],
+  );
   const { bundlesByPlanId } = useSelectedPlansWithBundles(plans.map((plan) => plan.id));
-  const bundlePatches: Record<string, Partial<Bundle>> = draftsForJob?.bundle ?? {};
+  const bundlePatches: Record<string, Partial<Bundle>> = useMemo(
+    () => draftsForJob?.bundle ?? {},
+    [draftsForJob?.bundle],
+  );
 
   const catalogBundlesById = useMemo(() => {
     const map: Record<string, Bundle> = {};
@@ -116,31 +144,6 @@ export const PlanVirtualList = ({
     }
     return map;
   }, [catalogChannels.data]);
-
-  const allBundlesById = useMemo(() => {
-    const map: Record<string, Bundle> = {};
-
-    for (const list of Object.values(bundlesByPlanId ?? {})) {
-      for (const bundle of list as unknown as Bundle[]) {
-        if (!map[bundle.id]) {
-          map[bundle.id] = bundle;
-        }
-      }
-    }
-    return map;
-  }, [bundlesByPlanId]);
-
-  const allChannelsById = useMemo(() => {
-    const map: Record<string, Channel> = {};
-    for (const list of Object.values(channelsByPlanId ?? {})) {
-      for (const channel of list as unknown as Channel[]) {
-        if (!map[channel.id]) {
-          map[channel.id] = channel;
-        }
-      }
-    }
-    return map;
-  }, [channelsByPlanId]);
 
   const mergedChannelsByPlanId = useMemo(() => {
     const out: Record<string, Channel[]> = {};
@@ -184,11 +187,11 @@ export const PlanVirtualList = ({
     return out;
   }, [
     plans,
+    catalogChannelsById,
     channelsByPlanId,
     channelPatches,
     channelsToAddByPlanId,
     channelsToRemoveByPlanId,
-    allChannelsById,
   ]);
 
   const dirtyChannelsByPlanId = useMemo(() => {
@@ -253,11 +256,11 @@ export const PlanVirtualList = ({
     return out;
   }, [
     plans,
+    catalogBundlesById,
     bundlesByPlanId,
     bundlePatches,
     bundlesToAddByPlanId,
     bundlesToRemoveByPlanId,
-    allBundlesById,
   ]);
 
   const dirtyBundlesByPlanId = useMemo(() => {
@@ -284,8 +287,7 @@ export const PlanVirtualList = ({
   const derivedFieldsToShow = useMemo(() => {
     if (fieldsToShow && fieldsToShow.length) return fieldsToShow;
     if (currentJob.type === UpdateType.PlanProperties) {
-      // @ts-expect-error
-      const keys: string[] | undefined = currentJob.args.planPropertyKeys;
+      const keys: string[] | undefined = (currentJob.args as PlanPropertiesArgs).planPropertyKeys;
       return keys && keys.length ? keys : undefined;
     }
     return undefined;
@@ -294,8 +296,7 @@ export const PlanVirtualList = ({
   const derivedChannelFieldsToShow = useMemo(() => {
     if (fieldsToShow && fieldsToShow.length) return fieldsToShow;
     if (currentJob.type === UpdateType.PlanChannels) {
-      // @ts-expect-error
-      const keys: string[] | undefined = currentJob.args.channelPropertyKeys;
+      const keys: string[] | undefined = (currentJob.args as PlanChannelsArgs).channelPropertyKeys;
       return keys && keys.length ? keys : undefined;
     }
     return undefined;
@@ -304,8 +305,7 @@ export const PlanVirtualList = ({
   const derivedBundleFieldsToShow = useMemo(() => {
     if (fieldsToShow && fieldsToShow.length) return fieldsToShow;
     if (currentJob.type === UpdateType.PlanBundles) {
-      // @ts-expect-error
-      const keys: string[] | undefined = currentJob.args.bundlePropertyKeys;
+      const keys: string[] | undefined = (currentJob.args as PlanBundlesArgs).bundlePropertyKeys;
       return keys && keys.length ? keys : undefined;
     }
     return undefined;
@@ -440,9 +440,9 @@ export const PlanVirtualList = ({
         }}
       >
         {rowVirtualizer.getVirtualItems().map((v) => {
-          const plan = plans[v.index];
-          const patch = planPatches[plan.id] ?? {};
-          const dirty = Boolean(planPatches[plan.id]);
+          const basePlan = plans[v.index];
+          const patch = planPatches[basePlan.id] ?? {};
+          const dirty = Boolean(planPatches[basePlan.id]);
 
           return (
             <div
@@ -459,8 +459,9 @@ export const PlanVirtualList = ({
             >
               {renderEditorsForJob({
                 job: currentJob,
-                plan,
-                mergedPlan: { ...plan, ...patch },
+                jobId: currentJob.id,
+                basePlan,
+                mergedPlan: { ...basePlan, ...patch },
                 dirty,
                 onChangePlan: handleChangePlan,
                 onChangeBundle: handleChangeBundle,

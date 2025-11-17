@@ -72,7 +72,7 @@ export const BundlePickerModal: React.FC<BundlePickerModalProps> = ({
             </div>
           )}
         </div>
-        <div className="flex items-center justify-end gap-2 border-t bg-slate-50 px-4 py-3">
+        <div className="flex items-center justify-end gap-2 border-t bg-slate-50 px-4 py-3 rounded-xl">
           <Button variant="outline" onClick={onCancel}>
             {'Cancel'}
           </Button>

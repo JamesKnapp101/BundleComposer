@@ -2,6 +2,7 @@ import {
   type Bundle,
   type BundleChannelLink,
   type Channel,
+  type Dict,
   type Plan,
   type PlanBundleLink,
   type PlanChannelLink,
@@ -52,14 +53,14 @@ async function fetchJson<T>(
 
     if (!res.ok) {
       const msg =
-        (json && typeof json === 'object' && 'error' in (json as any) && (json as any).error) ||
+        (json && typeof json === 'object' && 'error' in (json as object) && (json as Dict).error) ||
         res.statusText ||
         'Request failed';
       throw new Error(`${res.status} ${msg}`);
     }
     return json as T;
   } catch (err) {
-    if ((err as any)?.name === 'AbortError') {
+    if ((err as Error)?.name === 'AbortError') {
       throw new Error(`Request timed out after ${timeoutMs} ms: ${url}`);
     }
     throw err;

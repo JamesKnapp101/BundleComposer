@@ -1,12 +1,7 @@
-import type { RefObject } from 'react';
 import { Button } from '../../../ui/inputs/Button';
 import { useDispatchConfirmJobDetails } from './confirmations/dispatchConfirmJobDetails';
 
-interface BCSubmitButtonProps {
-  formRef: RefObject<any>;
-}
-
-const BCSubmitButton: React.FC<BCSubmitButtonProps> = () => {
+const BCSubmitButton: React.FC = () => {
   const dispatchConfirmDiscardAllChanges = useDispatchConfirmJobDetails();
   return (
     <Button

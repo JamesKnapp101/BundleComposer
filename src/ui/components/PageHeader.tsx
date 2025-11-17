@@ -1,13 +1,5 @@
 import { Separator } from './Separator';
 
-type Variant = 'record' | 'object' | 'related';
-
-const variantClasses: Record<Variant, string> = {
-  record: 'bg-white',
-  object: 'bg-slate-50',
-  related: 'bg-slate-50',
-};
-
 type PageHeaderProps = {
   variant?: 'object' | 'record';
   title: React.ReactNode;
@@ -24,7 +16,6 @@ type PageHeaderProps = {
 };
 
 export const PageHeader = ({
-  variant = 'object',
   title,
   label,
   subtitle,

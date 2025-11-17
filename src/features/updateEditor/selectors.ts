@@ -1,12 +1,10 @@
-// src/features/updateEditor/selectors.ts
 import { createSelector } from '@reduxjs/toolkit';
+import type { Plan } from 'src/schema';
 import type { RootState } from '../../features/bundleComposer/store/store';
 import type { UpdateArgs } from './types';
 
-// Base slice
 export const selectUpdateEditor = (s: RootState) => s.updateEditor;
 
-// Jobs
 export const selectJobs = createSelector([selectUpdateEditor], (ue) => ue.jobs);
 
 export const selectCurrentJobIndex = createSelector(
@@ -19,24 +17,19 @@ export const selectCurrentJob = createSelector(
   (jobs, idx) => jobs[idx] ?? null,
 );
 
-// Drafts space for a specific job (factory selector)
 export const makeSelectDraftsForJob = (jobId: string) =>
   createSelector(
     [selectUpdateEditor],
     (ue) => ue.drafts.byJobId[jobId] ?? { plan: {}, bundle: {}, channel: {} },
   );
 
-// tiny helper – any non-empty arrays in the map?
 const hasNonEmptyMap = (map?: Record<string, string[]>): boolean =>
   !!map && Object.values(map).some((arr) => arr.length > 0);
 
-// Is a given job dirty? (factory selector)
 export const makeSelectIsJobDirty = (jobId: string) =>
   createSelector([selectUpdateEditor], (ue) => {
     const space = ue.drafts.byJobId[jobId];
     const job = ue.jobs.find((j) => j.id === jobId);
-
-    // No drafts and no job? definitely not dirty
     if (!space && !job) return false;
 
     const hasDraftFields =
@@ -45,8 +38,6 @@ export const makeSelectIsJobDirty = (jobId: string) =>
         Object.keys(space.bundle).length +
         Object.keys(space.channel).length >
         0;
-
-    // Relationship diffs live on job.args
     const args = job?.args as UpdateArgs & {
       bundlesToAddByPlanId?: Record<string, string[]>;
       bundlesToRemoveByPlanId?: Record<string, string[]>;
@@ -68,7 +59,6 @@ export const makeSelectIsJobDirty = (jobId: string) =>
     return hasDraftFields || hasRelationshipDiffs;
   });
 
-// Convenience: current job drafts / dirty, derived from current index
 export const selectCurrentJobDrafts = createSelector(
   [selectUpdateEditor, selectCurrentJob],
   (ue, job) =>
@@ -95,3 +85,17 @@ export const selectPlanDirty = (state: RootState, jobId: string, planId: string)
 
 export const selectChannelDirty = (state: RootState, jobId: string, channelId: string) =>
   Boolean(selectJobSpace(state, jobId).channel[channelId]);
+
+const selectDrafts = (state: RootState) => state.drafts;
+
+export const selectPlanDraft = (state: RootState, planId: string) =>
+  selectDrafts(state).plan[planId] ?? {};
+
+export const selectIsPlanFieldDirty = <K extends keyof Plan>(
+  state: RootState,
+  planId: string,
+  field: K,
+): boolean => {
+  const patch = selectAllDrafts(state).plan[planId];
+  return !!patch && Object.prototype.hasOwnProperty.call(patch, field);
+};

@@ -1,6 +1,6 @@
 import { useConfirm } from '../../../../ui/modal/useConfirm';
 
-export const useDispatchConfirmDiscardAllChanges = (onClick: Function) => {
+export const useDispatchConfirmDiscardAllChanges = (onClick: () => void) => {
   const confirm = useConfirm();
 
   return async () => {

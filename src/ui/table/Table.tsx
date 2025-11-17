@@ -1,22 +1,11 @@
 import {
   type ColumnDef,
   flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
   type Table as ReactTable,
   type RowSelectionState,
-  type SortingState,
-  useReactTable,
 } from '@tanstack/react-table';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import {
-  type InputHTMLAttributes,
-  type SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { type InputHTMLAttributes, useEffect, useMemo, useRef } from 'react';
 import { cn } from '../../lib/utils/cn';
 
 type BaseProps<TData> = {
@@ -38,29 +27,16 @@ type WithInstance<TData> = BaseProps<TData> & {
 
 type WithDef<TData> = BaseProps<TData> & {
   data: TData[];
-  columns: ColumnDef<TData, any>[];
+  columns: ColumnDef<TData, unknown>[];
   table?: never;
 };
 
 export type TableProps<TData> = WithInstance<TData> | WithDef<TData>;
 
 export function Table<TData>(props: TableProps<TData>) {
-  const {
-    loading,
-    height = 'auto',
-    empty = 'No data',
-    onRowClick,
-    className,
-    selectable,
-    rowSelection,
-    setRowSelection,
-  } = props;
+  const { loading, height = 'auto', empty = 'No data', onRowClick, className, selectable } = props;
 
-  const table =
-    'table' in props && props.table
-      ? props.table
-      : useInternalTable(props as WithDef<TData>, selectable, rowSelection, setRowSelection);
-
+  const table = props.table!;
   const rows = table.getRowModel().rows;
   const isEmpty = !loading && rows.length === 0;
   const hasInjectedSelectCol = table.getAllLeafColumns().some((c) => c.id === '_select');
@@ -80,7 +56,6 @@ export function Table<TData>(props: TableProps<TData>) {
       },
     [table, shouldRenderSelect],
   );
-
   return (
     <div className={cn('relative rounded-md border border-slate-200 bg-white', className)}>
       <table className="w-full text-sm table-fixed border-separate [border-spacing:0]">
@@ -176,51 +151,6 @@ export function Table<TData>(props: TableProps<TData>) {
       </div>
     </div>
   );
-}
-
-function useInternalTable<TData>(
-  props: WithDef<TData>,
-  selectable?: boolean,
-  rowSelection?: RowSelectionState,
-  setRowSelection?: (updater: SetStateAction<RowSelectionState>) => void,
-) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-
-  const withSelectionColumn = (cols: ColumnDef<TData, any>[]): ColumnDef<TData, any>[] => {
-    if (!selectable) return cols;
-    const selCol: ColumnDef<TData, any> = {
-      id: '_select',
-      size: 36,
-      header: ({ table }) => (
-        <IndeterminateCheckbox
-          checked={table.getIsAllRowsSelected()}
-          indeterminate={table.getIsSomeRowsSelected()}
-          onChange={table.getToggleAllRowsSelectedHandler()}
-        />
-      ),
-      cell: ({ row }) => (
-        <IndeterminateCheckbox
-          checked={row.getIsSelected()}
-          indeterminate={row.getIsSomeSelected()}
-          disabled={!row.getCanSelect()}
-          onChange={row.getToggleSelectedHandler()}
-        />
-      ),
-      enableSorting: false,
-    };
-    return [selCol, ...cols];
-  };
-
-  return useReactTable<TData>({
-    data: props.data,
-    columns: withSelectionColumn(props.columns),
-    state: { sorting, rowSelection },
-    onSortingChange: setSorting,
-    onRowSelectionChange: setRowSelection,
-    enableRowSelection: selectable,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-  });
 }
 
 const IndeterminateCheckbox = ({

@@ -24,7 +24,6 @@ export const ListingLayout = forwardRef<HTMLDivElement, ListingLayoutProps>(
       footer,
       children,
       stickyHeader = true,
-      variant = 'subtle',
       className,
       bodyClassName,
       ...rest

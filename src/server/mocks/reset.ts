@@ -40,28 +40,30 @@ export const registerMockResetRoute = (app: FastifyInstance) => {
         readJsonAt<PlanChannelLink[]>(files.planChannels).catch(() => []),
         readJsonAt<BundleChannelLink[]>(files.bundleChannels).catch(() => []),
       ]);
-      const plans = plansRaw.map((p: { id: any }) => ({ ...p, id: N(p.id) }));
-      const bundles = bundlesRaw.map((b: { id: any }) => ({ ...b, id: N(b.id) }));
-      const channels = channelsRaw.map((c: { id: any }) => ({ ...c, id: N(c.id) }));
-      const planBundles = planBundlesRaw.map((r: { planId: any; bundleId: any }) => ({
+      const plans = plansRaw.map((p: { id: string }) => ({ ...p, id: N(p.id) }));
+      const bundles = bundlesRaw.map((b: { id: string }) => ({ ...b, id: N(b.id) }));
+      const channels = channelsRaw.map((c: { id: string }) => ({ ...c, id: N(c.id) }));
+      const planBundles = planBundlesRaw.map((r: { planId: string; bundleId: string }) => ({
         ...r,
         planId: N(r.planId),
         bundleId: N(r.bundleId),
       }));
-      const planChannels = planChannelsRaw.map((r: { planId: any; channelId: any }) => ({
+      const planChannels = planChannelsRaw.map((r: { planId: string; channelId: string }) => ({
         ...r,
         planId: N(r.planId),
         channelId: N(r.channelId),
       }));
-      const bundleChannels = bundleChannelsRaw.map((r: { bundleId: any; channelId: any }) => ({
-        ...r,
-        bundleId: N(r.bundleId),
-        channelId: N(r.channelId),
-      }));
+      const bundleChannels = bundleChannelsRaw.map(
+        (r: { bundleId: string; channelId: string }) => ({
+          ...r,
+          bundleId: N(r.bundleId),
+          channelId: N(r.channelId),
+        }),
+      );
 
-      const plansById = Object.fromEntries(plans.map((p: { id: any }) => [p.id, p]));
-      const bundlesById = Object.fromEntries(bundles.map((b: { id: any }) => [b.id, b]));
-      const channelsById = Object.fromEntries(channels.map((c: { id: any }) => [c.id, c]));
+      const plansById = Object.fromEntries(plans.map((p: { id: string }) => [p.id, p]));
+      const bundlesById = Object.fromEntries(bundles.map((b: { id: string }) => [b.id, b]));
+      const channelsById = Object.fromEntries(channels.map((c: { id: string }) => [c.id, c]));
       const errors: string[] = [];
       const missing = (label: string, id: string) => errors.push(`${label}: ${id}`);
 

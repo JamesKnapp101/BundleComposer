@@ -5,7 +5,7 @@ import { createDataService } from '../../ui/api/dataService';
 
 const api = createDataService({ baseUrl: 'http://localhost:5175', timeoutMs: 8000 });
 
-type LockPlan = { id: string; name: string; [key: string]: any };
+type LockPlan = { id: string; name: string; [key: string]: unknown };
 
 export const useLockPlansQuery = (ids: string[], user: string) => {
   const { data: plans = [] } = useQuery<LockPlan[]>({

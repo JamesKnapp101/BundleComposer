@@ -30,7 +30,7 @@ export type RelationshipDiffs = {
   channelsToRemoveByBundleKey?: Record<string, string[]>; // bundleLinkKey -> channelIds[]
 };
 
-type PlanPropertiesArgs = {
+export type PlanPropertiesArgs = {
   type: typeof UpdateType.PlanProperties;
   planPropertyKeys?: string[];
 };
@@ -76,15 +76,10 @@ export interface UpdateJob {
 export type DraftPatch<T> = Partial<T>;
 
 export interface DraftsState {
-  [x: string]: any;
-  byJobId: Record<
-    string, // jobId
-    {
-      plan: Record<string, DraftPatch<Plan>>; // planId -> fields
-      bundle: Record<string, DraftPatch<Bundle>>; // linkKey -> fields (planId:bundleId:sortIndex)
-      channel: Record<string, DraftPatch<Channel>>; // channelId -> fields
-    }
-  >;
+  plan: Record<string, DraftPatch<Plan>>; // planId -> fields
+  bundle: Record<string, DraftPatch<Bundle>>; // linkKey -> fields
+  channel: Record<string, DraftPatch<Channel>>; // channelId -> fields
+  byJobId: DraftsByJob; // jobId -> DraftSpace
 }
 
 export interface EditorState {
@@ -107,7 +102,8 @@ export type DraftsByJob = Record<string, DraftSpace>; // jobId -> DraftSpace
 
 export type RenderArgs = {
   job: UpdateJob;
-  plan: Plan;
+  jobId: string;
+  basePlan: Plan;
   mergedPlan: Plan & Record<string, unknown>;
   dirty: boolean;
 
@@ -165,12 +161,6 @@ export type Job = {
   args: UpdateArgs;
 };
 
-// ---- PlanBundleList -----------------------------------------------------
-
-/**
- * Convenience view of bundles grouped by plan.
- * Useful when you want a linear structure instead of bundlesByPlanId map.
- */
 export type PlanBundleList = Array<{
   plan: Plan;
   bundles: Bundle[];
@@ -178,3 +168,11 @@ export type PlanBundleList = Array<{
   dirtyBundles?: Record<string, boolean>; // linkKey -> dirty
   removedBundleIds?: string[]; // bundleIds marked for removal in this plan
 }>;
+
+export type UpsertPlanFieldPayload<K extends keyof Plan = keyof Plan> = {
+  jobId: string;
+  id: string; // planId
+  field: K;
+  value: Plan[K];
+  original: Plan[K];
+};

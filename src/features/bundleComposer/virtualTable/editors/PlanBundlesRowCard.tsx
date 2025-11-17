@@ -1,6 +1,8 @@
 import { ChevronDown, ChevronRight, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { patchBundleField } from '../../../../features/updateEditor/updateEditorSlice';
 import { cn } from '../../../../lib/utils/cn';
 import {
   BundleTypeSchema,
@@ -23,10 +25,12 @@ type ID = string;
 type PartialBundle = Partial<Bundle>;
 
 interface Props {
-  plan: Plan & Record<string, unknown>;
+  jobId: string;
+  mergedPlan: Plan & Record<string, unknown>;
+  originalPlan: Plan & Record<string, unknown>;
   bundles: (Bundle & Record<string, unknown>)[];
-  dirtyBundles?: Dict; // linkKey -> dirty
-  bundleFieldDirty: Record<string, Set<string>>;
+  dirtyBundles?: Dict;
+  bundleFieldDirty?: Record<string, Set<string>>;
   bundleFieldsToShow: string[];
   removedBundleIdsByPlanId?: Record<string, string[]>;
   addedBundleIdsByPlanId?: Record<string, string[]>;
@@ -39,10 +43,12 @@ interface Props {
 }
 
 export const PlanBundlesRowCard: React.FC<Props> = ({
-  plan,
+  jobId,
+  mergedPlan,
+  originalPlan,
   bundles,
   dirtyBundles = {},
-  bundleFieldDirty,
+  bundleFieldDirty = {},
   bundleFieldsToShow,
   removedBundleIdsByPlanId,
   addedBundleIdsByPlanId,
@@ -53,18 +59,39 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
   onRemoveBundleFromPlan,
   onOpenBundlePicker,
 }) => {
+  const baselineRef = React.useRef(originalPlan);
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(true);
   const isBundleFieldDirty = (linkKey: string, field: keyof Bundle) =>
     bundleFieldDirty?.[linkKey]?.has(field as string) ?? false;
-  const removedIdsForPlan = removedBundleIdsByPlanId?.[plan.id] ?? [];
-  const addedIdsForPlan = addedBundleIdsByPlanId?.[plan.id] ?? [];
+  const removedIdsForPlan = removedBundleIdsByPlanId?.[mergedPlan.id] ?? [];
+  const addedIdsForPlan = addedBundleIdsByPlanId?.[mergedPlan.id] ?? [];
   const isBundleRemoved = (bundleId: string) => removedIdsForPlan.includes(bundleId);
   const isBundleAdded = (bundleId: string) => addedIdsForPlan.includes(bundleId);
   const anyDirty = dirtyBundles && Object.values(dirtyBundles).some(Boolean);
   const anyRemoved = bundles.some((b) => isBundleRemoved(b.id));
 
-  console.log('anyDirty ', anyDirty);
-
+  const handleFieldChange = <K extends keyof Bundle>(
+    field: K,
+    value: Bundle[K],
+    linkKey: string,
+  ) => {
+    const baseline = baselineRef.current;
+    onChangeBundle && onChangeBundle(linkKey, { [field]: value });
+    dispatch(
+      patchBundleField({
+        jobId,
+        linkKey,
+        field,
+        value,
+        original: baseline[field] as any,
+      }),
+    );
+  };
+  useEffect(() => {
+    baselineRef.current = originalPlan;
+  }, [originalPlan.id]);
   return (
     <div
       className={cn(
@@ -80,8 +107,8 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
           onClick={() => setOpen((o) => !o)}
         >
           {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-          <span className="font-medium">{plan.name}</span>
-          <span className="text-xs text-slate-500">#{String(plan.id).slice(0, 8)}</span>
+          <span className="font-medium">{mergedPlan.name}</span>
+          <span className="text-xs text-slate-500">#{String(mergedPlan.id).slice(0, 8)}</span>
           {anyDirty && (
             <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700">
               {'edited'}
@@ -96,7 +123,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
               size="sm"
               variant="outline"
               className="inline-flex items-center gap-1"
-              onClick={() => onOpenBundlePicker(plan.id)}
+              onClick={() => onOpenBundlePicker(mergedPlan.id)}
             >
               <Plus className="h-3 w-3" />
               <span>{'Add bundles from catalog'}</span>
@@ -104,7 +131,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
           )}
 
           {onDiscardPlan && dirtyBundles && (
-            <Button variant="ghost" size="sm" onClick={() => onDiscardPlan(plan.id)}>
+            <Button variant="ghost" size="sm" onClick={() => onDiscardPlan(mergedPlan.id)}>
               {'Discard Plan'}
             </Button>
           )}
@@ -121,7 +148,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
               <div className="px-4 py-6 text-sm text-slate-500">{'No bundles linked.'}</div>
             )}
             {bundles.map((bundle, sortIndex) => {
-              const linkKey = `${plan.id}:${bundle.id}:${sortIndex}`;
+              const linkKey = `${mergedPlan.id}:${bundle.id}:${sortIndex}`;
               const isDirty = !!dirtyBundles[linkKey];
               const removed = isBundleRemoved(bundle.id);
               const added = isBundleAdded(bundle.id);
@@ -147,9 +174,9 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                           className="mt-0.5 rounded-full p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
                           onClick={() => {
                             if (removed) {
-                              onAddBundleToPlan?.(plan.id, bundle.id);
+                              onAddBundleToPlan?.(mergedPlan.id, bundle.id);
                             } else {
-                              onRemoveBundleFromPlan?.(plan.id, bundle.id);
+                              onRemoveBundleFromPlan?.(mergedPlan.id, bundle.id);
                             }
                           }}
                         >
@@ -201,7 +228,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                         <Input
                           type="text"
                           value={(bundle.name as string | undefined) ?? ''}
-                          onChange={(e) => onChangeBundle(linkKey, { name: e.target.value || '' })}
+                          onChange={(e) => handleFieldChange('name', e.target.value || '', linkKey)}
                           placeholder="Bundle Name"
                           className={cn(
                             isBundleFieldDirty(linkKey, 'name') &&
@@ -217,7 +244,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                           type="text"
                           value={(bundle.description as string | undefined) ?? ''}
                           onChange={(e) =>
-                            onChangeBundle(linkKey, { description: e.target.value || '' })
+                            handleFieldChange('description', e.target.value || '', linkKey)
                           }
                           placeholder="Bundle Description"
                           className={cn(
@@ -237,9 +264,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                           }))}
                           value={bundle.bundleType as BundleType | undefined}
                           onChange={(next) =>
-                            onChangeBundle(linkKey, {
-                              bundleType: next as BundleType | undefined,
-                            })
+                            handleFieldChange('bundleType', next as BundleType, linkKey)
                           }
                           className={cn(
                             isBundleFieldDirty(linkKey, 'bundleType') &&
@@ -262,7 +287,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                             labelLeft="No"
                             labelRight="Yes"
                             checked={Boolean(bundle.isAddOn)}
-                            onChange={(next) => onChangeBundle(linkKey, { isAddOn: next })}
+                            onChange={(next) => handleFieldChange('isAddOn', next, linkKey)}
                             disabled={removed}
                           />
                         </div>
@@ -282,7 +307,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                             labelLeft="No"
                             labelRight="Yes"
                             checked={Boolean(bundle.isExclusive)}
-                            onChange={(next) => onChangeBundle(linkKey, { isExclusive: next })}
+                            onChange={(next) => handleFieldChange('isExclusive', next, linkKey)}
                             disabled={removed}
                           />
                         </div>
@@ -295,9 +320,11 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                           type="number"
                           value={(bundle.addOnPrice as number | undefined) ?? 0}
                           onChange={(e) =>
-                            onChangeBundle(linkKey, {
-                              addOnPrice: Number((e.target.value ?? '0') || 0),
-                            })
+                            handleFieldChange(
+                              'addOnPrice',
+                              Number((e.target.value ?? '0') || 0),
+                              linkKey,
+                            )
                           }
                           placeholder="Add On Price"
                           className={cn(
@@ -317,9 +344,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                           }))}
                           value={bundle.currency as Currency | undefined}
                           onChange={(next) =>
-                            onChangeBundle(linkKey, {
-                              currency: next as Currency | undefined,
-                            })
+                            handleFieldChange('currency', next as Currency, linkKey)
                           }
                           className={cn(
                             isBundleFieldDirty(linkKey, 'currency') &&
@@ -337,9 +362,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                           }))}
                           value={bundle.primaryGenre as Genre | undefined}
                           onChange={(next) =>
-                            onChangeBundle(linkKey, {
-                              primaryGenre: next as Genre | undefined,
-                            })
+                            handleFieldChange('primaryGenre', next as Genre, linkKey)
                           }
                           className={cn(
                             isBundleFieldDirty(linkKey, 'primaryGenre') &&

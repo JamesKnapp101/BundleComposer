@@ -1,7 +1,14 @@
 import * as React from 'react';
 import { BundleSchema, ChannelSchema, PlanSchema } from '../../../schema';
 import { BCSelect } from '../../../ui/inputs/Select';
-import { UpdateType, type EditorPhase, type UpdateArgs } from '../types';
+import {
+  UpdateType,
+  type EditorPhase,
+  type PlanBundlesArgs,
+  type PlanChannelsArgs,
+  type PlanPropertiesArgs,
+  type UpdateArgs,
+} from '../types';
 
 interface Props {
   job: {
@@ -98,14 +105,13 @@ export const SelectionRow: React.FC<Props> = ({
         {/* Conditional Args */}
         {showArgs && args?.type === UpdateType.PlanProperties && (
           <div>
-            <label className="text-sm font-medium text-slate-900">Properties (optional)</label>
+            <label className="text-sm font-medium text-slate-900">{'Properties (optional)'}</label>
             <BCSelect
               multiple
               options={(PlanSchema.keyof().options as string[])
                 .filter((key) => !EXCLUDE.has(key))
                 .map((key) => ({ value: key, label: makeReadable(key) }))}
-              //@ts-ignore
-              value={job?.args?.planPropertyKeys ?? []}
+              value={(job?.args as PlanPropertiesArgs)?.planPropertyKeys ?? []}
               onChange={(next) =>
                 onArgsChange({
                   type: UpdateType.PlanProperties,
@@ -114,11 +120,8 @@ export const SelectionRow: React.FC<Props> = ({
               }
               placeholder="Choose properties…"
               clearable
-              //@ts-ignore
-              buttonProps={{ 'data-testid': 'plan-properties-input' }}
               ariaLabel="Plan properties"
             />
-
             <p id="plan-properties-hint" className="mt-1 text-xs text-slate-500">
               {'Select fields to edit. Leave blank to show all common plan fields.'}
             </p>
@@ -134,8 +137,7 @@ export const SelectionRow: React.FC<Props> = ({
                 options={(ChannelSchema.keyof().options as string[])
                   .filter((key) => !EXCLUDE.has(key))
                   .map((key) => ({ value: key, label: makeReadable(key) }))}
-                //@ts-ignore
-                value={job?.args?.channelPropertyKeys ?? []}
+                value={(job?.args as PlanChannelsArgs)?.channelPropertyKeys ?? []}
                 onChange={(next) =>
                   onArgsChange({
                     type: UpdateType.PlanChannels,
@@ -144,8 +146,6 @@ export const SelectionRow: React.FC<Props> = ({
                 }
                 placeholder="Choose properties…"
                 clearable
-                //@ts-ignore
-                buttonProps={{ 'data-testid': 'plan-properties-input' }}
                 ariaLabel="Channel properties"
               />
               <p id="channel-properties-hint" className="mt-1 text-xs text-slate-500">
@@ -154,7 +154,6 @@ export const SelectionRow: React.FC<Props> = ({
             </div>
           </>
         )}
-
         {showArgs && args?.type === UpdateType.PlanBundles && (
           <>
             <div>
@@ -164,8 +163,7 @@ export const SelectionRow: React.FC<Props> = ({
                 options={(BundleSchema.keyof().options as string[])
                   .filter((key) => !EXCLUDE.has(key))
                   .map((key) => ({ value: key, label: makeReadable(key) }))}
-                //@ts-ignore
-                value={job?.args?.bundlePropertyKeys ?? []}
+                value={(job?.args as PlanBundlesArgs)?.bundlePropertyKeys ?? []}
                 onChange={(next) =>
                   onArgsChange({
                     type: UpdateType.PlanBundles,
@@ -174,8 +172,6 @@ export const SelectionRow: React.FC<Props> = ({
                 }
                 placeholder="Choose properties…"
                 clearable
-                //@ts-ignore
-                buttonProps={{ 'data-testid': 'plan-properties-input' }}
                 ariaLabel="Bundle properties"
               />
               <p id="bundle-properties-hint" className="mt-1 text-xs text-slate-500">

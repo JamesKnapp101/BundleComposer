@@ -1,5 +1,13 @@
 import { Check, ChevronDown, X } from 'lucide-react';
-import React, { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 
 type Option = { label: string; value: string };
@@ -91,7 +99,7 @@ export const BCSelect = ({
     return el;
   }, []);
 
-  const positionMenu = () => {
+  const positionMenu = useCallback(() => {
     const btn = buttonRef.current;
     if (!btn) return;
     const r = btn.getBoundingClientRect();
@@ -107,12 +115,12 @@ export const BCSelect = ({
       zIndex: 60_000,
       maxHeight: estimatedH,
     } as React.CSSProperties);
-  };
+  }, [searchable, maxMenuHeight]);
 
   useLayoutEffect(() => {
     if (!open) return;
     positionMenu();
-  }, [open, normalizedValue.length, options.length]);
+  }, [open, normalizedValue.length, options.length, positionMenu]);
 
   useEffect(() => {
     if (!open) return;
@@ -137,7 +145,7 @@ export const BCSelect = ({
       window.removeEventListener('resize', onResize);
       document.removeEventListener('mousedown', onDocClick);
     };
-  }, [open]);
+  }, [open, positionMenu]);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (!open) return;

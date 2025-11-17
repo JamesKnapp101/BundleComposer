@@ -55,8 +55,8 @@ export const useConfirmOnExit = (
             // remember the current key; once it changes, nav has committed
             navKeyRef.current = location.key;
           }
-        } catch (e: any) {
-          if (!String(e?.message ?? '').includes('Invalid blocker state transition')) {
+        } catch (e) {
+          if (!String((e as Error)?.message ?? '').includes('Invalid blocker state transition')) {
             console.error(e);
           }
         }
@@ -74,7 +74,7 @@ export const useConfirmOnExit = (
 
     try {
       const check = confirmHandler(blocker.location, continueNavigation, cancelNavigation);
-      if (check && typeof (check as any).then === 'function') {
+      if (check && typeof check.then === 'function') {
         (check as Promise<void>).catch((e) => console.error(e));
       }
     } catch (e) {

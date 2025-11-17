@@ -3,14 +3,42 @@ import { randomUUID } from 'crypto';
 import Fastify from 'fastify';
 import { readFile } from 'fs/promises';
 import path from 'node:path';
-import type { Bundle, Channel } from 'src/schema';
-import { z } from 'zod';
 import { type Scenario } from '../lib/api/scenarioClient';
+import type {
+  Bundle,
+  BundleChannelLink,
+  Channel,
+  Dict,
+  Plan,
+  PlanBundleLink,
+  PlanChannelLink,
+} from '../schema';
 import { clearState } from './mocks/db';
 import { buildScenario } from './mocks/factories';
 import { registerMockResetRoute } from './mocks/reset';
 
 type JobId = string;
+type GenerateQuery = {
+  seed?: string;
+  plans?: string;
+  bundles?: string;
+  channels?: string;
+};
+type ReqParams = {
+  id?: string;
+  userId?: string;
+  body?: Dict;
+  ids?: string;
+  jobId?: string;
+};
+type Job = {
+  startedAt: number;
+  finishedAt: number;
+  status: 'queued' | 'in_progress' | 'done' | 'failed';
+  progress: number;
+  subscribers: Set<NodeJS.WritableStream>;
+  timer: NodeJS.Timeout | undefined;
+};
 
 const app = Fastify({
   logger: {
@@ -55,8 +83,8 @@ app.get('/api/mocks/fixtures', async () => {
 
 app.get('/api/health', async () => ({ ok: true }));
 
-app.get('/api/mocks/generate', async (req, reply) => {
-  const q: any = req.query ?? {};
+app.get('/api/mocks/generate', async (req) => {
+  const q: GenerateQuery = req.query ?? {};
   const seed = String(q.seed ?? 'demo');
   const counts = {
     plans: parseIntParam(q.plans, 3),
@@ -92,12 +120,12 @@ const loadFixtures = async (mode: 'base' | 'alt' = 'base') => {
   ]);
 
   return {
-    plans: plans as any[],
-    bundles: bundles as any[],
-    channels: channels as any[],
-    planBundles: planBundles as any[],
-    bundleChannels: bundleChannels as any[],
-    planChannels: planChannels as any[],
+    plans: plans as Plan[],
+    bundles: bundles as Bundle[],
+    channels: channels as Channel[],
+    planBundles: planBundles as PlanBundleLink[],
+    bundleChannels: bundleChannels as BundleChannelLink[],
+    planChannels: planChannels as PlanChannelLink[],
   };
 };
 
@@ -127,25 +155,25 @@ const jobs = new Map<
   }
 >();
 
-const JobStart = z.object({ planIds: z.array(z.string()).min(1) });
-const LockRequest = z.object({ user: z.string().min(1) });
-const PlansQuery = z.object({ ids: z.array(z.string()).min(1) });
+//const JobStart = z.object({ planIds: z.array(z.string()).min(1) });
+//const LockRequest = z.object({ user: z.string().min(1) });
+//const PlansQuery = z.object({ ids: z.array(z.string()).min(1) });
 
-app.get('/users/:userId', async (req, reply) => {
+app.get('/users/:userId', async (req) => {
   return {
-    user: { id: (req.params as any).userId, name: 'Mr. Bulldops', email: 'mr@bulldops.org' },
+    user: { id: (req.params as ReqParams).userId, name: 'Mr. Bulldops', email: 'mr@bulldops.org' },
   };
 });
 
-app.post('/plans/query', async (req, reply) => {
-  const { ids } = PlansQuery.parse((req as any).body ?? {});
+app.post('/plans/query', async () => {
+  // const { ids } = PlansQuery.parse((req as ReqParams).body ?? {});
   const results = ['']; //ids.map((id) => plans.get(id)).filter(Boolean);
   return results;
 });
 
-app.post('/plans/lock', async (req, reply) => {
-  const { user } = LockRequest.parse((req as any).body || {});
-  const ids = (req.params as any).ids as string;
+app.post('/plans/lock', async () => {
+  // const { user } = LockRequest.parse((req as ReqParams).body || {});
+  // const ids = (req.params as ReqParams).ids as string;
   // const p = plans.get(id);
   return true;
   // if (!p) return reply.code(404).send({ error: 'Not found' });
@@ -157,9 +185,9 @@ app.post('/plans/lock', async (req, reply) => {
   // return p;
 });
 
-app.post('/plans/unlock', async (req, reply) => {
-  const { user } = LockRequest.parse((req as any).body || {});
-  const id = (req.params as any).id as string;
+app.post('/plans/unlock', async () => {
+  // const { user } = LockRequest.parse((req as ReqParams).body || {});
+  //const id = (req.params as ReqParams).id as string;
   // const p = plans.get(id);
   return true;
   // if (!p) return reply.code(404).send({ error: 'Not found' });
@@ -218,7 +246,7 @@ app.get<{
       .map((x) => channelById.get(x.channelId))
       .filter(Boolean) as Channel[];
 
-    let viaBundles: Channel[] = [];
+    const viaBundles: Channel[] = [];
     if (!direct.length) {
       const bundleRefs = (planToBundles.get(pid) ?? [])
         .slice()
@@ -294,12 +322,12 @@ app.get<{
   return reply.send(out);
 });
 
-app.post('/jobs/master/create', async (req, reply) => {
+app.post('/jobs/master/create', async () => {
   // There is no spoon
   return true;
 });
 
-app.post('/jobs/master/cancel', async (req, reply) => {
+app.post('/jobs/master/cancel', async () => {
   const jobId = randomUUID();
   const job = {
     status: 'queued' as 'queued' | 'in_progress' | 'done' | 'failed',
@@ -310,12 +338,12 @@ app.post('/jobs/master/cancel', async (req, reply) => {
   jobs.set(jobId, job);
 
   job.status = 'in_progress';
-  (job as any).startedAt = Date.now();
+  (job as Job).startedAt = Date.now();
   job['timer'] = setInterval(() => {
     if (job.progress >= 100) {
       clearInterval(job['timer']!);
       job.status = 'done';
-      (job as any).finishedAt = Date.now();
+      (job as Job).finishedAt = Date.now();
       broadcast(jobId, { type: 'done', progress: 100 });
       return;
     }
@@ -328,20 +356,20 @@ app.post('/jobs/master/cancel', async (req, reply) => {
 });
 
 app.get('/jobs/:jobId', async (req, reply) => {
-  const j = jobs.get((req.params as any).jobId);
+  const j = jobs.get((req.params as ReqParams).jobId ?? '');
   if (!j) return reply.code(404).send({ error: 'Not found' });
   const { status, progress } = j;
   return {
-    jobId: (req.params as any).jobId,
+    jobId: (req.params as ReqParams).jobId,
     status,
     progress,
-    startedAt: (j as any).startedAt,
-    finishedAt: (j as any).finishedAt,
+    startedAt: (j as Job).startedAt,
+    finishedAt: (j as Job).finishedAt,
   };
 });
 
 app.get('/jobs/:jobId/stream', async (req, reply) => {
-  const jobId = (req.params as any).jobId as string;
+  const jobId = (req.params as ReqParams).jobId as string;
   const j = jobs.get(jobId);
   if (!j) return reply.code(404).send({ error: 'Not found' });
 
@@ -364,7 +392,7 @@ app.get('/jobs/:jobId/stream', async (req, reply) => {
   return reply;
 });
 
-const broadcast = (jobId: string, data: any) => {
+const broadcast = (jobId: string, data: Dict) => {
   const j = jobs.get(jobId);
   if (!j) return;
   for (const ws of j.subscribers) {
