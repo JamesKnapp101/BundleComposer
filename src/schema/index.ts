@@ -123,9 +123,9 @@ export const BundleSchema = z.object({
       'Custom',
     ])
     .default('Custom'),
-  isAddOn: z.boolean().default(true), // must be attached on top of a base plan
-  isExclusive: z.boolean().default(false), // limited to certain tiers/regions, etc.
-  addOnPrice: z.number().nonnegative().default(0), // price *on top of* the base plan
+  isAddOn: z.boolean().default(true),
+  isExclusive: z.boolean().default(false),
+  addOnPrice: z.number().nonnegative().default(0),
   currency: z.string().length(3).default('USD'),
   primaryGenre: z
     .enum([
@@ -141,10 +141,10 @@ export const BundleSchema = z.object({
       'Mixed',
     ])
     .default('Mixed'),
-  iconKey: z.string().optional(), // for UI icons / artwork
+  iconKey: z.string().optional(),
   sortOrder: z.number().int().default(0),
-  promoLabel: z.string().optional(), // e.g. "Limited time", "New!"
-  promoExpiresAt: z.string().datetime().optional(), // ISO timestamp
+  promoLabel: z.string().optional(),
+  promoExpiresAt: z.string().datetime().optional(),
 });
 export type Bundle = z.infer<typeof BundleSchema>;
 
@@ -152,7 +152,7 @@ export const ChannelSchema = z.object({
   id: Id,
   name: z.string(),
   description: z.string().default(''),
-  shortCode: z.string().max(10).optional(), // e.g. "ESPN", "HBO"
+  shortCode: z.string().max(10).optional(),
   category: z
     .enum([
       'Sports',
@@ -179,7 +179,7 @@ export const ChannelSchema = z.object({
   aLaCartePrice: z.number().nonnegative().default(0),
   currency: z.string().length(3).default('USD'),
   parentalRating: z.enum(['G', 'PG', 'PG-13', 'R', 'NC-17', 'Unrated']).default('Unrated'),
-  tags: z.array(z.string()).default([]), // free-form: "soccer", "true crime", etc.
+  tags: z.array(z.string()).default([]),
 });
 export type Channel = z.infer<typeof ChannelSchema>;
 

@@ -25,7 +25,7 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 1,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-12-02T04:01:33.883Z"
+    "promoExpiresAt": "2025-12-03T20:39:06.624Z"
   },
   {
     "id": "b3",
@@ -66,7 +66,7 @@
     "iconKey": "movie-lover-mixed",
     "sortOrder": 4,
     "promoLabel": "Intro offer",
-    "promoExpiresAt": "2025-12-03T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-04T20:39:06.624Z"
   },
   {
     "id": "b6",
@@ -94,7 +94,7 @@
     "iconKey": "news-and-politics-news",
     "sortOrder": 6,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-11-24T04:01:33.884Z"
+    "promoExpiresAt": "2025-11-25T20:39:06.625Z"
   },
   {
     "id": "b8",
@@ -109,7 +109,7 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 7,
     "promoLabel": "Intro offer",
-    "promoExpiresAt": "2025-12-05T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-06T20:39:06.625Z"
   },
   {
     "id": "b9",
@@ -124,7 +124,7 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 8,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-12-02T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-03T20:39:06.625Z"
   },
   {
     "id": "b10",
@@ -165,7 +165,7 @@
     "iconKey": "movie-lover-mixed",
     "sortOrder": 11,
     "promoLabel": "Intro offer",
-    "promoExpiresAt": "2025-12-03T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-04T20:39:06.625Z"
   },
   {
     "id": "b13",
@@ -193,7 +193,7 @@
     "iconKey": "news-and-politics-news",
     "sortOrder": 13,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-11-24T04:01:33.884Z"
+    "promoExpiresAt": "2025-11-25T20:39:06.625Z"
   },
   {
     "id": "b15",
@@ -208,7 +208,7 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 14,
     "promoLabel": "Intro offer",
-    "promoExpiresAt": "2025-12-05T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-06T20:39:06.625Z"
   },
   {
     "id": "b16",
@@ -223,7 +223,7 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 15,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-12-02T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-03T20:39:06.625Z"
   },
   {
     "id": "b17",
@@ -264,7 +264,7 @@
     "iconKey": "movie-lover-mixed",
     "sortOrder": 18,
     "promoLabel": "Intro offer",
-    "promoExpiresAt": "2025-12-03T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-04T20:39:06.625Z"
   },
   {
     "id": "b20",
@@ -292,7 +292,7 @@
     "iconKey": "news-and-politics-news",
     "sortOrder": 20,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-11-24T04:01:33.884Z"
+    "promoExpiresAt": "2025-11-25T20:39:06.625Z"
   },
   {
     "id": "b22",
@@ -307,7 +307,7 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 21,
     "promoLabel": "Intro offer",
-    "promoExpiresAt": "2025-12-05T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-06T20:39:06.625Z"
   },
   {
     "id": "b23",
@@ -322,7 +322,7 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 22,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-12-02T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-03T20:39:06.625Z"
   },
   {
     "id": "b24",
@@ -363,7 +363,7 @@
     "iconKey": "movie-lover-mixed",
     "sortOrder": 25,
     "promoLabel": "Intro offer",
-    "promoExpiresAt": "2025-12-03T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-04T20:39:06.625Z"
   },
   {
     "id": "b27",
@@ -391,7 +391,7 @@
     "iconKey": "news-and-politics-news",
     "sortOrder": 27,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-11-24T04:01:33.884Z"
+    "promoExpiresAt": "2025-11-25T20:39:06.625Z"
   },
   {
     "id": "b29",
@@ -406,7 +406,7 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 28,
     "promoLabel": "Intro offer",
-    "promoExpiresAt": "2025-12-05T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-06T20:39:06.625Z"
   },
   {
     "id": "b30",
@@ -421,6 +421,6 @@
     "iconKey": "just-for-kids-mixed",
     "sortOrder": 29,
     "promoLabel": "Popular",
-    "promoExpiresAt": "2025-12-02T04:01:33.884Z"
+    "promoExpiresAt": "2025-12-03T20:39:06.625Z"
   }
 ]

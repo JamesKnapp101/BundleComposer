@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { Plan } from 'src/schema';
 import type { RootState } from '../../features/bundleComposer/store/store';
-import type { UpdateArgs } from './types';
+import type { RelationshipDiffs, UpdateArgs, UpdateJob } from './types';
 
 export const selectUpdateEditor = (s: RootState) => s.updateEditor;
 
@@ -67,10 +67,62 @@ export const selectCurrentJobDrafts = createSelector(
       : { plan: {}, bundle: {}, channel: {} },
 );
 
-export const selectAllDrafts = createSelector(
-  [selectUpdateEditor, selectCurrentJob],
-  (ue) => ue.drafts,
-);
+export const selectAllDrafts = createSelector([selectUpdateEditor], (ue) => {
+  const { drafts, jobs } = ue;
+
+  const jobsWithDiffs = jobs.map((job: UpdateJob) => {
+    const { id, type, planIds, status, createdAt } = job;
+    const args = (job.args ?? {}) as UpdateArgs & RelationshipDiffs;
+
+    const {
+      bundlesToAddByPlanId,
+      bundlesToRemoveByPlanId,
+      channelsToAddByPlanId,
+      channelsToRemoveByPlanId,
+      channelsToAddByBundleKey,
+      channelsToRemoveByBundleKey,
+    } = args;
+
+    const diffs: RelationshipDiffs = {};
+    if (bundlesToAddByPlanId && Object.keys(bundlesToAddByPlanId).length) {
+      diffs.bundlesToAddByPlanId = bundlesToAddByPlanId;
+    }
+    if (bundlesToRemoveByPlanId && Object.keys(bundlesToRemoveByPlanId).length) {
+      diffs.bundlesToRemoveByPlanId = bundlesToRemoveByPlanId;
+    }
+    if (channelsToAddByPlanId && Object.keys(channelsToAddByPlanId).length) {
+      diffs.channelsToAddByPlanId = channelsToAddByPlanId;
+    }
+    if (channelsToRemoveByPlanId && Object.keys(channelsToRemoveByPlanId).length) {
+      diffs.channelsToRemoveByPlanId = channelsToRemoveByPlanId;
+    }
+    if (channelsToAddByBundleKey && Object.keys(channelsToAddByBundleKey).length) {
+      diffs.channelsToAddByBundleKey = channelsToAddByBundleKey;
+    }
+    if (channelsToRemoveByBundleKey && Object.keys(channelsToRemoveByBundleKey).length) {
+      diffs.channelsToRemoveByBundleKey = channelsToRemoveByBundleKey;
+    }
+
+    return {
+      id,
+      type,
+      planIds,
+      status,
+      createdAt,
+      diffs,
+    };
+  });
+
+  return {
+    draftsByJobId: drafts.byJobId,
+    globalDrafts: {
+      plan: drafts.plan,
+      bundle: drafts.bundle,
+      channel: drafts.channel,
+    },
+    jobs: jobsWithDiffs,
+  };
+});
 
 export const selectIsCurrentJobDirty = createSelector(
   [selectCurrentJobDrafts],
@@ -86,7 +138,7 @@ export const selectPlanDirty = (state: RootState, jobId: string, planId: string)
 export const selectChannelDirty = (state: RootState, jobId: string, channelId: string) =>
   Boolean(selectJobSpace(state, jobId).channel[channelId]);
 
-const selectDrafts = (state: RootState) => state.drafts;
+const selectDrafts = (state: RootState) => state.updateEditor.drafts;
 
 export const selectPlanDraft = (state: RootState, planId: string) =>
   selectDrafts(state).plan[planId] ?? {};
@@ -96,6 +148,7 @@ export const selectIsPlanFieldDirty = <K extends keyof Plan>(
   planId: string,
   field: K,
 ): boolean => {
-  const patch = selectAllDrafts(state).plan[planId];
+  const { globalDrafts } = selectAllDrafts(state);
+  const patch = globalDrafts.plan[planId] as Partial<Plan> | undefined;
   return !!patch && Object.prototype.hasOwnProperty.call(patch, field);
 };

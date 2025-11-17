@@ -1,9 +1,9 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useCallback, useMemo, useRef } from 'react';
-import { useSelectedPlansWithBundles } from '../../../features/updateEditor/hooks/useSelectedPlansWithBundles';
-import { useSelectedPlansWithChannels } from '../../../features/updateEditor/hooks/useSelectedPlansWithChannels';
 import { useBundles } from '../../../lib/hooks/useBundles';
+import { useBundlesByPlanIds } from '../../../lib/hooks/useBundlesByPlanId';
 import { useChannels } from '../../../lib/hooks/useChannels';
+import { useChannelsByPlanIds } from '../../../lib/hooks/useChannelsByPlanId';
 import { type Bundle, type Channel, type Plan } from '../../../schema';
 import { makeSelectDraftsForJob } from '../../updateEditor/selectors';
 import {
@@ -80,30 +80,38 @@ export const PlanVirtualList = ({
     useMemo(() => makeSelectDraftsForJob(currentJob.id), [currentJob.id]),
   );
 
+  const planIds = useMemo(() => plans.map((p) => p.id), [plans]);
+
   const planFieldDirty: Record<string, Set<string>> = useMemo(() => {
     const out: Record<string, Set<string>> = {};
-    const space = draftsForJob?.plan ?? {};
+    const space = (draftsForJob?.plan ?? {}) as Record<string, object>;
+
     for (const [pid, patch] of Object.entries(space)) {
       out[pid] = new Set(Object.keys(patch));
     }
+
     return out;
   }, [draftsForJob?.plan]);
 
   const bundleFieldDirty: Record<string, Set<string>> = useMemo(() => {
     const out: Record<string, Set<string>> = {};
-    const space = draftsForJob?.bundle ?? {};
+    const space = (draftsForJob?.bundle ?? {}) as Record<string, object>;
+
     for (const [linkKey, patch] of Object.entries(space)) {
       out[linkKey] = new Set(Object.keys(patch));
     }
+
     return out;
   }, [draftsForJob?.bundle]);
 
   const channelFieldDirty: Record<string, Set<string>> = useMemo(() => {
     const out: Record<string, Set<string>> = {};
-    const space = draftsForJob?.channel ?? {};
+    const space = (draftsForJob?.channel ?? {}) as Record<string, object>;
+
     for (const [cid, patch] of Object.entries(space)) {
       out[cid] = new Set(Object.keys(patch));
     }
+
     return out;
   }, [draftsForJob?.channel]);
 
@@ -113,12 +121,15 @@ export const PlanVirtualList = ({
     () => draftsForJob?.plan ?? {},
     [draftsForJob?.plan],
   );
-  const { channelsByPlanId } = useSelectedPlansWithChannels(plans.map((plan) => plan.id));
+
+  const { data: channelsByPlanId = {} } = useChannelsByPlanIds(planIds);
+  const { data: bundlesByPlanId = {} } = useBundlesByPlanIds(planIds);
+
   const channelPatches: Record<string, Partial<Channel>> = useMemo(
     () => draftsForJob?.channel ?? {},
     [draftsForJob?.channel],
   );
-  const { bundlesByPlanId } = useSelectedPlansWithBundles(plans.map((plan) => plan.id));
+
   const bundlePatches: Record<string, Partial<Bundle>> = useMemo(
     () => draftsForJob?.bundle ?? {},
     [draftsForJob?.bundle],
@@ -180,10 +191,8 @@ export const PlanVirtualList = ({
             ...patch,
           } as Channel;
         });
-
       out[pid] = [...baseMerged, ...addedMerged];
     }
-
     return out;
   }, [
     plans,
@@ -211,7 +220,6 @@ export const PlanVirtualList = ({
         }),
       );
     }
-
     return out;
   }, [mergedChannelsByPlanId, channelPatches, channelsToRemoveByPlanId, channelsToAddByPlanId]);
 
@@ -280,7 +288,6 @@ export const PlanVirtualList = ({
         }),
       );
     }
-
     return out;
   }, [mergedBundlesByPlanId, bundlePatches, bundlesToRemoveByPlanId, bundlesToAddByPlanId]);
 
@@ -482,8 +489,10 @@ export const PlanVirtualList = ({
                       ? derivedBundleFieldsToShow
                       : derivedFieldsToShow,
                 channelsByPlanId: mergedChannelsByPlanId,
+                baselineChannelsByPlanId: channelsByPlanId,
                 dirtyChannelsByPlanId,
                 bundlesByPlanId: mergedBundlesByPlanId,
+                baselineBundlesByPlanId: bundlesByPlanId,
                 dirtyBundlesByPlanId,
                 planFieldDirty,
                 bundleFieldDirty,

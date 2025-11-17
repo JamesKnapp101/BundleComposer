@@ -1,11 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import type { Plan } from 'src/schema';
 import { selectCurrentJob } from '../../../features/updateEditor/selectors';
 import { useSelectedPlansQuery } from '../../../lib/hooks';
 import { Button } from '../../../ui/inputs/Button';
-import { clearAll, upsertDraft } from '../store/draftSlice';
+
 import type { RootState } from '../store/store';
 import { PlanVirtualList } from '../virtualTable/PlanVirtualList';
 
@@ -15,41 +14,41 @@ export const BundleComposerPage = () => {
   const { plans } = useSelectedPlansQuery(ids);
   const currentJob = useSelector(selectCurrentJob);
   const dispatch = useDispatch();
-  const patches = useSelector((s: RootState) => s.drafts.plan);
+  const patches = useSelector((s: RootState) => s.updateEditor.drafts.plan);
 
   const dirtyIds = useMemo(
     () => plans.map((p) => p.id).filter((id) => Boolean(patches[id])),
     [plans, patches],
   );
 
-  const onChangePlan = useCallback(
-    (id: string, patch: Partial<Plan>) =>
-      dispatch(
-        upsertDraft({
-          id,
-          patch,
-          type: 'plan',
-        }),
-      ),
-    [dispatch],
-  );
+  // const onChangePlan = useCallback(
+  //   (id: string, patch: Partial<Plan>) =>
+  //     dispatch(
+  //       upsertDraft({
+  //         id,
+  //         patch,
+  //         type: 'plan',
+  //       }),
+  //     ),
+  //   [dispatch],
+  // );
 
-  const onChangeChannel = useCallback(
-    (id: string, patch: Partial<Plan>) =>
-      dispatch(
-        upsertDraft({
-          id,
-          patch,
-          type: 'channel',
-        }),
-      ),
-    [dispatch],
-  );
+  // const onChangeChannel = useCallback(
+  //   (id: string, patch: Partial<Plan>) =>
+  //     dispatch(
+  //       upsertDraft({
+  //         id,
+  //         patch,
+  //         type: 'channel',
+  //       }),
+  //     ),
+  //   [dispatch],
+  // );
 
   const discardAll = useCallback(() => {
     if (!dirtyIds.length) return;
-    dispatch(clearAll());
-  }, [dispatch, dirtyIds]);
+    // dispatch(clearAll());
+  }, [dirtyIds]);
 
   const saveAll = useCallback(async () => {
     console.log('This will be the save function ', dispatch, dirtyIds);
@@ -73,8 +72,8 @@ export const BundleComposerPage = () => {
       </header>
       <PlanVirtualList
         plans={plans}
-        onChangePlan={onChangePlan}
-        onChangeChannel={onChangeChannel}
+        // onChangePlan={onChangePlan}
+        //onChangeChannel={onChangeChannel}
         currentJob={currentJob}
       />
     </div>

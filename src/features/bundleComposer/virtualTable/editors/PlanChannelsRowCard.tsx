@@ -1,6 +1,8 @@
 import { ChevronDown, ChevronRight, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import * as React from 'react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { patchChannelField } from '../../../../features/updateEditor/updateEditorSlice';
 import { cn } from '../../../../lib/utils/cn';
 import {
   ChannelCategorySchema,
@@ -27,22 +29,10 @@ type ID = string;
 type PartialChannel = Partial<Channel>;
 
 interface Props {
+  jobId: string;
   plan: Plan & Record<string, unknown>;
   channels: (Channel & Record<string, unknown>)[];
-  dirtyChannels?: Dict;
-  channelFieldDirty: Record<string, Set<string>>;
-  channelFieldsToShow: string[];
-  onDiscardPlan?: (planId: string) => void;
-  onChangeChannel: (channelId: ID, patch: PartialChannel) => void;
-  onDiscardChannel?: (channelId: ID) => void;
-  onAddChannelToPlan?: (planId: ID, channelId: ID) => void;
-  onRemoveChannelFromPlan?: (planId: ID, channelId: ID) => void;
-  removedChannelIds?: string[];
-}
-
-interface Props {
-  plan: Plan & Record<string, unknown>;
-  channels: (Channel & Record<string, unknown>)[];
+  baselineChannels: (Channel & Record<string, unknown>)[];
   dirtyChannels?: Dict;
   channelFieldDirty: Record<string, Set<string>>;
   channelFieldsToShow: string[];
@@ -57,8 +47,10 @@ interface Props {
 }
 
 export const PlanChannelsRowCard: React.FC<Props> = ({
+  jobId,
   plan,
   channels,
+  baselineChannels,
   dirtyChannels = {},
   channelFieldDirty,
   channelFieldsToShow,
@@ -71,6 +63,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
   onRemoveChannelFromPlan,
   onOpenChannelPicker,
 }) => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
   const isChannelFieldDirty = (cid: string, field: keyof Channel) =>
     channelFieldDirty?.[cid]?.has(field as string) ?? false;
@@ -80,7 +73,37 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
   const isChannelAdded = (channelId: string) => addedIdsForPlan.includes(channelId);
   const anyDirty = dirtyChannels && Object.values(dirtyChannels).some(Boolean);
   const anyRemoved = channels.some((ch) => isChannelRemoved(ch.id));
-  console.log('anyDirty ', anyDirty);
+
+  const baselineById = useMemo(() => {
+    const map: Record<string, Channel> = {};
+    for (const b of baselineChannels) {
+      if (!map[b.id]) map[b.id] = b;
+    }
+    return map;
+  }, [baselineChannels]);
+
+  const handleFieldChange = <K extends keyof Channel>(
+    field: K,
+    value: Channel[K],
+    linkKey: string,
+  ) => {
+    const channelId = linkKey.split(':')[1];
+
+    const baseline = baselineById[channelId];
+
+    onChangeChannel?.(linkKey, { [field]: value });
+
+    dispatch(
+      patchChannelField({
+        jobId,
+        linkKey,
+        field,
+        value,
+        original: (baseline?.[field] ?? undefined) as Channel[K],
+      }),
+    );
+  };
+
   return (
     <div
       className={cn(
@@ -142,7 +165,6 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
               const isDirty = !!dirtyChannels[linkKey];
               const removed = isChannelRemoved(ch.id);
               const added = isChannelAdded(ch.id);
-              console.log('isDirty? ', isDirty, removed);
               return (
                 <div
                   key={linkKey}
@@ -222,7 +244,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                         <Input
                           type="text"
                           value={(ch.name as string | undefined) ?? ''}
-                          onChange={(e) => onChangeChannel(linkKey, { name: e.target.value || '' })}
+                          onChange={(e) => handleFieldChange('name', e.target.value, linkKey)}
                           placeholder="Channel Name"
                           className={cn(
                             isChannelFieldDirty(linkKey, 'name') &&
@@ -238,7 +260,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                           type="text"
                           value={(ch.description as string | undefined) ?? ''}
                           onChange={(e) =>
-                            onChangeChannel(linkKey, { description: e.target.value || '' })
+                            handleFieldChange('description', e.target.value, linkKey)
                           }
                           placeholder="Channel Description"
                           className={cn(
@@ -254,9 +276,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                         <Input
                           type="text"
                           value={(ch.shortCode as string | undefined) ?? ''}
-                          onChange={(e) =>
-                            onChangeChannel(linkKey, { shortCode: e.target.value || '' })
-                          }
+                          onChange={(e) => handleFieldChange('shortCode', e.target.value, linkKey)}
                           placeholder="Short Code"
                           className={cn(
                             isChannelFieldDirty(linkKey, 'shortCode') &&
@@ -275,9 +295,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                           }))}
                           value={ch.category as ChannelCategory | undefined}
                           onChange={(next) =>
-                            onChangeChannel(linkKey, {
-                              category: next as ChannelCategory | undefined,
-                            })
+                            handleFieldChange('category', next as ChannelCategory, linkKey)
                           }
                           className={cn(
                             isChannelFieldDirty(linkKey, 'category') &&
@@ -296,9 +314,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                           }))}
                           value={ch.language as Language | undefined}
                           onChange={(next) =>
-                            onChangeChannel(linkKey, {
-                              language: next as Language | undefined,
-                            })
+                            handleFieldChange('language', next as Language, linkKey)
                           }
                           className={cn(
                             isChannelFieldDirty(linkKey, 'language') &&
@@ -316,11 +332,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             value: r,
                           }))}
                           value={ch.region as Region | undefined}
-                          onChange={(next) =>
-                            onChangeChannel(linkKey, {
-                              region: next as Region | undefined,
-                            })
-                          }
+                          onChange={(next) => handleFieldChange('region', next as Region, linkKey)}
                           className={cn(
                             isChannelFieldDirty(linkKey, 'region') &&
                               'ring-2 ring-amber-400/80 ring-offset-1 rounded-xl',
@@ -344,7 +356,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             labelLeft="No"
                             labelRight="Yes"
                             checked={Boolean(ch.isLocal)}
-                            onChange={(next) => onChangeChannel(linkKey, { isLocal: next })}
+                            onChange={(next) => handleFieldChange('isLocal', next, linkKey)}
                             disabled={removed}
                           />
                         </div>
@@ -364,7 +376,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             labelLeft="No"
                             labelRight="Yes"
                             checked={Boolean(ch.isHd)}
-                            onChange={(next) => onChangeChannel(linkKey, { isHd: next })}
+                            onChange={(next) => handleFieldChange('isHd', next, linkKey)}
                             disabled={removed}
                           />
                         </div>
@@ -384,7 +396,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             labelLeft="No"
                             labelRight="Yes"
                             checked={Boolean(ch.isUhd)}
-                            onChange={(next) => onChangeChannel(linkKey, { isUhd: next })}
+                            onChange={(next) => handleFieldChange('isUhd', next, linkKey)}
                             disabled={removed}
                           />
                         </div>
@@ -404,7 +416,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             labelLeft="No"
                             labelRight="Yes"
                             checked={Boolean(ch.supportsDvr)}
-                            onChange={(next) => onChangeChannel(linkKey, { supportsDvr: next })}
+                            onChange={(next) => handleFieldChange('supportsDvr', next, linkKey)}
                             disabled={removed}
                           />
                         </div>
@@ -425,7 +437,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                             labelRight="Yes"
                             checked={Boolean(ch.hasOnDemandLibrary)}
                             onChange={(next) =>
-                              onChangeChannel(linkKey, { hasOnDemandLibrary: next })
+                              handleFieldChange('hasOnDemandLibrary', next, linkKey)
                             }
                             disabled={removed}
                           />
@@ -438,9 +450,11 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                           type="number"
                           value={(ch.aLaCartePrice as number | undefined) ?? 0}
                           onChange={(e) =>
-                            onChangeChannel(linkKey, {
-                              aLaCartePrice: Number((e.target.value ?? '0') || 0),
-                            })
+                            handleFieldChange(
+                              'aLaCartePrice',
+                              Number((e.target.value ?? '0') || 0),
+                              linkKey,
+                            )
                           }
                           placeholder="A-La-Carte Price"
                           className={cn(
@@ -460,9 +474,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                           }))}
                           value={ch.currency as Currency | undefined}
                           onChange={(next) =>
-                            onChangeChannel(linkKey, {
-                              currency: next as Currency | undefined,
-                            })
+                            handleFieldChange('currency', next as Currency, linkKey)
                           }
                           className={cn(
                             isChannelFieldDirty(linkKey, 'currency') &&
@@ -481,9 +493,7 @@ export const PlanChannelsRowCard: React.FC<Props> = ({
                           }))}
                           value={ch.parentalRating as Ratings | undefined}
                           onChange={(next) =>
-                            onChangeChannel(linkKey, {
-                              parentalRating: next as Ratings | undefined,
-                            })
+                            handleFieldChange('parentalRating', next as Ratings, linkKey)
                           }
                           className={cn(
                             isChannelFieldDirty(linkKey, 'parentalRating') &&

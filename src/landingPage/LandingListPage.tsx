@@ -80,8 +80,8 @@ const LandingListPage = () => {
             </div>
             {totalRows > 0 && (
               <PageNavigator
-                current={pageIndex} // 0-based index
-                total={pageCount || 1} // avoid 0
+                current={pageIndex}
+                total={pageCount || 1}
                 onChange={handleChangePage}
                 onSubmitWithValidation={handleSubmitWithValidation}
                 maxVisibleButtons={7}

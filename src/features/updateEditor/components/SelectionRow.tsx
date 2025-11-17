@@ -39,7 +39,6 @@ const isConfigValid = (args: UpdateArgs | undefined): boolean => {
     case UpdateType.PlanBundles:
       return true;
     case UpdateType.PlanBundleProperties:
-      // need at least one bundle or one property key to make sense
       return Boolean(
         (args.bundleIds && args.bundleIds.length) ||
           (args.propertyKeys && args.propertyKeys.length),
@@ -98,7 +97,6 @@ export const SelectionRow: React.FC<Props> = ({
               { label: 'Plan Properties', value: UpdateType.PlanProperties },
               { label: 'Plan Channels', value: UpdateType.PlanChannels },
               { label: 'Plan Bundles', value: UpdateType.PlanBundles },
-              { label: 'Plan Bundle Properties', value: UpdateType.PlanBundleProperties },
             ]}
           />
         </div>

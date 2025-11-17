@@ -33,7 +33,7 @@ export const useSelectedPlansQuery = (ids: string[]) => {
       return { byId, allIds };
     },
   });
-  const planPatches = useSelector((s: RootState) => s.drafts.plan);
+  const planPatches = useSelector((s: RootState) => s.updateEditor.drafts.plan);
 
   const plans = useMemo(
     () => data.allIds.map((id) => ({ ...data.byId[id], ...(planPatches[id] ?? {}) })),

@@ -47,7 +47,7 @@ The built-in Fastify server generates mock plans, bundles, and channels on the f
 
 ## Bundle Composer Flow
 
-![Bundle Composer Flow](src/assets/BundleComposerWorkflow.gif)
+![Bundle Composer Flow](src/assets/BundleComposerCapture.gif)
 
 ## Landing Page
 

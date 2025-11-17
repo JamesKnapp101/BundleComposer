@@ -14,20 +14,13 @@ export const UpdateType = {
 } as const;
 export type UpdateType = (typeof UpdateType)[keyof typeof UpdateType];
 
-// ---- UpdateArgs & UpdateJob ---------------------------------------------
-
 export type RelationshipDiffs = {
-  // plan <-> bundle
-  bundlesToAddByPlanId?: Record<string, string[]>; // planId -> bundleIds[]
-  bundlesToRemoveByPlanId?: Record<string, string[]>; // planId -> bundleIds[]
-
-  // plan <-> channel
-  channelsToAddByPlanId?: Record<string, string[]>; // planId -> channelIds[]
-  channelsToRemoveByPlanId?: Record<string, string[]>; // planId -> channelIds[]
-
-  // bundle-link <-> channel (bundleLinkKey = `${planId}:${bundleId}:${sortIndex}`)
-  channelsToAddByBundleKey?: Record<string, string[]>; // bundleLinkKey -> channelIds[]
-  channelsToRemoveByBundleKey?: Record<string, string[]>; // bundleLinkKey -> channelIds[]
+  bundlesToAddByPlanId?: Record<string, string[]>;
+  bundlesToRemoveByPlanId?: Record<string, string[]>;
+  channelsToAddByPlanId?: Record<string, string[]>;
+  channelsToRemoveByPlanId?: Record<string, string[]>;
+  channelsToAddByBundleKey?: Record<string, string[]>;
+  channelsToRemoveByBundleKey?: Record<string, string[]>;
 };
 
 export type PlanPropertiesArgs = {
@@ -62,43 +55,38 @@ export type UpdateArgs =
   | (PlanBundlePropertiesArgs & RelationshipDiffs);
 
 export interface UpdateJob {
-  id: string; // job/page id
+  id: string;
   type: UpdateType;
   args: UpdateArgs;
-  planIds: string[]; // scope
+  planIds: string[];
   status: 'draft' | 'ready' | 'submitted';
   createdAt: number;
   dirty?: boolean;
 }
-
-// ---- Drafts / Editor state ----------------------------------------------
-
 export type DraftPatch<T> = Partial<T>;
 
 export interface DraftsState {
-  plan: Record<string, DraftPatch<Plan>>; // planId -> fields
-  bundle: Record<string, DraftPatch<Bundle>>; // linkKey -> fields
-  channel: Record<string, DraftPatch<Channel>>; // channelId -> fields
-  byJobId: DraftsByJob; // jobId -> DraftSpace
+  plan: Record<string, DraftPatch<Plan>>;
+  bundle: Record<string, DraftPatch<Bundle>>;
+  channel: Record<string, DraftPatch<Channel>>;
+  byJobId: DraftsByJob;
 }
 
 export interface EditorState {
-  jobs: UpdateJob[]; // ordered “pages”
-  currentJobIndex: number; // active page
+  jobs: UpdateJob[];
+  currentJobIndex: number;
   drafts: DraftsState;
 }
 
-export type EntityPatchMap<T> = Record<string, DraftPatch<T>>; // id -> patch
+export type EntityPatchMap<T> = Record<string, DraftPatch<T>>;
 
 export type DraftSpace = {
   plan: EntityPatchMap<Plan>;
-  bundle: EntityPatchMap<Bundle>; // keyed by linkKey
-  channel: EntityPatchMap<Channel>; // keyed by channelId
+  bundle: EntityPatchMap<Bundle>;
+  channel: EntityPatchMap<Channel>;
 };
 
-export type DraftsByJob = Record<string, DraftSpace>; // jobId -> DraftSpace
-
-// ---- RenderArgs used by renderEditorsForJob -----------------------------
+export type DraftsByJob = Record<string, DraftSpace>;
 
 export type RenderArgs = {
   job: UpdateJob;
@@ -106,51 +94,32 @@ export type RenderArgs = {
   basePlan: Plan;
   mergedPlan: Plan & Record<string, unknown>;
   dirty: boolean;
-
-  // field patching
   onChangePlan: (planId: string, patch: Partial<Plan>) => void;
-
-  // NOTE: for bundles, we patch by linkKey (planId:bundleId:sortIndex)
   onChangeBundle: (linkKey: string, patch: Partial<Bundle>) => void;
   onChangeChannel: (channelId: string, patch: Partial<Channel>) => void;
-
-  // discard actions
   onDiscardPlan: (planId: string) => void;
   onDiscardBundle: (linkKey: string) => void;
   onDiscardChannel: (channelId: string) => void;
-
-  // relationship actions
-  // plan <-> bundle
   onAddBundleToPlan: (planId: string, bundleId: string) => void;
   onRemoveBundleFromPlan: (planId: string, bundleId: string) => void;
-
-  // plan <-> channel
   onAddChannelToPlan: (planId: string, channelId: string) => void;
   onRemoveChannelFromPlan: (planId: string, channelId: string) => void;
-
-  // bundle-link <-> channel
   onAddChannelToBundle: (bundleLinkKey: string, channelId: string) => void;
   onRemoveChannelFromBundle: (bundleLinkKey: string, channelId: string) => void;
-
   onOpenBundlePicker?: (planId: string) => void;
   onOpenChannelPicker?: (planId: string) => void;
-
   fieldsToShow?: string[];
-
-  // merged entities per plan
-  bundlesByPlanId?: Record<string, Bundle[]>; // these _should_ already include patches
-  dirtyBundlesByPlanId?: Record<string, Record<string, boolean>>; // planId -> linkKey -> dirty
+  bundlesByPlanId?: Record<string, Bundle[]>;
+  baselineBundlesByPlanId?: Record<string, Bundle[]>;
+  dirtyBundlesByPlanId?: Record<string, Record<string, boolean>>;
   channelsByPlanId?: Record<string, Channel[]>;
-  dirtyChannelsByPlanId?: Record<string, Record<string, boolean>>; // planId -> channelId -> dirty
-
-  // per-entity field dirty flags
-  planFieldDirty?: Record<string, Set<string>>; // planId -> fields
-  bundleFieldDirty?: Record<string, Set<string>>; // linkKey -> fields
-  channelFieldDirty?: Record<string, Set<string>>; // channelId -> fields
-
+  baselineChannelsByPlanId?: Record<string, Channel[]>;
+  dirtyChannelsByPlanId?: Record<string, Record<string, boolean>>;
+  planFieldDirty?: Record<string, Set<string>>;
+  bundleFieldDirty?: Record<string, Set<string>>;
+  channelFieldDirty?: Record<string, Set<string>>;
   removedBundleIdsByPlanId?: Record<string, string[]>;
   removedChannelIdsByPlanId?: Record<string, string[]>;
-
   addedBundleIdsByPlanId?: Record<string, string[]>;
   addedChannelIdsByPlanId?: Record<string, string[]>;
 };
@@ -164,14 +133,13 @@ export type Job = {
 export type PlanBundleList = Array<{
   plan: Plan;
   bundles: Bundle[];
-  // optional metadata you may want to tack on:
-  dirtyBundles?: Record<string, boolean>; // linkKey -> dirty
-  removedBundleIds?: string[]; // bundleIds marked for removal in this plan
+  dirtyBundles?: Record<string, boolean>;
+  removedBundleIds?: string[];
 }>;
 
 export type UpsertPlanFieldPayload<K extends keyof Plan = keyof Plan> = {
   jobId: string;
-  id: string; // planId
+  id: string;
   field: K;
   value: Plan[K];
   original: Plan[K];

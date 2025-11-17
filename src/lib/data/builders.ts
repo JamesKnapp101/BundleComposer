@@ -54,7 +54,7 @@ export type PlanView = {
   plan: Plan;
   bundles: (Bundle & { channels: Channel[] })[];
   directChannels: Channel[];
-  allChannels: Channel[]; // deduped (direct + via bundles)
+  allChannels: Channel[];
 };
 
 export const buildPlanViewFromScenario = (

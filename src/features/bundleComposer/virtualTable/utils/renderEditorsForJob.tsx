@@ -28,8 +28,10 @@ export const renderEditorsForJob = ({
   onRemoveChannelFromPlan,
   fieldsToShow,
   bundlesByPlanId,
+  baselineBundlesByPlanId,
   dirtyBundlesByPlanId,
   channelsByPlanId,
+  baselineChannelsByPlanId,
   dirtyChannelsByPlanId,
   planFieldDirty,
   bundleFieldDirty,
@@ -61,8 +63,12 @@ export const renderEditorsForJob = ({
 
       return (
         <PlanChannelsRowCard
+          jobId={jobId}
           plan={mergedPlan}
           channels={channels ?? []}
+          baselineChannels={
+            (baselineChannelsByPlanId?.[mergedPlan.id] as Channel[] | undefined) ?? []
+          }
           channelFieldsToShow={(fieldsToShow ?? (ChannelSchema.keyof().options as string[])).filter(
             (k) => k !== 'id',
           )}
@@ -90,8 +96,8 @@ export const renderEditorsForJob = ({
         <PlanBundlesRowCard
           jobId={jobId}
           mergedPlan={mergedPlan}
-          originalPlan={basePlan}
           bundles={bundles ?? []}
+          baselineBundles={(baselineBundlesByPlanId?.[mergedPlan.id] as Bundle[] | undefined) ?? []}
           bundleFieldsToShow={(fieldsToShow ?? (BundleSchema.keyof().options as string[])).filter(
             (k) => k !== 'id',
           )}

@@ -12,7 +12,7 @@ import {
   type UpdateArgs,
   type UpdateJob,
 } from '../../../features/updateEditor/types';
-import type { Channel as AppChannel, Bundle, Plan } from '../../../schema';
+import type { Plan } from '../../../schema';
 import { CardScroller } from '../../../ui/components/CardScroller';
 import { PlanVirtualList } from '../../bundleComposer/virtualTable/PlanVirtualList';
 import {
@@ -24,9 +24,6 @@ import {
   clearChannelDraft,
   clearJobDrafts,
   clearPlanDraft,
-  patchBundleField,
-  patchChannelField,
-  patchPlanField,
   removeBundleFromPlan,
   removeChannelFromBundle,
   removeChannelFromPlan,
@@ -46,7 +43,6 @@ interface UpdateEditorProps {
   initialJobs?: UpdateJob[];
   onChangeActiveJob?: (index: number) => void;
   onJobsChange?: (jobs: UpdateJob[]) => void;
-  // onBuildPayloads?: (jobs: UpdateJob[], drafts: DraftsByJob) => unknown;
   onSubmitWithValidation?: () => Promise<boolean>;
 }
 
@@ -55,11 +51,9 @@ export const UpdateEditor = ({
   initialJobs,
   onChangeActiveJob,
   onJobsChange,
-  //  onBuildPayloads,
   onSubmitWithValidation,
 }: UpdateEditorProps) => {
   const plansArray: Plan[] = Array.isArray(selectedPlans) ? selectedPlans : selectedPlans.plans;
-
   const dispatch = useAppDispatch();
   const jobs = useAppSelector(selectJobs);
   const currentJob = useAppSelector(selectCurrentJob);
@@ -106,7 +100,6 @@ export const UpdateEditor = ({
 
   useEffect(() => {
     if (!initialJobs?.length) return;
-    // Push each job to the slice (id, type, args, planIds are assumed valid)
     for (const j of initialJobs) dispatch(addJob(j));
     if (initialJobs.length > 0) setPhase('edit');
   }, [dispatch, initialJobs]);
@@ -200,42 +193,6 @@ export const UpdateEditor = ({
             <PlanVirtualList
               plans={plansArray}
               currentJob={currentJob}
-              onChangePlan={(planId, patch) => {
-                for (const [field, value] of Object.entries(patch)) {
-                  dispatch(
-                    patchPlanField({
-                      jobId: currentJob.id,
-                      planId,
-                      field: field as keyof Plan,
-                      value,
-                    }),
-                  );
-                }
-              }}
-              onChangeBundle={(linkKey, patch) => {
-                for (const [field, value] of Object.entries(patch)) {
-                  dispatch(
-                    patchBundleField({
-                      jobId: currentJob.id,
-                      linkKey,
-                      field: field as keyof Bundle,
-                      value,
-                    }),
-                  );
-                }
-              }}
-              onChangeChannel={(channelId, patch) => {
-                for (const [field, value] of Object.entries(patch)) {
-                  dispatch(
-                    patchChannelField({
-                      jobId: currentJob.id,
-                      channelId,
-                      field: field as keyof Omit<AppChannel, 'id'>,
-                      value,
-                    }),
-                  );
-                }
-              }}
               onDiscardPlan={(planId) => {
                 dispatch(clearPlanDraft({ jobId: currentJob.id, planId }));
               }}
@@ -344,7 +301,6 @@ export const UpdateEditor = ({
               addChannelToPlan({ jobId: currentJob.id, planId: channelPickerPlanId, channelId }),
             );
           }
-
           closeChannelPicker();
         }}
       />

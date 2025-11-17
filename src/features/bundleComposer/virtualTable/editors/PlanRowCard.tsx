@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { patchPlanField } from '../../../../features/updateEditor/updateEditorSlice';
 import { cn } from '../../../../lib/utils/cn';
@@ -33,13 +33,13 @@ interface Props {
   onDiscard: () => void;
 }
 
-export const PlanRowCard = ({
+const PlanRowCardInner = ({
   jobId,
   mergedPlan,
   originalPlan,
   dirty,
   planFieldDirty = {},
-  onChange,
+  // onChange,
   onDiscard,
   fieldsToShow,
 }: Props) => {
@@ -49,7 +49,7 @@ export const PlanRowCard = ({
 
   useEffect(() => {
     baselineRef.current = originalPlan;
-  }, [originalPlan.id]);
+  }, [originalPlan]);
 
   const isFieldDirty = (field: keyof Plan) => {
     return planFieldDirty?.[mergedPlan.id]?.has(field as string) ?? false;
@@ -57,7 +57,7 @@ export const PlanRowCard = ({
 
   const handleFieldChange = <K extends keyof Plan>(field: K, value: Plan[K]) => {
     const baseline = baselineRef.current;
-    onChange && onChange({ [field]: value });
+    //  onChange?.({ [field]: value });
     dispatch(
       patchPlanField({
         jobId,
@@ -320,3 +320,16 @@ export const PlanRowCard = ({
     </div>
   );
 };
+
+export const PlanRowCard = React.memo(PlanRowCardInner, (prev, next) => {
+  // very simple but effective: same plan id and same dirty flag
+  // and same reference for mergedPlan & planFieldDirty → skip
+  return (
+    prev.jobId === next.jobId &&
+    prev.mergedPlan.id === next.mergedPlan.id &&
+    prev.dirty === next.dirty &&
+    prev.mergedPlan === next.mergedPlan &&
+    prev.planFieldDirty === next.planFieldDirty &&
+    prev.fieldsToShow === next.fieldsToShow
+  );
+});

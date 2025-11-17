@@ -51,8 +51,8 @@ export const planNamePrefix = (opts: PlanNameOptions = {}) => {
     opts.serviceDate ??
     randomDate(
       rng,
-      opts.dateRange?.start ?? new Date(2023, 0, 1), // Jan 1, 2023
-      opts.dateRange?.end ?? new Date(2027, 11, 31), // Dec 31, 2027
+      opts.dateRange?.start ?? new Date(2023, 0, 1),
+      opts.dateRange?.end ?? new Date(2027, 11, 31),
     );
 
   const dateCode = (() => {

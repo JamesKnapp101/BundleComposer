@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction, type WritableDraft } from '@reduxjs/toolkit';
-import type { Channel as AppChannel, Bundle, Plan } from '../../schema'; // <-- FIX
+import type { Bundle, Channel, Plan } from '../../schema';
 import type {
   EditorState,
   PlanBundlesArgs,
@@ -12,8 +12,7 @@ export const EDITOR_SLICE_KEY = 'editor' as const;
 
 type PlanKey = keyof Plan;
 type BundleKey = keyof Bundle;
-type ChannelEditable = Omit<AppChannel, 'id'>;
-type ChannelKey = keyof ChannelEditable;
+type ChannelKey = keyof Channel;
 
 const initialState: EditorState = {
   jobs: [],
@@ -69,16 +68,15 @@ const updateEditorReducer = createSlice({
       const space = spaceForJob(state, jobId);
       const bucket = space.plan;
       const patch = bucket[planId] ?? {};
-
       const isSame =
         value === original ||
         (typeof value === 'number' &&
           typeof original === 'number' &&
           Number.isNaN(value) &&
           Number.isNaN(original));
-
       if (isSame) {
-        const { [field]: _removed, ...rest } = patch;
+        const rest = { ...patch };
+        delete rest[field];
         if (Object.keys(rest).length === 0) {
           delete bucket[planId];
         } else {
@@ -102,17 +100,15 @@ const updateEditorReducer = createSlice({
       const space = spaceForJob(state, jobId);
       const bucket = space.bundle;
       const patch = bucket[linkKey] ?? {};
-
       const isSame =
         value === original ||
-        (value === false && original === undefined) ||
         (typeof value === 'number' &&
           typeof original === 'number' &&
           Number.isNaN(value) &&
           Number.isNaN(original));
-
       if (isSame) {
-        const { [field]: _removed, ...rest } = patch;
+        const rest = { ...patch };
+        delete rest[field];
         if (Object.keys(rest).length === 0) {
           delete bucket[linkKey];
         } else {
@@ -122,37 +118,38 @@ const updateEditorReducer = createSlice({
         bucket[linkKey] = { ...patch, [field]: value };
       }
     },
-
-    // patchBundleField(
-    //   state,
-    //   action: PayloadAction<{
-    //     jobId: string;
-    //     linkKey: string;
-    //     field: BundleKey;
-    //     value: Bundle[BundleKey];
-    //   }>,
-    // ) {
-    //   const { jobId, linkKey, field, value } = action.payload;
-    //   const space = spaceForJob(state, jobId);
-    //   space.bundle[linkKey] = { ...(space.bundle[linkKey] ?? {}), [field]: value };
-    // },
-
-    // --- Channel patches (correct type & key) ---
     patchChannelField(
       state,
       action: PayloadAction<{
         jobId: string;
-        channelId: string;
+        linkKey: string;
         field: ChannelKey;
-        value: ChannelEditable[ChannelKey];
+        value: Channel[ChannelKey];
+        original: Channel[ChannelKey];
       }>,
     ) {
-      const { jobId, channelId, field, value } = action.payload;
+      const { jobId, linkKey, field, value, original } = action.payload;
       const space = spaceForJob(state, jobId);
-      space.channel[channelId] = { ...(space.channel[channelId] ?? {}), [field]: value };
+      const bucket = space.channel;
+      const patch = bucket[linkKey] ?? {};
+      const isSame =
+        value === original ||
+        (typeof value === 'number' &&
+          typeof original === 'number' &&
+          Number.isNaN(value) &&
+          Number.isNaN(original));
+      if (isSame) {
+        const rest = { ...patch };
+        delete rest[field];
+        if (Object.keys(rest).length === 0) {
+          delete bucket[linkKey];
+        } else {
+          bucket[linkKey] = rest;
+        }
+      } else {
+        bucket[linkKey] = { ...patch, [field]: value };
+      }
     },
-
-    // --- Relationship diffs: plan <-> bundle ---
     addBundleToPlan(
       state,
       action: PayloadAction<{ jobId: string; planId: string; bundleId: string }>,
@@ -160,20 +157,14 @@ const updateEditorReducer = createSlice({
       const { jobId, planId, bundleId } = action.payload;
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
-
       const args = (job.args ??= {} as UpdateArgs);
-
       const addMap: Record<string, string[]> =
         (args.bundlesToAddByPlanId as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.bundlesToRemoveByPlanId as Record<string, string[]>) ?? {};
-
       const removedForPlan = removeMap[planId] ?? [];
       const isCurrentlyRemoved = removedForPlan.includes(bundleId);
-
       if (isCurrentlyRemoved) {
-        // Case 1: this was an existing bundle that had been marked removed.
-        // Undo: just clear the removed flag, don't mark as "added".
         const nextRemoved = removedForPlan.filter((id) => id !== bundleId);
         if (nextRemoved.length) {
           removeMap[planId] = nextRemoved;
@@ -181,13 +172,11 @@ const updateEditorReducer = createSlice({
           delete removeMap[planId];
         }
       } else {
-        // Case 2: true new bundle being added to this plan.
         const addedForPlan = addMap[planId] ?? [];
         if (!addedForPlan.includes(bundleId)) {
           addMap[planId] = [...addedForPlan, bundleId];
         }
       }
-
       args.bundlesToAddByPlanId = addMap;
       args.bundlesToRemoveByPlanId = removeMap;
     },
@@ -198,20 +187,14 @@ const updateEditorReducer = createSlice({
       const { jobId, planId, bundleId } = action.payload;
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
-
       const args = (job.args ??= {} as UpdateArgs);
-
       const addMap: Record<string, string[]> =
         (args.bundlesToAddByPlanId as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.bundlesToRemoveByPlanId as Record<string, string[]>) ?? {};
-
       const addedForPlan = addMap[planId] ?? [];
       const wasPendingAdd = addedForPlan.includes(bundleId);
-
       if (wasPendingAdd) {
-        // Case 1: user is "removing" a bundle that was only ever a pending add.
-        // Just cancel the add; no removed flag.
         const nextAdded = addedForPlan.filter((id) => id !== bundleId);
         if (nextAdded.length) {
           addMap[planId] = nextAdded;
@@ -219,18 +202,14 @@ const updateEditorReducer = createSlice({
           delete addMap[planId];
         }
       } else {
-        // Case 2: existing bundle — mark it as removed.
         const removedForPlan = (removeMap[planId] ??= []);
         if (!removedForPlan.includes(bundleId)) {
           removedForPlan.push(bundleId);
         }
       }
-
       args.bundlesToAddByPlanId = addMap;
       args.bundlesToRemoveByPlanId = removeMap;
     },
-
-    // --- Relationship diffs: plan <-> channel ---
     addChannelToPlan(
       state,
       action: PayloadAction<{ jobId: string; planId: string; channelId: string }>,
@@ -238,17 +217,13 @@ const updateEditorReducer = createSlice({
       const { jobId, planId, channelId } = action.payload;
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
-
       const args = (job.args ??= {} as WritableDraft<PlanChannelsArgs>);
-
       const addMap: Record<string, string[]> =
         (args.channelsToAddByPlanId as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.channelsToRemoveByPlanId as Record<string, string[]>) ?? {};
-
       const removedForPlan = removeMap[planId] ?? [];
       const isCurrentlyRemoved = removedForPlan.includes(channelId);
-
       if (isCurrentlyRemoved) {
         const nextRemoved = removedForPlan.filter((id) => id !== channelId);
         if (nextRemoved.length) {
@@ -262,11 +237,9 @@ const updateEditorReducer = createSlice({
           addMap[planId] = [...addedForPlan, channelId];
         }
       }
-
       args.channelsToAddByPlanId = addMap;
       args.channelsToRemoveByPlanId = removeMap;
     },
-
     removeChannelFromPlan(
       state,
       action: PayloadAction<{ jobId: string; planId: string; channelId: string }>,
@@ -274,20 +247,14 @@ const updateEditorReducer = createSlice({
       const { jobId, planId, channelId } = action.payload;
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
-
       const args = (job.args ??= {} as UpdateArgs);
-
       const addMap: Record<string, string[]> =
         (args.channelsToAddByPlanId as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.channelsToRemoveByPlanId as Record<string, string[]>) ?? {};
-
       const addedForPlan = addMap[planId] ?? [];
       const wasPendingAdd = addedForPlan.includes(channelId);
-
       if (wasPendingAdd) {
-        // Case 1: user is "removing" a bundle that was only ever a pending add.
-        // Just cancel the add; no removed flag.
         const nextAdded = addedForPlan.filter((id) => id !== channelId);
         if (nextAdded.length) {
           addMap[planId] = nextAdded;
@@ -295,18 +262,14 @@ const updateEditorReducer = createSlice({
           delete addMap[planId];
         }
       } else {
-        // Case 2: existing bundle — mark it as removed.
         const removedForPlan = (removeMap[planId] ??= []);
         if (!removedForPlan.includes(channelId)) {
           removedForPlan.push(channelId);
         }
       }
-
       args.channelsToAddByPlanId = addMap;
       args.channelsToRemoveByPlanId = removeMap;
     },
-
-    // --- Relationship diffs: bundle-link <-> channel ---
     addChannelToBundle(
       state,
       action: PayloadAction<{ jobId: string; bundleLinkKey: string; channelId: string }>,
@@ -314,27 +277,21 @@ const updateEditorReducer = createSlice({
       const { jobId, bundleLinkKey, channelId } = action.payload;
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
-
       const args = (job.args ??= {} as WritableDraft<PlanBundlesArgs>);
-
       const addMap: Record<string, string[]> =
         (args.channelsToAddByBundleKey as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.channelsToRemoveByBundleKey as Record<string, string[]>) ?? {};
-
       const added = (addMap[bundleLinkKey] ??= []);
       if (!added.includes(channelId)) added.push(channelId);
-
       const removed = removeMap[bundleLinkKey];
       if (removed) {
         removeMap[bundleLinkKey] = removed.filter((id) => id !== channelId);
         if (!removeMap[bundleLinkKey].length) delete removeMap[bundleLinkKey];
       }
-
       args.channelsToAddByBundleKey = addMap;
       args.channelsToRemoveByBundleKey = removeMap;
     },
-
     removeChannelFromBundle(
       state,
       action: PayloadAction<{ jobId: string; bundleLinkKey: string; channelId: string }>,
@@ -342,53 +299,36 @@ const updateEditorReducer = createSlice({
       const { jobId, bundleLinkKey, channelId } = action.payload;
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
-
       const args = (job.args ??= {} as WritableDraft<PlanBundlesArgs>);
-
       const addMap: Record<string, string[]> =
         (args.channelsToAddByBundleKey as Record<string, string[]>) ?? {};
       const removeMap: Record<string, string[]> =
         (args.channelsToRemoveByBundleKey as Record<string, string[]>) ?? {};
-
       const added = addMap[bundleLinkKey];
       if (added) {
         addMap[bundleLinkKey] = added.filter((id) => id !== channelId);
         if (!addMap[bundleLinkKey].length) delete addMap[bundleLinkKey];
       }
-
       const removed = (removeMap[bundleLinkKey] ??= []);
       if (!removed.includes(channelId)) removed.push(channelId);
-
       args.channelsToAddByBundleKey = addMap;
       args.channelsToRemoveByBundleKey = removeMap;
     },
-
-    // Optional convenience clears
     clearPlanDraft(state, action: PayloadAction<{ jobId: string; planId: string }>) {
       const { jobId, planId } = action.payload;
       const space = spaceForJob(state, jobId);
       delete space.plan[planId];
-
-      // also reset relationship diffs for this plan
-      // 1) Clear all field-level drafts for this job
       state.drafts.byJobId[jobId] = { plan: {}, bundle: {}, channel: {} };
-
-      // 2) Clear relationship diffs for this job (add/remove maps)
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
-
       const args = job.args as UpdateArgs & RelationshipDiffs;
-
       delete args.bundlesToAddByPlanId;
       delete args.bundlesToRemoveByPlanId;
-
       delete args.channelsToAddByPlanId;
       delete args.channelsToRemoveByPlanId;
-
       delete args.channelsToAddByBundleKey;
       delete args.channelsToRemoveByBundleKey;
     },
-
     clearBundleDraft(state, action: PayloadAction<{ jobId: string; linkKey: string }>) {
       const { jobId, linkKey } = action.payload;
       const space = spaceForJob(state, jobId);
@@ -401,22 +341,14 @@ const updateEditorReducer = createSlice({
     },
     clearJobDrafts(state, action: PayloadAction<{ jobId: string }>) {
       const { jobId } = action.payload;
-
-      // 1) Clear all field-level drafts for this job
       state.drafts.byJobId[jobId] = { plan: {}, bundle: {}, channel: {} };
-
-      // 2) Clear relationship diffs for this job (add/remove maps)
       const job = state.jobs.find((j) => j.id === jobId);
       if (!job) return;
-
       const args = job.args as UpdateArgs & RelationshipDiffs;
-
       delete args.bundlesToAddByPlanId;
       delete args.bundlesToRemoveByPlanId;
-
       delete args.channelsToAddByPlanId;
       delete args.channelsToRemoveByPlanId;
-
       delete args.channelsToAddByBundleKey;
       delete args.channelsToRemoveByBundleKey;
     },

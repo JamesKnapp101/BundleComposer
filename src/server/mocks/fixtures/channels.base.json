@@ -428,7 +428,7 @@
   },
   {
     "id": "c22",
-    "name": "Family Time Network Plus",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -448,7 +448,7 @@
   },
   {
     "id": "c23",
-    "name": "BBC World News Down Under Plus",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -469,7 +469,7 @@
   },
   {
     "id": "c24",
-    "name": "Comedy Central Down Under Plus",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -489,7 +489,7 @@
   },
   {
     "id": "c25",
-    "name": "Family Time Network Max",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -509,7 +509,7 @@
   },
   {
     "id": "c26",
-    "name": "BBC World News Down Under Max",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -530,7 +530,7 @@
   },
   {
     "id": "c27",
-    "name": "Comedy Central Down Under Max",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -550,7 +550,7 @@
   },
   {
     "id": "c28",
-    "name": "Family Time Network Prime",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -570,7 +570,7 @@
   },
   {
     "id": "c29",
-    "name": "BBC World News Down Under Prime",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -591,7 +591,7 @@
   },
   {
     "id": "c30",
-    "name": "Comedy Central Down Under Prime",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -611,7 +611,7 @@
   },
   {
     "id": "c31",
-    "name": "Family Time Network Elite",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -631,7 +631,7 @@
   },
   {
     "id": "c32",
-    "name": "BBC World News Down Under Elite",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -652,7 +652,7 @@
   },
   {
     "id": "c33",
-    "name": "Comedy Central Down Under Elite",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -672,7 +672,7 @@
   },
   {
     "id": "c34",
-    "name": "Family Time Network Plus Plus",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -692,7 +692,7 @@
   },
   {
     "id": "c35",
-    "name": "BBC World News Down Under Plus Plus",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -713,7 +713,7 @@
   },
   {
     "id": "c36",
-    "name": "Comedy Central Down Under Plus Plus",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -733,7 +733,7 @@
   },
   {
     "id": "c37",
-    "name": "Family Time Network Plus Max",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -753,7 +753,7 @@
   },
   {
     "id": "c38",
-    "name": "BBC World News Down Under Plus Max",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -774,7 +774,7 @@
   },
   {
     "id": "c39",
-    "name": "Comedy Central Down Under Plus Max",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -794,7 +794,7 @@
   },
   {
     "id": "c40",
-    "name": "Family Time Network Plus Prime",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -814,7 +814,7 @@
   },
   {
     "id": "c41",
-    "name": "BBC World News Down Under Plus Prime",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -835,7 +835,7 @@
   },
   {
     "id": "c42",
-    "name": "Comedy Central Down Under Plus Prime",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -855,7 +855,7 @@
   },
   {
     "id": "c43",
-    "name": "Family Time Network Plus Select",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -875,7 +875,7 @@
   },
   {
     "id": "c44",
-    "name": "BBC World News Down Under Plus Select",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -896,7 +896,7 @@
   },
   {
     "id": "c45",
-    "name": "Comedy Central Down Under Plus Select",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -916,7 +916,7 @@
   },
   {
     "id": "c46",
-    "name": "Family Time Network Plus Signature",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -936,7 +936,7 @@
   },
   {
     "id": "c47",
-    "name": "BBC World News Down Under Plus Signature",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -957,7 +957,7 @@
   },
   {
     "id": "c48",
-    "name": "Comedy Central Down Under Plus Signature",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -977,7 +977,7 @@
   },
   {
     "id": "c49",
-    "name": "Family Time Network Plus Elite",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -997,7 +997,7 @@
   },
   {
     "id": "c50",
-    "name": "BBC World News Down Under Plus Elite",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1018,7 +1018,7 @@
   },
   {
     "id": "c51",
-    "name": "Comedy Central Down Under Plus Elite",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1038,7 +1038,7 @@
   },
   {
     "id": "c52",
-    "name": "Family Time Network Plus Ultra",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1058,7 +1058,7 @@
   },
   {
     "id": "c53",
-    "name": "BBC World News Down Under Plus Ultra",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1079,7 +1079,7 @@
   },
   {
     "id": "c54",
-    "name": "Comedy Central Down Under Plus Ultra",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1099,7 +1099,7 @@
   },
   {
     "id": "c55",
-    "name": "Family Time Network Plus Premier",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1119,7 +1119,7 @@
   },
   {
     "id": "c56",
-    "name": "BBC World News Down Under Plus Premier",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1140,7 +1140,7 @@
   },
   {
     "id": "c57",
-    "name": "Comedy Central Down Under Plus Premier",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1160,7 +1160,7 @@
   },
   {
     "id": "c58",
-    "name": "Family Time Network Max Plus",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1180,7 +1180,7 @@
   },
   {
     "id": "c59",
-    "name": "BBC World News Down Under Max Plus",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1201,7 +1201,7 @@
   },
   {
     "id": "c60",
-    "name": "Comedy Central Down Under Max Plus",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1221,7 +1221,7 @@
   },
   {
     "id": "c61",
-    "name": "Family Time Network Max Max",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1241,7 +1241,7 @@
   },
   {
     "id": "c62",
-    "name": "BBC World News Down Under Max Max",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1262,7 +1262,7 @@
   },
   {
     "id": "c63",
-    "name": "Comedy Central Down Under Max Max",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1282,7 +1282,7 @@
   },
   {
     "id": "c64",
-    "name": "Family Time Network Max Prime",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1302,7 +1302,7 @@
   },
   {
     "id": "c65",
-    "name": "BBC World News Down Under Max Prime",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1323,7 +1323,7 @@
   },
   {
     "id": "c66",
-    "name": "Comedy Central Down Under Max Prime",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1343,7 +1343,7 @@
   },
   {
     "id": "c67",
-    "name": "Family Time Network Max Select",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1363,7 +1363,7 @@
   },
   {
     "id": "c68",
-    "name": "BBC World News Down Under Max Select",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1384,7 +1384,7 @@
   },
   {
     "id": "c69",
-    "name": "Comedy Central Down Under Max Select",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1404,7 +1404,7 @@
   },
   {
     "id": "c70",
-    "name": "Family Time Network Max Signature",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1424,7 +1424,7 @@
   },
   {
     "id": "c71",
-    "name": "BBC World News Down Under Max Signature",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1445,7 +1445,7 @@
   },
   {
     "id": "c72",
-    "name": "Comedy Central Down Under Max Signature",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1465,7 +1465,7 @@
   },
   {
     "id": "c73",
-    "name": "Family Time Network Max Elite",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1485,7 +1485,7 @@
   },
   {
     "id": "c74",
-    "name": "BBC World News Down Under Max Elite",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1506,7 +1506,7 @@
   },
   {
     "id": "c75",
-    "name": "Comedy Central Down Under Max Elite",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1526,7 +1526,7 @@
   },
   {
     "id": "c76",
-    "name": "Family Time Network Max Ultra",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1546,7 +1546,7 @@
   },
   {
     "id": "c77",
-    "name": "BBC World News Down Under Max Ultra",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1567,7 +1567,7 @@
   },
   {
     "id": "c78",
-    "name": "Comedy Central Down Under Max Ultra",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1587,7 +1587,7 @@
   },
   {
     "id": "c79",
-    "name": "Family Time Network Max Premier",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1607,7 +1607,7 @@
   },
   {
     "id": "c80",
-    "name": "BBC World News Down Under Max Premier",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1628,7 +1628,7 @@
   },
   {
     "id": "c81",
-    "name": "Comedy Central Down Under Max Premier",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1648,7 +1648,7 @@
   },
   {
     "id": "c82",
-    "name": "Family Time Network Prime Plus",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1668,7 +1668,7 @@
   },
   {
     "id": "c83",
-    "name": "BBC World News Down Under Prime Plus",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1689,7 +1689,7 @@
   },
   {
     "id": "c84",
-    "name": "Comedy Central Down Under Prime Plus",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1709,7 +1709,7 @@
   },
   {
     "id": "c85",
-    "name": "Family Time Network Prime Max",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1729,7 +1729,7 @@
   },
   {
     "id": "c86",
-    "name": "BBC World News Down Under Prime Max",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1750,7 +1750,7 @@
   },
   {
     "id": "c87",
-    "name": "Comedy Central Down Under Prime Max",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1770,7 +1770,7 @@
   },
   {
     "id": "c88",
-    "name": "Family Time Network Prime Prime",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1790,7 +1790,7 @@
   },
   {
     "id": "c89",
-    "name": "BBC World News Down Under Prime Prime",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1811,7 +1811,7 @@
   },
   {
     "id": "c90",
-    "name": "Comedy Central Down Under Prime Prime",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1831,7 +1831,7 @@
   },
   {
     "id": "c91",
-    "name": "Family Time Network Prime Select",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1851,7 +1851,7 @@
   },
   {
     "id": "c92",
-    "name": "BBC World News Down Under Prime Select",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1872,7 +1872,7 @@
   },
   {
     "id": "c93",
-    "name": "Comedy Central Down Under Prime Select",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1892,7 +1892,7 @@
   },
   {
     "id": "c94",
-    "name": "Family Time Network Prime Signature",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1912,7 +1912,7 @@
   },
   {
     "id": "c95",
-    "name": "BBC World News Down Under Prime Signature",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1933,7 +1933,7 @@
   },
   {
     "id": "c96",
-    "name": "Comedy Central Down Under Prime Signature",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -1953,7 +1953,7 @@
   },
   {
     "id": "c97",
-    "name": "Family Time Network Prime Elite",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -1973,7 +1973,7 @@
   },
   {
     "id": "c98",
-    "name": "BBC World News Down Under Prime Elite",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -1994,7 +1994,7 @@
   },
   {
     "id": "c99",
-    "name": "Comedy Central Down Under Prime Elite",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2014,7 +2014,7 @@
   },
   {
     "id": "c100",
-    "name": "Family Time Network Prime Ultra",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2034,7 +2034,7 @@
   },
   {
     "id": "c101",
-    "name": "BBC World News Down Under Prime Ultra",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2055,7 +2055,7 @@
   },
   {
     "id": "c102",
-    "name": "Comedy Central Down Under Prime Ultra",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2075,7 +2075,7 @@
   },
   {
     "id": "c103",
-    "name": "Family Time Network Prime Premier",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2095,7 +2095,7 @@
   },
   {
     "id": "c104",
-    "name": "BBC World News Down Under Prime Premier",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2116,7 +2116,7 @@
   },
   {
     "id": "c105",
-    "name": "Comedy Central Down Under Prime Premier",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2136,7 +2136,7 @@
   },
   {
     "id": "c106",
-    "name": "Family Time Network Select Plus",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2156,7 +2156,7 @@
   },
   {
     "id": "c107",
-    "name": "BBC World News Down Under Select Plus",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2177,7 +2177,7 @@
   },
   {
     "id": "c108",
-    "name": "Comedy Central Down Under Select Plus",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2197,7 +2197,7 @@
   },
   {
     "id": "c109",
-    "name": "Family Time Network Select Max",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2217,7 +2217,7 @@
   },
   {
     "id": "c110",
-    "name": "BBC World News Down Under Select Max",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2238,7 +2238,7 @@
   },
   {
     "id": "c111",
-    "name": "Comedy Central Down Under Select Max",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2258,7 +2258,7 @@
   },
   {
     "id": "c112",
-    "name": "Family Time Network Select Prime",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2278,7 +2278,7 @@
   },
   {
     "id": "c113",
-    "name": "BBC World News Down Under Select Prime",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2299,7 +2299,7 @@
   },
   {
     "id": "c114",
-    "name": "Comedy Central Down Under Select Prime",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2319,7 +2319,7 @@
   },
   {
     "id": "c115",
-    "name": "Family Time Network Select Select",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2339,7 +2339,7 @@
   },
   {
     "id": "c116",
-    "name": "BBC World News Down Under Select Select",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2360,7 +2360,7 @@
   },
   {
     "id": "c117",
-    "name": "Comedy Central Down Under Select Select",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2380,7 +2380,7 @@
   },
   {
     "id": "c118",
-    "name": "Family Time Network Select Signature",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2400,7 +2400,7 @@
   },
   {
     "id": "c119",
-    "name": "BBC World News Down Under Select Signature",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2421,7 +2421,7 @@
   },
   {
     "id": "c120",
-    "name": "Comedy Central Down Under Select Signature",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2441,7 +2441,7 @@
   },
   {
     "id": "c121",
-    "name": "Family Time Network Select Elite",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2461,7 +2461,7 @@
   },
   {
     "id": "c122",
-    "name": "BBC World News Down Under Select Elite",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2482,7 +2482,7 @@
   },
   {
     "id": "c123",
-    "name": "Comedy Central Down Under Select Elite",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2502,7 +2502,7 @@
   },
   {
     "id": "c124",
-    "name": "Family Time Network Select Ultra",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2522,7 +2522,7 @@
   },
   {
     "id": "c125",
-    "name": "BBC World News Down Under Select Ultra",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2543,7 +2543,7 @@
   },
   {
     "id": "c126",
-    "name": "Comedy Central Down Under Select Ultra",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2563,7 +2563,7 @@
   },
   {
     "id": "c127",
-    "name": "Family Time Network Select Premier",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2583,7 +2583,7 @@
   },
   {
     "id": "c128",
-    "name": "BBC World News Down Under Select Premier",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2604,7 +2604,7 @@
   },
   {
     "id": "c129",
-    "name": "Comedy Central Down Under Select Premier",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2624,7 +2624,7 @@
   },
   {
     "id": "c130",
-    "name": "Family Time Network Signature Plus",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2644,7 +2644,7 @@
   },
   {
     "id": "c131",
-    "name": "BBC World News Down Under Signature Plus",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2665,7 +2665,7 @@
   },
   {
     "id": "c132",
-    "name": "Comedy Central Down Under Signature Plus",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2685,7 +2685,7 @@
   },
   {
     "id": "c133",
-    "name": "Family Time Network Signature Max",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2705,7 +2705,7 @@
   },
   {
     "id": "c134",
-    "name": "BBC World News Down Under Signature Max",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2726,7 +2726,7 @@
   },
   {
     "id": "c135",
-    "name": "Comedy Central Down Under Signature Max",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2746,7 +2746,7 @@
   },
   {
     "id": "c136",
-    "name": "Family Time Network Signature Prime",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2766,7 +2766,7 @@
   },
   {
     "id": "c137",
-    "name": "BBC World News Down Under Signature Prime",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2787,7 +2787,7 @@
   },
   {
     "id": "c138",
-    "name": "Comedy Central Down Under Signature Prime",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2807,7 +2807,7 @@
   },
   {
     "id": "c139",
-    "name": "Family Time Network Signature Select",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2827,7 +2827,7 @@
   },
   {
     "id": "c140",
-    "name": "BBC World News Down Under Signature Select",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2848,7 +2848,7 @@
   },
   {
     "id": "c141",
-    "name": "Comedy Central Down Under Signature Select",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2868,7 +2868,7 @@
   },
   {
     "id": "c142",
-    "name": "Family Time Network Signature Signature",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2888,7 +2888,7 @@
   },
   {
     "id": "c143",
-    "name": "BBC World News Down Under Signature Signature",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2909,7 +2909,7 @@
   },
   {
     "id": "c144",
-    "name": "Comedy Central Down Under Signature Signature",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2929,7 +2929,7 @@
   },
   {
     "id": "c145",
-    "name": "Family Time Network Signature Elite",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -2949,7 +2949,7 @@
   },
   {
     "id": "c146",
-    "name": "BBC World News Down Under Signature Elite",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -2970,7 +2970,7 @@
   },
   {
     "id": "c147",
-    "name": "Comedy Central Down Under Signature Elite",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -2990,7 +2990,7 @@
   },
   {
     "id": "c148",
-    "name": "Family Time Network Signature Ultra",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -3010,7 +3010,7 @@
   },
   {
     "id": "c149",
-    "name": "BBC World News Down Under Signature Ultra",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -3031,7 +3031,7 @@
   },
   {
     "id": "c150",
-    "name": "Comedy Central Down Under Signature Ultra",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -3051,7 +3051,7 @@
   },
   {
     "id": "c151",
-    "name": "Family Time Network Signature Premier",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -3071,7 +3071,7 @@
   },
   {
     "id": "c152",
-    "name": "BBC World News Down Under Signature Premier",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -3092,7 +3092,7 @@
   },
   {
     "id": "c153",
-    "name": "Comedy Central Down Under Signature Premier",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -3112,7 +3112,7 @@
   },
   {
     "id": "c154",
-    "name": "Family Time Network Elite Plus",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -3132,7 +3132,7 @@
   },
   {
     "id": "c155",
-    "name": "BBC World News Down Under Elite Plus",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -3153,7 +3153,7 @@
   },
   {
     "id": "c156",
-    "name": "Comedy Central Down Under Elite Plus",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -3173,7 +3173,7 @@
   },
   {
     "id": "c157",
-    "name": "Family Time Network Elite Max",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",
@@ -3193,7 +3193,7 @@
   },
   {
     "id": "c158",
-    "name": "BBC World News Down Under Elite Max",
+    "name": "BBC World News Down Under",
     "description": "24-hour news coverage with breaking stories, interviews, and in-depth analysis. Typical parental rating: G.",
     "shortCode": "BBCWN",
     "category": "News",
@@ -3214,7 +3214,7 @@
   },
   {
     "id": "c159",
-    "name": "Comedy Central Down Under Elite Max",
+    "name": "Comedy Central Down Under",
     "description": "Stand-up specials, sitcoms, and comedy series from around the world. Typical parental rating: PG-13.",
     "shortCode": "COM",
     "category": "Comedy",
@@ -3234,7 +3234,7 @@
   },
   {
     "id": "c160",
-    "name": "Family Time Network Elite Prime",
+    "name": "Family Time Network",
     "description": "Family movies, series, and specials suitable for a broad audience. Typical parental rating: G.",
     "shortCode": "FTN",
     "category": "Family",

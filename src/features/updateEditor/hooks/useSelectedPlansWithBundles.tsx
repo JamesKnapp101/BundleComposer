@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSelectedPlansQuery } from '../../../lib/hooks';
-import type { Channel } from '../../../schema';
+import type { Bundle } from '../../../schema';
 
-const getBundlesByPlanIds = async (ids: string[]): Promise<Record<string, Channel[]>> => {
+const getBundlesByPlanIds = async (ids: string[]): Promise<Record<string, Bundle[]>> => {
   const qs = new URLSearchParams({ planIds: ids.join(',') });
   const res = await fetch(`/api/channels/planBundles?${qs.toString()}`);
   if (!res.ok) throw new Error('failed');

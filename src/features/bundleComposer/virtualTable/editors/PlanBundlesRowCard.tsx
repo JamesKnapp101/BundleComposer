@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronRight, Plus, RotateCcw, Trash2 } from 'lucide-react';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { patchBundleField } from '../../../../features/updateEditor/updateEditorSlice';
 import { cn } from '../../../../lib/utils/cn';
@@ -27,8 +27,8 @@ type PartialBundle = Partial<Bundle>;
 interface Props {
   jobId: string;
   mergedPlan: Plan & Record<string, unknown>;
-  originalPlan: Plan & Record<string, unknown>;
   bundles: (Bundle & Record<string, unknown>)[];
+  baselineBundles: (Bundle & Record<string, unknown>)[];
   dirtyBundles?: Dict;
   bundleFieldDirty?: Record<string, Set<string>>;
   bundleFieldsToShow: string[];
@@ -45,8 +45,8 @@ interface Props {
 export const PlanBundlesRowCard: React.FC<Props> = ({
   jobId,
   mergedPlan,
-  originalPlan,
   bundles,
+  baselineBundles,
   dirtyBundles = {},
   bundleFieldDirty = {},
   bundleFieldsToShow,
@@ -59,9 +59,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
   onRemoveBundleFromPlan,
   onOpenBundlePicker,
 }) => {
-  const baselineRef = React.useRef(originalPlan);
   const dispatch = useDispatch();
-
   const [open, setOpen] = useState(true);
   const isBundleFieldDirty = (linkKey: string, field: keyof Bundle) =>
     bundleFieldDirty?.[linkKey]?.has(field as string) ?? false;
@@ -72,26 +70,33 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
   const anyDirty = dirtyBundles && Object.values(dirtyBundles).some(Boolean);
   const anyRemoved = bundles.some((b) => isBundleRemoved(b.id));
 
+  const baselineById = useMemo(() => {
+    const map: Record<string, Bundle> = {};
+    for (const b of baselineBundles) {
+      if (!map[b.id]) map[b.id] = b;
+    }
+    return map;
+  }, [baselineBundles]);
+
   const handleFieldChange = <K extends keyof Bundle>(
     field: K,
     value: Bundle[K],
     linkKey: string,
   ) => {
-    const baseline = baselineRef.current;
-    onChangeBundle && onChangeBundle(linkKey, { [field]: value });
+    const bundleId = linkKey.split(':')[1];
+    const baseline = baselineById[bundleId];
+    onChangeBundle?.(linkKey, { [field]: value });
     dispatch(
       patchBundleField({
         jobId,
         linkKey,
         field,
         value,
-        original: baseline[field] as any,
+        original: (baseline?.[field] ?? undefined) as Bundle[K],
       }),
     );
   };
-  useEffect(() => {
-    baselineRef.current = originalPlan;
-  }, [originalPlan.id]);
+
   return (
     <div
       className={cn(
@@ -286,7 +291,7 @@ export const PlanBundlesRowCard: React.FC<Props> = ({
                             size="md"
                             labelLeft="No"
                             labelRight="Yes"
-                            checked={Boolean(bundle.isAddOn)}
+                            checked={Boolean(bundle.isAddOn === true)}
                             onChange={(next) => handleFieldChange('isAddOn', next, linkKey)}
                             disabled={removed}
                           />

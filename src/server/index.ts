@@ -1,5 +1,4 @@
 import cors from '@fastify/cors';
-import { randomUUID } from 'crypto';
 import Fastify from 'fastify';
 import { readFile } from 'fs/promises';
 import path from 'node:path';
@@ -155,10 +154,6 @@ const jobs = new Map<
   }
 >();
 
-//const JobStart = z.object({ planIds: z.array(z.string()).min(1) });
-//const LockRequest = z.object({ user: z.string().min(1) });
-//const PlansQuery = z.object({ ids: z.array(z.string()).min(1) });
-
 app.get('/users/:userId', async (req) => {
   return {
     user: { id: (req.params as ReqParams).userId, name: 'Mr. Bulldops', email: 'mr@bulldops.org' },
@@ -166,37 +161,8 @@ app.get('/users/:userId', async (req) => {
 });
 
 app.post('/plans/query', async () => {
-  // const { ids } = PlansQuery.parse((req as ReqParams).body ?? {});
-  const results = ['']; //ids.map((id) => plans.get(id)).filter(Boolean);
+  const results = [''];
   return results;
-});
-
-app.post('/plans/lock', async () => {
-  // const { user } = LockRequest.parse((req as ReqParams).body || {});
-  // const ids = (req.params as ReqParams).ids as string;
-  // const p = plans.get(id);
-  return true;
-  // if (!p) return reply.code(404).send({ error: 'Not found' });
-  // if (p.lockedBy && p.lockedBy !== user)
-  //   return reply.code(409).send({ error: 'Already locked', lockedBy: p.lockedBy });
-  // p.lockedBy = user;
-  // p.lockedAt = Date.now();
-  // p.version += 1;
-  // return p;
-});
-
-app.post('/plans/unlock', async () => {
-  // const { user } = LockRequest.parse((req as ReqParams).body || {});
-  //const id = (req.params as ReqParams).id as string;
-  // const p = plans.get(id);
-  return true;
-  // if (!p) return reply.code(404).send({ error: 'Not found' });
-  // if (p.lockedBy && p.lockedBy !== user)
-  //   return reply.code(403).send({ error: 'Locked by another user' });
-  // p.lockedBy = null;
-  // p.lockedAt = null;
-  // p.version += 1;
-  // return p;
 });
 
 app.get<{
@@ -322,39 +288,6 @@ app.get<{
   return reply.send(out);
 });
 
-app.post('/jobs/master/create', async () => {
-  // There is no spoon
-  return true;
-});
-
-app.post('/jobs/master/cancel', async () => {
-  const jobId = randomUUID();
-  const job = {
-    status: 'queued' as 'queued' | 'in_progress' | 'done' | 'failed',
-    progress: 0,
-    subscribers: new Set<NodeJS.WritableStream>(),
-    timer: undefined as NodeJS.Timeout | undefined,
-  };
-  jobs.set(jobId, job);
-
-  job.status = 'in_progress';
-  (job as Job).startedAt = Date.now();
-  job['timer'] = setInterval(() => {
-    if (job.progress >= 100) {
-      clearInterval(job['timer']!);
-      job.status = 'done';
-      (job as Job).finishedAt = Date.now();
-      broadcast(jobId, { type: 'done', progress: 100 });
-      return;
-    }
-    const step = Math.floor(10 + Math.random() * 20);
-    job.progress = Math.min(100, job.progress + step);
-    broadcast(jobId, { type: 'progress', progress: job.progress });
-  }, 700);
-
-  return { jobId };
-});
-
 app.get('/jobs/:jobId', async (req, reply) => {
   const j = jobs.get((req.params as ReqParams).jobId ?? '');
   if (!j) return reply.code(404).send({ error: 'Not found' });
@@ -391,13 +324,5 @@ app.get('/jobs/:jobId/stream', async (req, reply) => {
   });
   return reply;
 });
-
-const broadcast = (jobId: string, data: Dict) => {
-  const j = jobs.get(jobId);
-  if (!j) return;
-  for (const ws of j.subscribers) {
-    ws.write(`event: ${data.type}\ndata: ${JSON.stringify(data)}\n\n`);
-  }
-};
 
 app.listen({ port: 5175 }).then(() => console.log('Mock API on :5175'));
