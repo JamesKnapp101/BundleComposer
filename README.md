@@ -1,6 +1,6 @@
 # BundleComposer
 
-A lightweight demo application that explores editing complex, interrelated data structures for a ficticious streaming service (Plans, Bundles, Channels) using a modern React toolchain. The user selects a series of streaming Plans for bulk editing, which are then opened in an editor that allows changing of Plan, Bundle, and Channel properties, as well as add or remove Bundles to and from Plans, and add or remove Channels from both Plans or Bundles. Users can make structured updates across multiple pages with validation and diff-tracking.
+A lightweight demo application that explores editing complex, interrelated data structures for a fictitious streaming service (Plans, Bundles, Channels) using a modern React toolchain. The user selects a series of streaming Plans for bulk editing, which are then opened in an editor that allows changing of Plan, Bundle, and Channel properties, as well as add or remove Bundles to and from Plans, and add or remove Channels from both Plans or Bundles. Users can make structured updates across multiple pages with validation and diff-tracking.
 
 This project exists as an example of building maintainable, data-heavy UIs with strong patterns and modern tooling.
 
