@@ -1,6 +1,6 @@
-import { useAppSelector } from '../../../../features/bundleComposer/store/hooks';
-import { selectAllDrafts } from '../../../../features/updateEditor/selectors';
-import { useConfirm } from '../../../../ui/modal/useConfirm';
+import { useAppSelector } from '@features/bundleComposer/store/hooks';
+import { selectAllDrafts } from '@features/updateEditor/selectors';
+import { useConfirm } from '@ui/modal/useConfirm';
 
 export const useDispatchConfirmJobDetails = () => {
   const confirm = useConfirm();

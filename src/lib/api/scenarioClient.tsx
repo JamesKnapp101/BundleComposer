@@ -6,7 +6,7 @@ import {
   type Plan,
   type PlanBundleLink,
   type PlanChannelLink,
-} from '../../schema';
+} from '@schema';
 
 export type Scenario = {
   plans: Plan[];

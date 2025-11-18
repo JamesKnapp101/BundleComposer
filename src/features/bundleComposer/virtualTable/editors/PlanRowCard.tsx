@@ -1,8 +1,5 @@
-import { ChevronDown, ChevronRight } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { patchPlanField } from '../../../../features/updateEditor/updateEditorSlice';
-import { cn } from '../../../../lib/utils/cn';
+import { patchPlanField } from '@features/updateEditor/updateEditorSlice';
+import { cn } from '@lib/utils/cn';
 import {
   CurrencySchema,
   PlanStatusSchema,
@@ -15,12 +12,15 @@ import {
   type PriceModel,
   type Resolution,
   type Tier,
-} from '../../../../schema';
-import { Labeled } from '../../../../ui/components/Labeled';
-import { Button } from '../../../../ui/inputs/Button';
-import { Input } from '../../../../ui/inputs/Input';
-import { BCSelect } from '../../../../ui/inputs/Select';
-import { Toggle } from '../../../../ui/inputs/Toggle';
+} from '@schema';
+import { Labeled } from '@ui/components/Labeled';
+import { Button } from '@ui/inputs/Button';
+import { Input } from '@ui/inputs/Input';
+import { BCSelect } from '@ui/inputs/Select';
+import { Toggle } from '@ui/inputs/Toggle';
+import { ChevronDown, ChevronRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   jobId: string;

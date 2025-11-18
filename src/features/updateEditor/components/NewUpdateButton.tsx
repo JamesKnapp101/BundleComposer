@@ -1,6 +1,6 @@
+import { Button } from '@ui/inputs/Button';
 import { PlusCircle } from 'lucide-react';
 import * as React from 'react';
-import { Button } from '../../../ui/inputs/Button';
 
 interface NewUpdateButtonProps {
   onClick: () => void;

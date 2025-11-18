@@ -1,4 +1,4 @@
-import type { Scenario } from '../../lib/api/scenarioClient';
+import type { Scenario } from '@lib/api/scenarioClient';
 
 let STATE: Scenario | null = null;
 

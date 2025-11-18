@@ -1,4 +1,4 @@
-import { Button } from '../../../ui/inputs/Button';
+import { Button } from '@ui/inputs/Button';
 import { useDispatchConfirmJobDetails } from './confirmations/dispatchConfirmJobDetails';
 
 const BCSubmitButton: React.FC = () => {

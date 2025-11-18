@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import type { Plan } from 'src/schema';
+import type { Plan } from '@schema';
 import type { RootState } from '../../features/bundleComposer/store/store';
 import type { RelationshipDiffs, UpdateArgs, UpdateJob } from './types';
 

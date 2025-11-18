@@ -1,6 +1,6 @@
+import { useSelectedPlansQuery } from '@lib/hooks';
+import type { Channel } from '@schema';
 import { useQuery } from '@tanstack/react-query';
-import { useSelectedPlansQuery } from '../../../lib/hooks';
-import type { Channel } from '../../../schema';
 
 const getChannelsByPlanIds = async (ids: string[]): Promise<Record<string, Channel[]>> => {
   const qs = new URLSearchParams({ planIds: ids.join(',') });

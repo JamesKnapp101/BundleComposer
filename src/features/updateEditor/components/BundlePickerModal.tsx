@@ -1,5 +1,5 @@
-import { useBundles } from '../../../lib/hooks/useBundles';
-import { Button } from '../../../ui/inputs/Button';
+import { useBundles } from '@lib/hooks/useBundles';
+import { Button } from '@ui/inputs/Button';
 
 type BundlePickerModalProps = {
   open: boolean;

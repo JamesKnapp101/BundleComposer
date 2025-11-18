@@ -1,8 +1,5 @@
 import cors from '@fastify/cors';
-import Fastify from 'fastify';
-import { readFile } from 'fs/promises';
-import path from 'node:path';
-import { type Scenario } from '../lib/api/scenarioClient';
+import { type Scenario } from '@lib/api/scenarioClient';
 import type {
   Bundle,
   BundleChannelLink,
@@ -11,7 +8,10 @@ import type {
   Plan,
   PlanBundleLink,
   PlanChannelLink,
-} from '../schema';
+} from '@schema';
+import Fastify from 'fastify';
+import { readFile } from 'fs/promises';
+import path from 'node:path';
 import { clearState } from './mocks/db';
 import { buildScenario } from './mocks/factories';
 import { registerMockResetRoute } from './mocks/reset';

@@ -1,3 +1,4 @@
+import { cn } from '@lib/utils/cn';
 import {
   type ColumnDef,
   flexRender,
@@ -6,7 +7,6 @@ import {
 } from '@tanstack/react-table';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { type InputHTMLAttributes, useEffect, useMemo, useRef } from 'react';
-import { cn } from '../../lib/utils/cn';
 
 type BaseProps<TData> = {
   loading?: boolean;

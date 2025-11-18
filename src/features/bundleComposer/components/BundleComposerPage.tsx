@@ -1,10 +1,9 @@
+import { selectCurrentJob } from '@features/updateEditor/selectors';
+import { useSelectedPlansQuery } from '@lib/hooks';
+import { Button } from '@ui/inputs/Button';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { selectCurrentJob } from '../../../features/updateEditor/selectors';
-import { useSelectedPlansQuery } from '../../../lib/hooks';
-import { Button } from '../../../ui/inputs/Button';
-
 import type { RootState } from '../store/store';
 import { PlanVirtualList } from '../virtualTable/PlanVirtualList';
 
@@ -20,30 +19,6 @@ export const BundleComposerPage = () => {
     () => plans.map((p) => p.id).filter((id) => Boolean(patches[id])),
     [plans, patches],
   );
-
-  // const onChangePlan = useCallback(
-  //   (id: string, patch: Partial<Plan>) =>
-  //     dispatch(
-  //       upsertDraft({
-  //         id,
-  //         patch,
-  //         type: 'plan',
-  //       }),
-  //     ),
-  //   [dispatch],
-  // );
-
-  // const onChangeChannel = useCallback(
-  //   (id: string, patch: Partial<Plan>) =>
-  //     dispatch(
-  //       upsertDraft({
-  //         id,
-  //         patch,
-  //         type: 'channel',
-  //       }),
-  //     ),
-  //   [dispatch],
-  // );
 
   const discardAll = useCallback(() => {
     if (!dirtyIds.length) return;
@@ -70,12 +45,7 @@ export const BundleComposerPage = () => {
           </Button>
         </div>
       </header>
-      <PlanVirtualList
-        plans={plans}
-        // onChangePlan={onChangePlan}
-        //onChangeChannel={onChangeChannel}
-        currentJob={currentJob}
-      />
+      <PlanVirtualList plans={plans} currentJob={currentJob} />
     </div>
   );
 };

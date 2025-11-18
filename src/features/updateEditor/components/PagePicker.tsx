@@ -1,3 +1,4 @@
+import { cn } from '@lib/utils/cn';
 import {
   Select,
   SelectContent,
@@ -7,7 +8,6 @@ import {
 } from '@radix-ui/react-select';
 import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
-import { cn } from '../../../lib/utils/cn';
 import { UpdateType, type UpdateJob } from '../types';
 import { labelForType } from '../utils/labelForType';
 

@@ -5,7 +5,7 @@ import type {
   Plan,
   PlanBundleLink,
   PlanChannelLink,
-} from 'src/schema';
+} from '@schema';
 
 export type AppState = {
   plans: Plan[];

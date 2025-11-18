@@ -1,4 +1,4 @@
-import type { Channel as AppChannel, Bundle, Channel, Plan } from 'src/schema';
+import type { Channel as AppChannel, Bundle, Channel, Plan } from '@schema';
 
 type ChannelEditable = Omit<AppChannel, 'id'>;
 export type ChannelPatch = Partial<ChannelEditable>;

@@ -1,5 +1,5 @@
+import updateEditorReducer from '@features/updateEditor/updateEditorSlice';
 import { configureStore } from '@reduxjs/toolkit';
-import updateEditorReducer from '../../updateEditor/updateEditorSlice';
 import { storeApi } from './api';
 
 export const store = configureStore({

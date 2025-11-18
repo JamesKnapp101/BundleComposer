@@ -1,11 +1,5 @@
-import { UpdateType, type RenderArgs } from '../../../../features/updateEditor/types';
-import {
-  BundleSchema,
-  ChannelSchema,
-  PlanSchema,
-  type Bundle,
-  type Channel,
-} from '../../../../schema';
+import { UpdateType, type RenderArgs } from '@features/updateEditor/types';
+import { BundleSchema, ChannelSchema, PlanSchema, type Bundle, type Channel } from '@schema';
 import { PlanBundlesRowCard } from '../editors/PlanBundlesRowCard';
 import { PlanChannelsRowCard } from '../editors/PlanChannelsRowCard';
 import { PlanRowCard } from '../editors/PlanRowCard';
@@ -117,7 +111,6 @@ export const renderEditorsForJob = ({
         />
       );
     }
-
     case UpdateType.PlanBundleProperties:
       return (
         <div className="relative isolate my-2 mx-2 rounded-xl border bg-white p-3 shadow-sm">

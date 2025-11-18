@@ -1,6 +1,6 @@
+import PromptModal from '@features/bundleComposer/components/PromptModal';
+import { Button } from '@ui/inputs/Button';
 import type { ReactNode } from 'react';
-import PromptModal from '../../features/bundleComposer/components/PromptModal';
-import { Button } from '../../ui/inputs/Button';
 import { useModalStack } from './ModalProvider';
 
 type ConfirmOpts = {

@@ -1,6 +1,6 @@
+import type { User } from '@schema';
 import type { UseMutationResult } from '@tanstack/react-query';
-import type { User } from 'src/schema';
-import { useConfirm } from '../../../../ui/modal/useConfirm';
+import { useConfirm } from '@ui/modal/useConfirm';
 
 type MutationVars = {
   planIds: string[];

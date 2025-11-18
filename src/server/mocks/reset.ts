@@ -8,7 +8,7 @@ import type {
   Plan,
   PlanBundleLink,
   PlanChannelLink,
-} from 'src/schema';
+} from '@schema';
 import { readJsonAt } from '..';
 
 export const registerMockResetRoute = (app: FastifyInstance) => {

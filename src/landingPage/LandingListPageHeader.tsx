@@ -1,6 +1,6 @@
+import type { Plan } from '@schema';
 import { LayoutList, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { Plan } from 'src/schema';
 import { cn } from '../lib/utils/cn';
 
 type LandingListPageHeaderProps = { selectedRows: Plan[] };

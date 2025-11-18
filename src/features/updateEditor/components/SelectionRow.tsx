@@ -1,6 +1,6 @@
+import { BundleSchema, ChannelSchema, PlanSchema } from '@schema';
+import { BCSelect } from '@ui/inputs/Select';
 import * as React from 'react';
-import { BundleSchema, ChannelSchema, PlanSchema } from '../../../schema';
-import { BCSelect } from '../../../ui/inputs/Select';
 import {
   UpdateType,
   type EditorPhase,

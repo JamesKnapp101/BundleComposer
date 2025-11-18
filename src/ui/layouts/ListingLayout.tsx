@@ -1,5 +1,5 @@
+import { cn } from '@lib/utils/cn';
 import { forwardRef, type CSSProperties, type ReactNode } from 'react';
-import { cn } from '../../lib/utils/cn';
 
 type ListingLayoutProps = {
   header?: ReactNode;

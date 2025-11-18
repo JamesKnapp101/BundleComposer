@@ -1,5 +1,5 @@
+import type { Bundle } from '@schema';
 import { useQuery } from '@tanstack/react-query';
-import type { Bundle } from '../../schema';
 
 const getBundlesByPlanIds = async (ids: string[]): Promise<Record<string, Bundle[]>> => {
   const qs = new URLSearchParams({ planIds: ids.join(',') });

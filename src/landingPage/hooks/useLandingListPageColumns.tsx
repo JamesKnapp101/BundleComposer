@@ -1,5 +1,5 @@
+import type { PlanRow } from '@schema';
 import type { ColumnDef } from '@tanstack/react-table';
-import type { PlanRow } from 'src/schema';
 
 const cashify = (val: number) => {
   return `$${val}.99`;

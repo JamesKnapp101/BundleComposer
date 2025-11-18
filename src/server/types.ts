@@ -13,4 +13,4 @@ export {
   type PlanBundleLink,
   type PlanChannelLink,
   type Tier,
-} from '../schema';
+} from '@schema';

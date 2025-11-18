@@ -1,11 +1,12 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useCallback, useMemo, useRef } from 'react';
-import { useBundles } from '../../../lib/hooks/useBundles';
-import { useBundlesByPlanIds } from '../../../lib/hooks/useBundlesByPlanId';
-import { useChannels } from '../../../lib/hooks/useChannels';
-import { useChannelsByPlanIds } from '../../../lib/hooks/useChannelsByPlanId';
-import { type Bundle, type Channel, type Plan } from '../../../schema';
-import { makeSelectDraftsForJob } from '../../updateEditor/selectors';
+
+import { makeSelectDraftsForJob } from '@features/updateEditor/selectors';
+import { useBundles } from '@lib/hooks/useBundles';
+import { useBundlesByPlanIds } from '@lib/hooks/useBundlesByPlanId';
+import { useChannels } from '@lib/hooks/useChannels';
+import { useChannelsByPlanIds } from '@lib/hooks/useChannelsByPlanId';
+import type { Bundle, Channel, Plan } from '@schema';
 import {
   UpdateType,
   type PlanBundlesArgs,

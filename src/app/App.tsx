@@ -1,5 +1,5 @@
+import { ModalProvider } from '@ui/modal/ModalProvider';
 import { Outlet } from 'react-router-dom';
-import { ModalProvider } from '../ui/modal/ModalProvider';
 import './App.css';
 import { AppProviders } from './providers';
 

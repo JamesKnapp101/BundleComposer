@@ -1,20 +1,15 @@
+import { useAppDispatch, useAppSelector } from '@features/bundleComposer/store/hooks';
+import { PlanVirtualList } from '@features/bundleComposer/virtualTable/PlanVirtualList';
+import type { Plan } from '@schema';
+import { CardScroller } from '@ui/components/CardScroller';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../features/bundleComposer/store/hooks';
 import {
   makeSelectIsJobDirty,
   selectCurrentJob,
   selectCurrentJobIndex,
   selectJobs,
-} from '../../../features/updateEditor/selectors';
-import {
-  UpdateType,
-  type EditorPhase,
-  type UpdateArgs,
-  type UpdateJob,
-} from '../../../features/updateEditor/types';
-import type { Plan } from '../../../schema';
-import { CardScroller } from '../../../ui/components/CardScroller';
-import { PlanVirtualList } from '../../bundleComposer/virtualTable/PlanVirtualList';
+} from '../selectors';
+import type { EditorPhase, UpdateArgs, UpdateJob, UpdateType } from '../types';
 import {
   addBundleToPlan,
   addChannelToBundle,

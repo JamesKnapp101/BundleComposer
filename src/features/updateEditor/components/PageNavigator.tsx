@@ -1,7 +1,7 @@
+import { cn } from '@lib/utils/cn';
+import { Button } from '@ui/inputs/Button';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import * as React from 'react';
-import { cn } from '../../../lib/utils/cn';
-import { Button } from '../../../ui/inputs/Button';
 
 interface PageNavigatorProps {
   current: number;

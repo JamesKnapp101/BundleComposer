@@ -1,7 +1,7 @@
+import type { RootState } from '@features/bundleComposer/store/store';
 import { useQuery } from '@tanstack/react-query';
+import { createDataService } from '@ui/api/dataService';
 import { useSelector } from 'react-redux';
-import type { RootState } from '../../features/bundleComposer/store/store';
-import { createDataService } from '../../ui/api/dataService';
 
 const api = createDataService({ baseUrl: 'http://localhost:5175', timeoutMs: 8000 });
 
@@ -20,7 +20,7 @@ export const useLockPlansQuery = (ids: string[], user: string) => {
     placeholderData: [],
   });
 
-  const planPatches = useSelector((s: RootState) => s.drafts.plan);
+  const planPatches = useSelector((s: RootState) => s.updateEditor.drafts.plan);
   const merged = plans.map((p) => ({ ...p, ...(planPatches[p.id] ?? {}) }));
   const isDirty = (id: string) => Boolean(planPatches[id]);
 

@@ -1,7 +1,7 @@
+import { useDispatchConfirmDiscardAllChanges } from '@features/bundleComposer/components/confirmations/dispatchConfirmDiscardAllChanges';
+import { Button } from '@ui/inputs/Button';
 import { RotateCcw } from 'lucide-react';
 import * as React from 'react';
-import { useDispatchConfirmDiscardAllChanges } from '../../../features/bundleComposer/components/confirmations/dispatchConfirmDiscardAllChanges';
-import { Button } from '../../../ui/inputs/Button';
 
 interface DiscardUpdateButtonProps {
   disabled?: boolean;

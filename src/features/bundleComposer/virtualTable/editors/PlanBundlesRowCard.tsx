@@ -1,9 +1,5 @@
-import { ChevronDown, ChevronRight, Plus, RotateCcw, Trash2 } from 'lucide-react';
-import * as React from 'react';
-import { useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { patchBundleField } from '../../../../features/updateEditor/updateEditorSlice';
-import { cn } from '../../../../lib/utils/cn';
+import { patchBundleField } from '@features/updateEditor/updateEditorSlice';
+import { cn } from '@lib/utils/cn';
 import {
   BundleTypeSchema,
   CurrencySchema,
@@ -14,12 +10,16 @@ import {
   type Dict,
   type Genre,
   type Plan,
-} from '../../../../schema';
-import { Labeled } from '../../../../ui/components/Labeled';
-import { Button } from '../../../../ui/inputs/Button';
-import { Input } from '../../../../ui/inputs/Input';
-import { BCSelect } from '../../../../ui/inputs/Select';
-import { Toggle } from '../../../../ui/inputs/Toggle';
+} from '@schema';
+import { Labeled } from '@ui/components/Labeled';
+import { Button } from '@ui/inputs/Button';
+import { Input } from '@ui/inputs/Input';
+import { BCSelect } from '@ui/inputs/Select';
+import { Toggle } from '@ui/inputs/Toggle';
+import { ChevronDown, ChevronRight, Plus, RotateCcw, Trash2 } from 'lucide-react';
+import * as React from 'react';
+import { useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 type ID = string;
 type PartialBundle = Partial<Bundle>;

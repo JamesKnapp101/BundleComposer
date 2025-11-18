@@ -1,9 +1,8 @@
+import type { RootState } from '@features/bundleComposer/store/store';
+import type { Plan } from '@schema';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
-
 import { useSelector } from 'react-redux';
-import type { RootState } from '../../features/bundleComposer/store/store';
-import type { Plan } from '../../schema';
 import { fetchState, QUERY_KEYS } from '../api/scenarioClient';
 
 type PlansNormalized = { byId: Record<string, Plan>; allIds: string[] };

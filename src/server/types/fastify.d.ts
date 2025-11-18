@@ -1,4 +1,3 @@
-import 'fastify';
 import type {
   Bundle,
   BundleChannelLink,
@@ -6,7 +5,8 @@ import type {
   Plan,
   PlanBundleLink,
   PlanChannelLink,
-} from '../schema';
+} from '@schema';
+import 'fastify';
 
 export type AppState = {
   plans: Plan[];

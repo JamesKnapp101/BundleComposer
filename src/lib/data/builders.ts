@@ -5,7 +5,7 @@ import type {
   Plan,
   PlanBundleLink,
   PlanChannelLink,
-} from '../../schema';
+} from '@schema';
 
 export const indexById = <T extends { id: string }>(arr: T[]) => {
   return new Map(arr.map((x) => [x.id, x]));

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { type Job } from '../types';
+import type { Job } from '../types';
 import { labelForType } from '../utils/labelForType';
 import { summarizeArgs } from '../utils/summarizeArgs';
 

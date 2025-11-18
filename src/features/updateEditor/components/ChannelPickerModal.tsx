@@ -1,5 +1,5 @@
-import { useChannels } from '../../../lib/hooks/useChannels';
-import { Button } from '../../../ui/inputs/Button';
+import { useChannels } from '@lib/hooks/useChannels';
+import { Button } from '@ui/inputs/Button';
 
 type ChannelPickerModalProps = {
   open: boolean;

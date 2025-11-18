@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction, type WritableDraft } from '@reduxjs/toolkit';
-import type { Bundle, Channel, Plan } from '../../schema';
+import type { Bundle, Channel, Plan } from '@schema';
 import type {
   EditorState,
   PlanBundlesArgs,

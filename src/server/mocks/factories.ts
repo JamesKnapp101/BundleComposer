@@ -1,6 +1,4 @@
-import { customAlphabet } from 'nanoid';
-import seedrandom from 'seedrandom';
-import type { Scenario } from '../../lib/api/scenarioClient';
+import type { Scenario } from '@lib/api/scenarioClient';
 import type {
   Bundle,
   BundleChannelLink,
@@ -9,7 +7,9 @@ import type {
   PlanBundleLink,
   PlanChannelLink,
   Tier,
-} from '../../schema';
+} from '@schema';
+import { customAlphabet } from 'nanoid';
+import seedrandom from 'seedrandom';
 
 const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 8);
 

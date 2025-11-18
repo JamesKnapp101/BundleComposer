@@ -1,5 +1,5 @@
+import { cn } from '@lib/utils/cn';
 import * as Checkbox from '@radix-ui/react-checkbox';
-import { cn } from '../../lib/utils/cn';
 
 export const UICheckbox = ({
   className,

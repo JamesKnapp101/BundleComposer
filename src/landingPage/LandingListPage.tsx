@@ -1,3 +1,4 @@
+import type { Plan, PlanRow } from '@schema';
 import {
   type ColumnFiltersState,
   type PaginationState,
@@ -10,7 +11,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
-import type { Plan, PlanRow } from 'src/schema';
 import { PageNavigator } from '../features/updateEditor/components/PageNavigator';
 import data from '../server/mocks/fixtures/plans.base.json';
 import { ListingLayout } from '../ui/layouts/ListingLayout';
