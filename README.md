@@ -1,8 +1,47 @@
 # BundleComposer
 
-A lightweight demo application that explores editing complex, interrelated data structures for a fictitious streaming service (Plans, Bundles, Channels) using a modern React toolchain. The user selects a series of streaming Plans for bulk editing, which are then opened in an editor that allows changing of Plan, Bundle, and Channel properties, as well as add or remove Bundles to and from Plans, and add or remove Channels from both Plans or Bundles. Users can make structured updates across multiple pages with validation and diff-tracking.
+**BundleComposer is a production-style demo application that explores editing complex, interrelated data structures (Plans, Bundles, Channels) using a modern React + TypeScript architecture.**
 
-This project exists as an example of building maintainable, data-heavy UIs with strong patterns and modern tooling.
+It models a realistic bulk-editing workflow for a fictitious streaming service, where users can safely modify nested entities across multiple pages with validation, diff tracking, and predictable state transitions.
+
+This project focuses on **maintainable frontend systems**, **data-heavy UI patterns**, and **clear architectural boundaries**, rather than visual polish or novelty features.
+
+---
+
+## What This Project Demonstrates
+
+### 1. Multi-page, stateful editing workflows
+
+Plans are edited across multiple update pages (properties, channels, bundles, etc.), with each page tracking its own dirty state and validation before allowing navigation.
+
+### 2. Diff- and patch-based state management
+
+User edits do not mutate original data. Instead, the UI captures structured patches per entity type (Plan, Bundle, Channel) and merges them into the rendered view.
+
+This enables:
+
+- predictable state transitions
+- reversible changes
+- safe bulk editing
+- clear inspection of user intent
+
+### 3. Performance-aware rendering for large datasets
+
+Large collections of plans are rendered using `@tanstack/virtual`, supporting:
+
+- custom row cards
+- row-spanning cells
+- dynamic height measurement
+- smooth scrolling under load
+
+### 4. Reusable, accessibility-aware UI primitives
+
+The UI is built on Radix and shadcn/ui components, with custom Select menus and picklists designed to function correctly within virtualized layouts.
+
+### 5. Schema-driven contracts and mock APIs
+
+A Fastify-based mock API generates realistic data.  
+The frontend consumes this data via React Query and validates it using Zod schemas to maintain strong typing and predictable data flow.
 
 ---
 
@@ -10,50 +49,28 @@ This project exists as an example of building maintainable, data-heavy UIs with 
 
 - **React 18**
 - **TypeScript**
-- **Vite** for fast local dev
-- **pnpm** for workspace / dependency management
-- **Redux Toolkit** for draft/patch state
-- **React Query** for data fetching + caching
-- **@tanstack/virtual** for virtualized lists
-- **Tailwind CSS** for utility-first styling
-- **shadcn/ui + Radix UI** for accessible components
-- **Fastify** (mock API server) for data simulation
+- **Vite**
+- **pnpm**
+- **Redux Toolkit** (draft / patch workflows)
+- **React Query**
+- **@tanstack/virtual**
+- **Tailwind CSS**
+- **shadcn/ui + Radix UI**
+- **Fastify** (mock API server)
 
 ---
 
-## What This Demo Shows
+## Screenshots & Flow
 
-### 1. Multi-page editing flow
-
-Plans have multiple “update pages” (properties, channels, bundles, etc.). Each page tracks its own dirty state and validates before allowing navigation.
-
-### 2. Structured diff-based state management
-
-Edits don’t mutate the original data. Instead, the UI captures _patches_ per entity type (plan, bundle, channel) and merges them live into the display. This keeps the UI predictable, undoable, and easy to inspect.
-
-### 3. Virtualized list rendering
-
-Large lists of plans render smoothly via `@tanstack/virtual`, with custom row cards, row-spanning cells, and dynamic resizing.
-
-### 4. Radix-powered UI with custom select menus
-
-Reusable components (`Select`, row cards, picklists, etc.) are styled to float above virtualized content and behave consistently.
-
-### 5. Mock API and data generation
-
-The built-in Fastify server generates mock plans, bundles, and channels on the fly. The front end reads these via React Query hooks and merges local draft edits.
-
----
-
-## Bundle Composer Flow
+### End-to-End Editing Flow
 
 ![Bundle Composer Flow](src/assets/BundleComposerCapture.gif)
 
-## Landing Page
+### Landing Page
 
 ![Landing Page](src/assets/LandingListPage.png)
 
-## Bundle Update Page
+### Bundle Update Page
 
 ![Bundle Update Page](src/assets/BundleUpdates.png)
 
